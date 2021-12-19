@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.field{
+	margin:5px;
+	padding:5px;
+}
+.btn{
+	padding:5px;
+	border:2px solid ;
+}

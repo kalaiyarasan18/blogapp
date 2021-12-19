@@ -1,0 +1,24 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Create Post</title>
+<link rel="stylesheet" href="/static/style.css">
+<body class="container">
+	<div align="center">
+		<h2>Create New Blog Post </h2>
+		<hr>
+		<!-- <form action="#" th:action="@{createpost}" method="post" th:object="${posts}">
+			<input type="text" th:field="*{postTitle}" placeholder="Title" class="field"><br>
+			<textarea th:field="*{postExcerpt}" placeholder="postExcerpt" class="field"></textarea><br>
+			<textarea th:field="*{postContent}" placeholder="postContent" class="field"></textarea>
+			<br> <input type="text" th:field="*{postAuthor}" placeholder="Author name" class="field">
+			<input type="submit" value="Post" class="btn">
+		</form> -->
+		<form action="createpost"th:action="@{createpost}" method="post" th:object="${posts}">
+			<input type="text" name="title" placeholder="Title" class="field"><br>
+			<textarea name="excerpt" placeholder="postExcerpt" class="field"></textarea><br>
+			<textarea name="content" placeholder="postContent" class="field"></textarea>
+			<br> <input type="text" placeholder="Author name" name="author" class="field">
+			<input type="submit" value="Post" class="btn">
+		</form>
+	</div>
+</body>
+</html>
