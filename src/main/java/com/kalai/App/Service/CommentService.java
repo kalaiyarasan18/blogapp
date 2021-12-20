@@ -1,13 +1,14 @@
 package com.kalai.App.Service;
 
-import com.kalai.App.Entity.Comments;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 @Component
 public class CommentService {
-
-    public void saveComment(String comment){
-        Comments comments=
+   /*
+    public void saveComment(String comment, long postId, Date createdAt, Date publishedAt){
+        Comments tempComment=new Comments(comment,postId,createdAt,publishedAt);
+        commentsRepository.save(tempComment);
     }
+    */
+
 }

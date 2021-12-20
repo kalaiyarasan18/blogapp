@@ -10,8 +10,6 @@ public class CommentController {
 
     @PostMapping(value = "comment")
     public String handleComment(Model model, @RequestParam("commentBox") String comment){
-
         return "";
-
     }
 }

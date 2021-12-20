@@ -17,6 +17,11 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "comment_sequence")
     private long commentId;
     private String commenterName;
+    private String commenterEmail;
+    private String commentContent;
+    private long commentedPostId;
+    private Date commentCreatedAt;
+    private Date commentUpdatedAt;
 
     public long getCommentId() {
         return commentId;
@@ -66,15 +71,11 @@ public class Comments {
         this.commentCreatedAt = commentCreatedAt;
     }
 
-    public Comments(String commenterName, String commenterEmail,
-                    String commentContent, long commentedPostId,
-                    Date commentCreatedAt, Date commentUpdatedAt) {
-        this.commenterName = commenterName;
-        this.commenterEmail = commenterEmail;
-        this.commentContent = commentContent;
-        this.commentedPostId = commentedPostId;
-        this.commentCreatedAt = commentCreatedAt;
-        this.commentUpdatedAt = commentUpdatedAt;
+    public Comments(String comment,long postId,Date createdAt,Date updatedAt){
+        this.commentContent=comment;
+        this.commentedPostId=postId;
+        this.commentCreatedAt=createdAt;
+        this.commentUpdatedAt=updatedAt;
     }
 
     @Override
@@ -98,9 +99,5 @@ public class Comments {
         this.commentUpdatedAt = commentUpdatedAt;
     }
 
-    private String commenterEmail;
-    private String commentContent;
-    private long commentedPostId;
-    private Date commentCreatedAt;
-    private Date commentUpdatedAt;
+
 }
