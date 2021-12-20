@@ -11,17 +11,28 @@
     border:2px solid ;
     border-color:#60a3bc;
     padding: 5px;
+    font-size:20px;
     margin:5px;
+    border-radius:10px;
 }
 .box{
 margin-left:15%;
 margin-right:15%;
+padding:10px;
 }
 .textarea{
 width: 768px;
 height: 161px;
+padding:5px;
+margin:10px;
 }
 .text{
+padding:5px;
 width: 768px;
 height: 80px;
+margin:10px;
+}
+.commentbox{
+width: 467px;
+height: 172px;
 }

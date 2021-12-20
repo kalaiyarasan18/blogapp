@@ -1,22 +1,33 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Article</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title th:text="${postOfGivenId.postTitle}"></title>
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
 <body class="box">
+<div align="center">
+    <h2>Create New Blog Post </h2>
+        <h3  class="field" th:text="${postOfGivenId.postTitle}"></h3>
+        <h4  class="field" th:text="${postOfGivenId.postExcerpt}"></h4>
+        <h4  class="field" th:text="${postOfGivenId.postContent}"></h4>
+        <hr>
     <div>
-        <h4  class="field" th:text="${post.postTitle}"></h4>
-        <h5  class="field" th:text="${post.postExcerpt}"></h5>
-        <h6  class="field" th:text="${post.postContent}"></h6>
-    </div>
-    <div class="comment">
+        <h5>Comment</h5>
         <form action="comment" method="post">
-        <textarea name="commentBox"></textarea>
-        <input type="submit" value="Comment">
+            <textarea name="commentBox" class="commentbox"></textarea><br>
+            <input type="submit" value="Comment" class="btn btn-primary">
         </form>
     </div>
+    <hr>
+    <table border="2px solid #eee">
+        <tbody>
+        <tr th:each="comments:${comments}">
+            <div class="blogtable">
+                <h5  class="field" th:text="${comments.commentContent}"></h5>
+                <a th:href="@{/updatePost/(comments=${comments.commentId})}" class="btn btn-primary">Update Post</a>
+                <a th:href="@{/deletePost/(comments=${comments.commentId})}" class="btn btn-danger"> Delete Post</a>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
