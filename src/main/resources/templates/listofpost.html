@@ -1,8 +1,25 @@
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <title>List of Posts</title>
+<link rel="Stylesheet" href="style.css">
+
 <body>
 <div background="#322" align="center">
 	<h4>landed after createed post</h4>
+	<hr>
+	<table border="2px solid #eee">
+		<tbody>
+			<tr th:each="post:${posts}">
+				<div class="blogtable">
+					<h4 th:text="${post.postTitle}"></h4>
+					<h5 th:text="${post.postExcerpt}"></h5>
+					<h6 th:text="${post.postContent}"></h6>
+					<form>
+						<input type="submit" method="post" value="th:text=${post.postId}">
+					</form>
+				</div>
+			</tr>
+		</tbody>
+	</table>
 </div>
 </body>
 </html>

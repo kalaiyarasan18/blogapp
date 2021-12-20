@@ -4,11 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
 import java.util.Date;
 @Entity
 public class Posts {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+    		name="post_sequence",
+    		sequenceName = "post_sequence",
+    		allocationSize = 1
+    		)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_sequence")
     private long postId;
     private String postTitle;
     private String postExcerpt;
@@ -18,7 +25,11 @@ public class Posts {
     private  boolean postIsPublished;
     private Date postCreatedAt;
     private Date postUpdatedAt;
-    
+
+    public Posts() {
+
+    }
+
     @Override
 	public String toString() {
 		return "Posts [postId=" + postId + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
