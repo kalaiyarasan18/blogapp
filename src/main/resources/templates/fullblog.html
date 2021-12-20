@@ -7,6 +7,16 @@
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
 <body class="box">
-
+    <div>
+        <h4  class="field" th:text="${post.postTitle}"></h4>
+        <h5  class="field" th:text="${post.postExcerpt}"></h5>
+        <h6  class="field" th:text="${post.postContent}"></h6>
+    </div>
+    <div class="comment">
+        <form action="comment" method="post">
+        <textarea name="commentBox"></textarea>
+        <input type="submit" value="Comment">
+        </form>
+    </div>
 </body>
 </html>
