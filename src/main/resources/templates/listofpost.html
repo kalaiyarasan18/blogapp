@@ -1,21 +1,20 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <title>List of Posts</title>
 <link rel="Stylesheet" href="style.css">
-
-<body>
-<div background="#322" align="center">
-	<h4>landed after createed post</h4>
+<link rel="stylesheet" href="bootstrap.min.css">
+<body class="">
+<div background="#322" align="center" class="box">
+	<h4>Blog Posts</h4>
 	<hr>
 	<table border="2px solid #eee">
 		<tbody>
 			<tr th:each="post:${posts}">
 				<div class="blogtable">
-					<h4 th:text="${post.postTitle}"></h4>
-					<h5 th:text="${post.postExcerpt}"></h5>
-					<h6 th:text="${post.postContent}"></h6>
-					<form>
-						<input type="submit" method="post" value="th:text=${post.postId}">
-					</form>
+					<h4  class="field" th:text="${post.postTitle}"></h4>
+					<h5  class="field" th:text="${post.postExcerpt}"></h5>
+					<a th:href="@{/readMore/(postId=${post.postId})}"> Read More</a>
+					<a th:href="@{/updatePost/(postId=${post.postId})}" class="btn btn-primary">Update Post</a>
+					<a th:href="@{/deletePost/(postId=${post.postId})}" class="btn btn-danger"> Delete Post</a>
 				</div>
 			</tr>
 		</tbody>
