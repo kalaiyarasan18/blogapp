@@ -1,26 +1,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <title>Update Post</title>
-<link rel="Stylesheet" href="style.css">
-<link rel="stylesheet" href="bootstrap.min.css">
-<body class="box">
-<div align="center">
-    <h2>Update the Post </h2>
-    <hr>
-    <form action="update" th:action="@{update}" method="get" th:object="${updatedPost}">
-        <input type="hidden" th:value="${post.postId}" th:field="${postId}">
-        Author:
-        <input type="text" th:value="${post.postAuthor}" th:field="${postAuthor}" class="text"
-               style="width: 766px; height: 57px; margin:10px"><br>
-        Title:
-        <input type="text" th:value="${post.postTitle}" th:field="${postTitle}"
-               style="width: 766px; height: 57px; margin:10px" class="text"><br>
-        Excerpt:
-        <textarea name="excerpt" th:text="${post.postExcerpt}" th:field="${postExcerpt}"
-                  style="width: 766px; height: 157px; margin:10px" class="textarea"></textarea><br>
-        Content:
-        <textarea name="content"  th:text="${post.postContent}" th:field="${postContent}"
-                  style="width: 766px; height: 357px;  text-size:24px;margin:10px" class="textarea"></textarea><br>
-        <input type="submit" value="Update" class="btn btn-success">
+<link  rel="stylesheet" href="style.css">
+<link href="bootstrap.min.css">
+<body style="margin-left:15%;margin-right:15%;">
+<div align="center" style="background:#eee;">
+    <h3>Update Post</h3>
+    <hr/>
+    <form action="/updatepost" th:object="${posts}" method="post">
+        <label>Title:</label><br>
+        <input type="text" th:field="*{postTitle}" class="text" style="width: 551px; height: 50px; margin:10px;"/><br>
+        <label>Author:</label><br>
+        <input type="text" th:field="*{postAuthor}"
+               class="text" style="width: 551px; height: 50px;margin:10px" /><br>
+        <label>Excerpt:</label><br>
+        <textarea th:field="*{postExcerpt}"class="textarea"
+                  style="width: 551px; height: 173px;margin:10px"> </textarea><br>
+        <label>Content:</label><br>
+        <textarea th:field="*{postContent}" style="width: 551px; height: 273px;margin:10px" class="textarea"> </textarea><br>
+
+        <input type="hidden" th:field="*{postId}"/>
+        <button type="submit" style="width:100px;height:40px; background:#00b894">Update</button>
     </form>
 </div>
 </body>

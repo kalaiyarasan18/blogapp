@@ -53,22 +53,14 @@ public class LoginController {
     @GetMapping(value = "updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") long id) {
         Post postForUpdate=postService.getPostById(id);
-        model.addAttribute("post",postForUpdate);
+        model.addAttribute("posts",postForUpdate);
         return "updatepost";
     }
 
-   /* @PostMapping(value="update")
-    public String updatePostContent(@RequestParam("author")String postAuthor,@RequestParam("title")String postTitle,
-                                    @RequestParam("excerpt") String postExcerpt,
-                                    @RequestParam("content") String postContent,@RequestParam("hidden") long id,Model model){
-        postService.updatePost(id,postTitle,postExcerpt,postContent,postAuthor,new Date());
-        List<Post> posts = postService.getAllPosts();
-        model.addAttribute("posts", posts);
-        return "listofpost";
-    }*/
-    @PostMapping(value="update")
-    public String updatePost(@ModelAttribute("updatedPost")Post receivedPost,Model model){
-        postService.updatePost(receivedPost);
+    @PostMapping(value="updatepost")
+    public String updatePostContent(@ModelAttribute("posts")Post posts,Model model){
+        postService.postToUpdate(posts);
+        model.addAttribute("posts",posts);
         return "redirect:/list";
     }
     @GetMapping(value = "deletePost/{postId}")
@@ -79,7 +71,6 @@ public class LoginController {
 
     @GetMapping(value = "readMore/{postId}")
     public String readMore(@PathVariable("postId") long id, Model model) {
-
         Post postOfGivenId = postService.getPostById(id);
         model.addAttribute("postOfGivenId", postOfGivenId);
         return "fullblog";
