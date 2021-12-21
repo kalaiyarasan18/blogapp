@@ -4,49 +4,57 @@
 <link rel="stylesheet" href="bootstrap.min.css">
 <body class="">
 <div background="#322" align="center" class="box">
-	<h4>Blog Posts</h4>
-	<hr>
-	<div>
-	<!--	<form action="sortPost" method="post">
-			<select th:field="*{sortBy}">
-				<option th:value="'id'" th:text="Id" value="Id"></option>
-				<option th:value="'time'" th:text="Published Time" value="Published Time"></option>
-			</select>
-			<input type="submit" class="btn btn-warning">
-		</form><br>
-		<form action="searchPost" method="post">
-			<select th:field="*{searchBy}">
-				<option th:value="'Title'" th:text="Title" value="Title"></option>
-				<option th:value="'Content'" th:text="Content" value="Content"></option>
-				<option th:value="'Author'" th:text="Author" value="Author"></option>
-				<option th:value="'Tag'" th:text="Tag" value="Tag"></option>
-			</select>
-			<input type="submit" class="btn btn-warning">
-		</form><br>
-		<form action="filerPost" method="post">
-			<select th:field="*{filterBy}">
-			<option th:value="'PublishedDate'" th:text="Published Date"></option>
-			<option th:value="'Author'" th:text="Author"></option>
-			<option th:value="'Tag'" th:text="Tag"></option>
-			</select>
-			<input type="submit" class="btn btn-dark">
-		</form>-->
-
-	</div>
-	<hr>
-	<table border="2px solid #eee">
-		<tbody>
-			<tr th:each="post:${posts}">
-				<div class="blogtable">
-					<h4  class="field" th:text="${post.postTitle}"></h4>
-					<h5  class="field" th:text="${post.postExcerpt}"></h5>
-					<a th:href="@{/readMore/(postId=${post.postId})}"> Read More</a>
-					<a th:href="@{/updatePost/(postId=${post.postId})}" class="btn btn-primary">Update Post</a>
-					<a th:href="@{/deletePost/(postId=${post.postId})}" class="btn btn-danger"> Delete Post</a>
-				</div>
-			</tr>
-		</tbody>
-	</table>
+    <h4>Blog Posts</h4>
+    <hr>
+    <div class="row" style="background:#eee">
+        <div class="col-md-4">
+            <form action="sortPost" method="post">
+                <select>
+                    <option value="Id">Id</option>
+                    <option value="Published Time">Published Time</option>
+                    <option>Author</option>
+                    <option>Title</option>
+                </select>
+                <input type="submit" class="btn btn-warning">
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form action="searchPost" method="post">
+                <select>
+                    <option value="Title">Title</option>
+                    <option value="Content">Content</option>
+                    <option value="Author">Author</option>
+                    <option value="Tag">Tag</option>
+                </select>
+                <input type="submit" class="btn btn-warning">
+            </form>
+        </div>
+        <div class="col-sm-4">
+        <form action="filerPost" method="post">
+            <select>
+            <option value="PublishedDate" >PublishedDate</option>
+            <option value="Author" >Author</option>
+            <option value="Tag" >Tag</option>
+            </select>
+            <input type="submit" class="btn btn-warning">
+        </form>
+    </div>
+    </div>
+    <hr>
+    <table border="2px solid #eee">
+        <tbody>
+        <tr th:each="post:${posts}">
+            <div class="blogtable">
+                <h4 class="field" th:text="${post.postTitle}"></h4>
+                <h5 class="field" th:text="${post.postExcerpt}"></h5>
+                <hr>
+                <a th:href="@{/readMore/(postId=${post.postId})}"> Read More</a>
+                <a th:href="@{/updatePost/(postId=${post.postId})}" class="btn btn-primary">Update Post</a>
+                <a th:href="@{/deletePost/(postId=${post.postId})}" class="btn btn-danger"> Delete Post</a>
+            </div>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

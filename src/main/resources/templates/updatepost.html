@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>Update Post</title>
+<link rel="Stylesheet" href="style.css">
+<link rel="stylesheet" href="bootstrap.min.css">
+<body class="box">
+<div align="center">
+    <h2>Update the Post </h2>
+    <hr>
+    <form action="update" th:action="@{update}" method="get" th:object="${updatedPost}">
+        <input type="hidden" th:value="${post.postId}">
+        Author:
+        <input type="text" th:value="${post.postAuthor}" class="text"
+               style="width: 766px; height: 57px; margin:10px"><br>
+        Title:
+        <input type="text" th:value="${post.postTitle}"
+               style="width: 766px; height: 57px; margin:10px" class="text"><br>
+        <h5>Excerpt:</h5>
+        <textarea name="excerpt" th:text="${post.postExcerpt}"
+                  style="width: 766px; height: 157px; margin:10px" class="textarea"></textarea><br>
+        <h5>Content:</h5>
+        <textarea name="content"  th:text="${post.postContent}"
+                  style="width: 766px; height: 357px;  text-size:24px;margin:10px" class="textarea"></textarea><br>
+        <input type="submit" value="Update" class="btn btn-success">
+    </form>
+</div>
+</body>
+</html>

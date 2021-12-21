@@ -3,16 +3,16 @@
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
 <body class="box">
-	<div align="center">
-		<h2>Create New Blog Post </h2>
-		<hr>
-			<form action="createpost"th:action="@{createpost}" method="post" th:object="${posts}">
-			<input type="text" name="title" placeholder="Title" class="text"><br>
-			<textarea name="excerpt" placeholder="postExcerpt" class="textarea"></textarea><br>
-			<textarea name="content" placeholder="postContent" class="textarea"></textarea><br>
-			<input type="text" placeholder="Author name" name="author" class="text"><br>
-			<input type="submit" value="Post" class="btn btn-secondary">
-		</form>
-	</div>
+<div align="center">
+    <h2>Create New Blog Post </h2>
+    <hr>
+    <form action="createpost" th:action="@{createpost}" method="post" th:object="${posts}">
+        <input type="text" placeholder="Author name" name="author" class="text"><br>
+        <input type="text" name="title" placeholder="Title" class="text"><br>
+        <textarea name="excerpt" placeholder="postExcerpt" class="textarea"></textarea><br>
+        <textarea name="content" placeholder="postContent" id="content" ></textarea><br>
+        <input type="submit" value="Post" class="btn btn-secondary">
+    </form>
+</div>
 </body>
 </html>
