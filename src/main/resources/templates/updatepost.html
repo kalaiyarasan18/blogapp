@@ -7,18 +7,18 @@
     <h2>Update the Post </h2>
     <hr>
     <form action="update" th:action="@{update}" method="get" th:object="${updatedPost}">
-        <input type="hidden" th:value="${post.postId}">
+        <input type="hidden" th:value="${post.postId}" th:field="${postId}">
         Author:
-        <input type="text" th:value="${post.postAuthor}" class="text"
+        <input type="text" th:value="${post.postAuthor}" th:field="${postAuthor}" class="text"
                style="width: 766px; height: 57px; margin:10px"><br>
         Title:
-        <input type="text" th:value="${post.postTitle}"
+        <input type="text" th:value="${post.postTitle}" th:field="${postTitle}"
                style="width: 766px; height: 57px; margin:10px" class="text"><br>
-        <h5>Excerpt:</h5>
-        <textarea name="excerpt" th:text="${post.postExcerpt}"
+        Excerpt:
+        <textarea name="excerpt" th:text="${post.postExcerpt}" th:field="${postExcerpt}"
                   style="width: 766px; height: 157px; margin:10px" class="textarea"></textarea><br>
-        <h5>Content:</h5>
-        <textarea name="content"  th:text="${post.postContent}"
+        Content:
+        <textarea name="content"  th:text="${post.postContent}" th:field="${postContent}"
                   style="width: 766px; height: 357px;  text-size:24px;margin:10px" class="textarea"></textarea><br>
         <input type="submit" value="Update" class="btn btn-success">
     </form>

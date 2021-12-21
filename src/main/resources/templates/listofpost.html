@@ -9,6 +9,7 @@
     <div class="row" style="background:#eee">
         <div class="col-md-4">
             <form action="sortPost" method="post">
+                Sort:
                 <select name="sortBy">
                     <option value="Id">Id</option>
                     <option value="PublishedTime">Published Time</option>
@@ -20,6 +21,7 @@
         </div>
         <div class="col-md-4">
             <form action="searchPost" method="post">
+                Filter:
                 <select>
                     <option value="Title">Title</option>
                     <option value="Content">Content</option>
@@ -31,7 +33,8 @@
         </div>
         <div class="col-sm-4">
         <form action="filerPost" method="post">
-            <select>
+            <input type="text" name="searchField" placeholder="Enter text to Search">
+            <select name="filterBy">
             <option value="PublishedDate" >PublishedDate</option>
             <option value="Author" >Author</option>
             <option value="Tag" >Tag</option>
@@ -48,9 +51,9 @@
                 <h4 class="field" th:text="${post.postTitle}"></h4>
                 <h5 class="field" th:text="${post.postExcerpt}"></h5>
                 <hr>
-                <a th:href="@{/readMore/(postId=${post.postId})}"> Read More</a>
-                <a th:href="@{/updatePost/(postId=${post.postId})}" class="btn btn-primary">Update Post</a>
-                <a th:href="@{/deletePost/(postId=${post.postId})}" class="btn btn-danger"> Delete Post</a>
+                <a th:href="@{'/readMore/'+${post.postId}}"> Read More</a>
+                <a th:href="@{'/updatePost/'+${post.postId}}" class="btn btn-primary">Update Post</a>
+                <a th:href="@{'/deletePost/'+${post.postId}}" class="btn btn-danger"> Delete Post</a>
             </div>
         </tr>
         </tbody>

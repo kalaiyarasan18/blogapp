@@ -22,12 +22,14 @@ public class PostOrderingController {
        model.addAttribute("posts",sortedPost);
         return "listofpost";
     }
+
+    @PostMapping(value="filterPost")
+    public String filterPost(Model model,@RequestParam("filterBy")String filterBy){
+
+        return "";
+    }
     @PostMapping(value="searchPost")
     public String searchPost(Model model){
-        return "listofpost";
-    }
-    @PostMapping(value="filerPost")
-    public String filerPost(Model model){
         return "listofpost";
     }
 }
