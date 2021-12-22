@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,9 +40,9 @@ public class CommentController {
         return "redirect:/readMore/"+id;
     }*/
     @GetMapping(value = "deleteComment/{commentId}")
-    public String deleteComment(Model model,@PathVariable("commentId")long id){
-        long postId=commentService.getPostId(id);
+    public String deleteComment(Model model,@PathVariable("commentId")Long id){
         commentService.deleteComment(id);
+        int postId=(int)commentService.getPostId(id);
         return "redirect:/readMore/"+postId;
     }
 }

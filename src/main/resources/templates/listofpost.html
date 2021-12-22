@@ -6,6 +6,14 @@
 <div background="#322" align="center" class="box">
     <h4>Blog Posts</h4>
     <hr>
+    <div class="row">
+        <div class="col">
+            <a href="/new" class="btn btn-dark">Write Post</a>
+        </div>
+        <div class="col">
+            <a href="#" class="btn btn-info">Login</a>
+        </div>
+    </div>
     <div class="row" style="background:#eee">
         <div class="col-md-4">
             <form action="sortPost" method="post">
@@ -43,7 +51,6 @@
         </form>
     </div>
     </div>
-    <hr>
     <table border="2px solid #eee">
         <tbody>
         <tr th:each="post:${posts}">

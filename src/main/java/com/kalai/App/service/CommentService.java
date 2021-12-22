@@ -32,9 +32,9 @@ public class CommentService {
         comment.setCommentUpdatedAt(currentTime);
         commentRepository.save(comment);
     }
-    public long getPostId(long commentId){
-        long postId=commentRepository.findCommentedPostIdByCommentId(commentId);
-        return postId;
+    public int getPostId(Long id){
+        int postId=(int)commentRepository.getPostIdByCommentId(id);
+        return  postId;
     }
     public  void deleteComment(long id){
         commentRepository.deleteById(id);

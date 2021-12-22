@@ -24,7 +24,7 @@ public class PostController {
 
     @RequestMapping(value = "/")
     public String goHome() {
-        return "home";
+        return "redirect:/list";
     }
 
     @GetMapping(value = "new")
