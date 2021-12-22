@@ -41,8 +41,10 @@ public class CommentController {
     }
 
     @GetMapping(value = "updateComment/{commentId}")
-    public String updateComment(Model model,@PathVariable("commentId")Long id){
+    public String updateComment(Model model,@PathVariable("commentId")Long id,
+                                @ModelAttribute("commentData")Comment comment){
+        commentService.update(comment);
         long postId=commentService.getIdForPost(id);
-        return "redirect:/readMore/"+postId;
+        return "updatecomment";
     }
 }

@@ -5,10 +5,11 @@ import javax.persistence.Id;
 import java.util.Date;
 @Entity
 public class Tag {
-    @Id
     private long tagId;
+    @Id
     private String tagName;
     private Date tagCreatedAt;
+    private Date tagUpdatedAt;
 
     public Tag() {
     }
@@ -29,9 +30,6 @@ public class Tag {
         this.tagCreatedAt = tagCreatedAt;
         this.tagUpdatedAt = tagUpdatedAt;
     }
-
-    private Date tagUpdatedAt;
-
 
     public long getTagId() {
         return tagId;

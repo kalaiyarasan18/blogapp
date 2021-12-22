@@ -18,6 +18,7 @@ public class CommentService {
         commentRepository.save(comment);
         System.out.print(comment);
     }
+
     public List<Comment> commentById(long id){
         List<Comment> commentList=commentRepository.findByCommentedPostId(id);
         System.out.print("List of comment by id:"+commentList);
@@ -43,4 +44,10 @@ public class CommentService {
         return comment.getCommentedPostId();
     }
 
+    public void update(Comment comment) {
+        System.out.print(comment);
+        Date currentTime=new Date();
+        /*commentRepository.updateComment(comment.getCommenterName(),comment.getCommenterEmail(),
+                comment.getCommentContent(),currentTime,comment.getCommentId());*/
+    }
 }
