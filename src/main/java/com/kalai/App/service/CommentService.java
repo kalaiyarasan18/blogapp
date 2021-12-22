@@ -4,12 +4,9 @@ import com.kalai.App.entity.Comment;
 import com.kalai.App.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -32,11 +29,18 @@ public class CommentService {
         comment.setCommentUpdatedAt(currentTime);
         commentRepository.save(comment);
     }
-    public int getPostId(Long id){
-        int postId=(int)commentRepository.getPostIdByCommentId(id);
-        return  postId;
-    }
-    public  void deleteComment(long id){
+
+    public  void deleteComment(long id) {
         commentRepository.deleteById(id);
     }
+
+    public Comment getPostById(long id){
+        Comment comment=commentRepository.findCommentedPostIdByCommentId(id);
+        return comment;
+    }
+    public long getIdForPost(long id){
+        Comment comment=commentRepository.findCommentedPostIdByCommentId(id);
+        return comment.getCommentedPostId();
+    }
+
 }

@@ -33,16 +33,16 @@ public class CommentController {
         commentService.handleSave(comment);
         return "redirect:/readMore/"+id;
     }
-
-  /*  @GetMapping(value = "updateComment/{commentId}")
-    public String updateComment(Model model, @PathVariable("commentId") long id){
-        commentService.updateComment(id);
-        return "redirect:/readMore/"+id;
-    }*/
     @GetMapping(value = "deleteComment/{commentId}")
     public String deleteComment(Model model,@PathVariable("commentId")Long id){
+        Comment c=commentService.getPostById(id);
         commentService.deleteComment(id);
-        int postId=(int)commentService.getPostId(id);
+        return "redirect:/readMore/"+c.getCommentedPostId();
+    }
+
+    @GetMapping(value = "updateComment/{commentId}")
+    public String updateComment(Model model,@PathVariable("commentId")Long id){
+        long postId=commentService.getIdForPost(id);
         return "redirect:/readMore/"+postId;
     }
 }
