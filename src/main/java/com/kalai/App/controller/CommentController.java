@@ -1,15 +1,13 @@
 package com.kalai.App.controller;
 
+import com.kalai.App.entity.Comment;
 import com.kalai.App.repository.CommentRepository;
 import com.kalai.App.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,12 +19,24 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping(value = "comment")
-    public String handleComment(Model model, @RequestParam("commentBox") String comment,
-                                @RequestParam("hiddenBtn") Long postId){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date currentDateAndTime = new Date();
-        commentService.saveComment(comment,postId,currentDateAndTime,currentDateAndTime);
-        return "/readMore/?postId="+postId;
+  /*  @PostMapping(value = "comment")
+    @ResponseBody
+    public String commentHandler(@ModelAttribute("commentData") Comment comment,Model model){
+        commentService.handleSave(comment);
+        return  "Comment Added";
+    }*/
+
+    @PostMapping(value = "comment")
+    public String commentHandler(
+            @RequestParam("name")String name,@RequestParam("email")String email,
+            @RequestParam("content")String content,@RequestParam("hiddenbtn")long id
+    ){
+        Comment comment=new Comment();
+        comment.setCommenterName(name);
+        comment.setCommenterEmail(email);
+        comment.setCommentContent(content);
+        comment.setCommentedPostId(id);
+        commentService.handleSave(comment);
+        return "redirect:/readMore/"+id;
     }
 }

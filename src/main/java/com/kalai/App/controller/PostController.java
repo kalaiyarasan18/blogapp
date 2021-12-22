@@ -1,5 +1,6 @@
 package com.kalai.App.controller;
 
+import com.kalai.App.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +14,13 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class LoginController {
+public class PostController {
     @Autowired
     PostRepository postsrepository;
     @Autowired
     PostService postService;
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping(value = "/")
     public String goHome() {
@@ -73,6 +76,7 @@ public class LoginController {
     public String readMore(@PathVariable("postId") long id, Model model) {
         Post postOfGivenId = postService.getPostById(id);
         model.addAttribute("postOfGivenId", postOfGivenId);
+        model.addAttribute("comments",commentService.commentById(id));
         return "fullblog";
     }
 }

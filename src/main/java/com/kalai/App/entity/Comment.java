@@ -71,7 +71,9 @@ public class Comment {
         this.commentCreatedAt = commentCreatedAt;
     }
 
-    public Comment(String comment, long postId, Date createdAt, Date updatedAt){
+    public Comment(String name,String email,String comment, long postId, Date createdAt, Date updatedAt){
+        this.commenterName=name;
+        this.commenterEmail=email;
         this.commentContent=comment;
         this.commentedPostId=postId;
         this.commentCreatedAt=createdAt;

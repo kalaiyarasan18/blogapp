@@ -48,12 +48,18 @@
         <tbody>
         <tr th:each="post:${posts}">
             <div class="blogtable">
+                <div style="background:#84bfad">
+                   <p  th:text="${post.postAuthor}"></p>
+                   <p th:text="${post.postPublishedAt}"></p>
+                </div>
+                <hr>
                 <h4 class="field" th:text="${post.postTitle}"></h4>
                 <h5 class="field" th:text="${post.postExcerpt}"></h5>
                 <hr>
                 <a th:href="@{'/readMore/'+${post.postId}}"> Read More</a>
                 <a th:href="@{'/updatePost/'+${post.postId}}" class="btn btn-primary">Update Post</a>
                 <a th:href="@{'/deletePost/'+${post.postId}}" class="btn btn-danger"> Delete Post</a>
+
             </div>
         </tr>
         </tbody>

@@ -1,33 +1,39 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <title th:text="${postOfGivenId.postTitle}"></title>
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
-<body class="box">
-<div align="center">
-        <h3  class="field" th:text="${postOfGivenId.postTitle}"></h3><br>
-        <h4  class="field" th:text="${postOfGivenId.postExcerpt}"></h4>
-        <h4  class="field" th:text="${postOfGivenId.postContent}"></h4>
+<body class="box" style="margin-left:15%;margin-right:15%;">
+<!--=====Begins the displaying Content of blog post===================================== -->
+<div align="center" style="background:#f7f1e3">
+        <h3  class="field" th:text="${postOfGivenId.postTitle}"></h3>
+        <p  class="field" th:text="${postOfGivenId.postContent}"></p>
         <hr>
-    <div>
-        <h5>Comment</h5>
-        <form action="comment" method="post">
-            <textarea name="commentBox"  class="commentbox"></textarea><br>
-            <input type="hidden" name="hiddenBtn" th:value="${postOfGivenId.postId}">
-            <input type="submit" name="commentButton" class="btn btn-primary">
+    <div style="background:#f7f1e3">
+        <h2>Comment</h2>
+        <form action="/comment"  th:object="${commentData}" method="post">
+            <input type="text" style="margin:5px;width:400px;" name="name" placeholder="Enter your name"/><br>
+            <input type="email" style="margin:5px; width:400px;" name="email" placeholder="Enter your email"/><br>
+            <textarea style="margin:5px; width:400px; height:200px;" placeholder="Enter your comment" name="content" ></textarea><br>
+            <input type="hidden" name="hiddenbtn" th:value="${postOfGivenId.postId}"/>
+            <input type="submit" value="Comment">
         </form>
     </div>
-    <hr>
+    <!--=============================Begins the displaying comments ================================-->
+    <!-- th:value="${posts.postsid}" th:attr="name='commentedPostId'== th:field="*{commenterEmail}" th:field="*{commentContent}" -->
+    <div style="background:#bda7e8">
     <table border="2px solid #eee">
         <tbody>
         <tr th:each="comments:${comments}">
-            <div class="blogtable">
-                <h5  class="field" th:text="${comments.commentContent}"></h5>
-                <a th:href="@{/updatePost/(comments=${comments.commentId})}" class="btn btn-primary">Update Post</a>
-                <a th:href="@{/deletePost/(comments=${comments.commentId})}" class="btn btn-danger"> Delete Post</a>
+            <div style="margin:5px;background:#b2bec3;border-radius:8px;width:500px;">
+                <p align="right" th:text="${comments.commenterName}"></p>
+                <hr>
+                <p  class="field" style="font-size:20px" th:text="${comments.commentContent}"></p>
+               <!-- <a th:href="@{/updatePost/(comments=${comments.commentId})}" class="btn btn-primary">Update Post</a>
+                <a th:href="@{/deletePost/(comments=${comments.commentId})}" class="btn btn-danger"> Delete Post</a>-->
             </div>
         </tr>
         </tbody>
-    </table>
+    </table></div>
 </div>
 </body>
 </html>
