@@ -20,16 +20,15 @@
     </div>
     <!--=============================Begins the displaying comments ================================-->
     <!-- th:value="${posts.postsid}" th:attr="name='commentedPostId'== th:field="*{commenterEmail}" th:field="*{commentContent}" -->
-    <div style="background:#bda7e8">
+    <div style="background:#f7f1e3">
     <table border="2px solid #eee">
         <tbody>
         <tr th:each="comments:${comments}">
             <div style="margin:5px;background:#b2bec3;border-radius:8px;width:500px;">
-                <p align="right" th:text="${comments.commenterName}"></p>
-                <hr>
+                <p align="right" th:text="${comments.commenterName}" style="background:#b7c9a5"></p>
                 <p  class="field" style="font-size:20px" th:text="${comments.commentContent}"></p>
-               <!-- <a th:href="@{/updatePost/(comments=${comments.commentId})}" class="btn btn-primary">Update Post</a>
-                <a th:href="@{/deletePost/(comments=${comments.commentId})}" class="btn btn-danger"> Delete Post</a>-->
+                <a th:href="@{'/updateComment/'+${comments.commentId}}" class="btn btn-primary">Edit</a>
+                <a th:href="@{'/deleteComment/'+${comments.commentId}}" class="btn btn-danger"> Delete</a>
             </div>
         </tr>
         </tbody>

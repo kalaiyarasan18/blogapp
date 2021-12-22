@@ -19,13 +19,6 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-  /*  @PostMapping(value = "comment")
-    @ResponseBody
-    public String commentHandler(@ModelAttribute("commentData") Comment comment,Model model){
-        commentService.handleSave(comment);
-        return  "Comment Added";
-    }*/
-
     @PostMapping(value = "comment")
     public String commentHandler(
             @RequestParam("name")String name,@RequestParam("email")String email,
@@ -38,5 +31,17 @@ public class CommentController {
         comment.setCommentedPostId(id);
         commentService.handleSave(comment);
         return "redirect:/readMore/"+id;
+    }
+
+  /*  @GetMapping(value = "updateComment/{commentId}")
+    public String updateComment(Model model, @PathVariable("commentId") long id){
+        commentService.updateComment(id);
+        return "redirect:/readMore/"+id;
+    }*/
+    @GetMapping(value = "deleteComment/{commentId}")
+    public String deleteComment(Model model,@PathVariable("commentId")long id){
+        long postId=commentService.getPostId(id);
+        commentService.deleteComment(id);
+        return "redirect:/readMore/"+postId;
     }
 }
