@@ -1,4 +1,8 @@
 @charset "UTF-8";
+body{
+background-image: url('bglmg.jpg');
+background-color: rgba(255, 0, 0, 0.3);
+}
 .field{
 	margin:5px;
 	padding:5px;
@@ -16,8 +20,8 @@
     border-radius:10px;
 }
 .box{
-margin-left:10%;
-margin-right:10%;
+margin-left:15%;
+margin-right:15%;
 padding:10px;
 }
 .textarea{

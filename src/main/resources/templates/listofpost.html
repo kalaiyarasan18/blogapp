@@ -14,6 +14,7 @@
             <a href="#" class="btn btn-info">Login</a>
         </div>
     </div>
+    <hr>
     <div class="row" style="background:#eee">
         <div class="col-md-4">
             <form action="sortPost" method="post">
@@ -21,19 +22,17 @@
                 <select name="sortBy">
                     <option value="Id">Id</option>
                     <option value="PublishedTime">Published Time</option>
-                    <option value="Author">Author</option>
-                    <option value="Title">Title</option>
                 </select>
                 <input type="submit" class="btn btn-warning">
             </form>
         </div>
         <div class="col-md-4">
-            <form action="searchPost" method="post">
+            <form action="filterPost" method="post">
                 Filter:
-                <select>
-                    <option value="Title">Title</option>
-                    <option value="Content">Content</option>
+                <input type="text" name="filterName" placeholder="Enter text to Search">
+                <select name="filterBy">
                     <option value="Author">Author</option>
+                    <option value="PublishedDate">Published Date</option>
                     <option value="Tag">Tag</option>
                 </select>
                 <input type="submit" class="btn btn-warning">
@@ -42,11 +41,6 @@
         <div class="col-sm-4">
         <form action="filerPost" method="post">
             <input type="text" name="searchField" placeholder="Enter text to Search">
-            <select name="filterBy">
-            <option value="PublishedDate" >PublishedDate</option>
-            <option value="Author" >Author</option>
-            <option value="Tag" >Tag</option>
-            </select>
             <input type="submit" class="btn btn-warning">
         </form>
     </div>
