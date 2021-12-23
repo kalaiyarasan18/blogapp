@@ -1,16 +1,21 @@
 package com.kalai.App.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 @Entity
 public class Tag {
-    private long tagId;
     @Id
+    @SequenceGenerator(
+            name="tagSequence",
+            sequenceName = "tagSequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "tagSequence")
+    private long tagId;
+    @Column(unique=true)
     private String tagName;
     private Date tagCreatedAt;
     private Date tagUpdatedAt;
-
     public Tag() {
     }
 

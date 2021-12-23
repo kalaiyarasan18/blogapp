@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <title>Create Tag</title>
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
@@ -7,7 +7,7 @@
   <h2>Create New Tag</h2>
   <hr>
   <form action="/createtag" th:action="@{/createtag}" method="post" th:object="${tag}">
-    <input type="text" placeholder="Tag name"  name="tagname" class="text"><br>
+    <input type="text" placeholder="Tag name" name="tagname" class="text"><br>
     <input type="submit" value="Post" class="btn btn-secondary">
   </form>
 </div>

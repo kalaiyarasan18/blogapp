@@ -1,5 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<title></title>
+<title th:text="${postOfGivenId.postTitle}"></title>
 <link rel="Stylesheet" href="style.css">
 <link rel="stylesheet" href="bootstrap.min.css">
 <body class="box" style="margin-left:15%;margin-right:15%;">
@@ -9,12 +9,13 @@
   <hr>
   <div style="background:#f7f1e3">
     <h2>Comment</h2>
-    <form action="/updatecomment"  th:object="${commentData}" method="post">
-      <input type="text" th:field="${commentData.commenterName}" style="margin:5px;width:400px;"/><br>
-      <input type="email" th:field="${commentData.commenterEmail}"  style="margin:5px;width:400px;"/><br>
-      <textarea style="margin:5px; width:400px; height:200px;" th:field="${commentData.commentContent}"></textarea><br>
+    <form action="/editComment"  th:object="${commentData}" method="post">
+      <input type="text" th:value="${commentData.commenterName}" name="name" style="margin:5px;width:400px;"/><br>
+      <input type="email" th:value="${commentData.commenterEmail}" name="email" style="margin:5px;width:400px;"/><br>
+      <textarea style="margin:5px; width:400px; height:200px;" name="content" th:text="${commentData.commentContent}"></textarea><br>
       <input type="hidden" name="hiddenbtn" th:value="${postOfGivenId.postId}"/>
-      <input type="submit" value="Comment">
+      <input type="hidden" name="hidden" th:value="${commentData.commentId}">
+      <input type="submit" value="Edit Comment">
     </form>
   </div>
 </div>

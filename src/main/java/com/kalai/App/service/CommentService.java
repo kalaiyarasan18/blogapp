@@ -21,7 +21,7 @@ public class CommentService {
 
     public List<Comment> commentById(long id){
         List<Comment> commentList=commentRepository.findByCommentedPostId(id);
-        System.out.print("List of comment by id:"+commentList);
+        /*System.out.print("List of comment by id:"+commentList);*/
         return commentList;
     }
     public void handleSave(Comment comment){
@@ -45,9 +45,8 @@ public class CommentService {
     }
 
     public void update(Comment comment) {
-        System.out.print(comment);
-        Date currentTime=new Date();
-        /*commentRepository.updateComment(comment.getCommenterName(),comment.getCommenterEmail(),
-                comment.getCommentContent(),currentTime,comment.getCommentId());*/
+        System.out.println("Comment for Update is:"+comment);
+        commentRepository.updateComment(comment.getCommenterName(),comment.getCommenterEmail(),
+                comment.getCommentContent(),comment.getCommentUpdatedAt(),comment.getCommentId());
     }
 }

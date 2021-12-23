@@ -1,6 +1,7 @@
 package com.kalai.App.controller;
 
 import com.kalai.App.service.CommentService;
+import com.kalai.App.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ public class PostController {
     PostService postService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    TagService tagService;
 
     @RequestMapping(value = "/")
     public String goHome() {
@@ -28,7 +31,9 @@ public class PostController {
     }
 
     @GetMapping(value = "new")
-    public String createPost(){
+    public String createPost(Model model){
+        Post post=new Post();
+        model.addAttribute("post",post);
         return "creater";
     }
 
@@ -39,19 +44,30 @@ public class PostController {
         return "listofpost";
     }
 
-    @PostMapping(value = "createpost")
-    public String listPosts(Model model,
+    @PostMapping(value = "/createpost")
+    public String listPosts(@ModelAttribute("post") Post post,
                             @RequestParam("title") String title,
                             @RequestParam("excerpt") String excerpt,
                             @RequestParam("content") String content,
-                            @RequestParam("author") String author) {
+                            @RequestParam("author") String author,
+                            @RequestParam("tag")String tag,Model model){
         if (!postService.savePost(title, excerpt, content, author) == true) {
             return "Error in database";
         }
+        System.out.print("Post id is:"+post.getPostId());
         List<Post> posts = postService.getAllPosts();
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts",posts);
+        tagService.mapTagToPost(tag,post.getPostId());
         return "listofpost";
     }
+   /* @PostMapping(value="/createpost")
+    public String listPosts(@ModelAttribute("post")Post post,@RequestParam("tag")String tag,Model model){
+        post.setPostCreatedAt(new Date());
+        post.setPostUpdatedAt(new Date());
+        postService.save(post);
+        System.out.println("fetching postid:"+post.getPostId());
+        return "listofpost";
+    }*/
 
     @GetMapping(value = "updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") long id) {

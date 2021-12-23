@@ -1,8 +1,10 @@
 package com.kalai.App.controller;
 
 import com.kalai.App.entity.Comment;
+import com.kalai.App.entity.Post;
 import com.kalai.App.repository.CommentRepository;
 import com.kalai.App.service.CommentService;
+import com.kalai.App.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class CommentController {
 
     @Autowired
     CommentService commentService;
+    @Autowired
+    PostService postService;
 
     @PostMapping(value = "comment")
     public String commentHandler(
@@ -45,6 +49,27 @@ public class CommentController {
                                 @ModelAttribute("commentData")Comment comment){
         commentService.update(comment);
         long postId=commentService.getIdForPost(id);
+        Comment commentToUpdate=commentService.getPostById(id);
+        Post postToShow=postService.getPostById(postId);
+        model.addAttribute("commentData",commentToUpdate);
+        model.addAttribute("postOfGivenId",postToShow);
         return "updatecomment";
     }
+
+    @PostMapping(value="/editComment")
+    @ResponseBody
+    public String ediComment(
+            @RequestParam("name")String commenterName,@RequestParam("email")String commenterEmail,
+            @RequestParam("content")String commentContent,@RequestParam("hidden")long commentId,Model model,
+            @RequestParam("postId")long postId){
+        Comment comment=new Comment();
+        comment.setCommentId(commentId);
+        comment.setCommenterName(commenterName);
+        comment.setCommenterEmail(commenterEmail);
+        comment.setCommentContent(commentContent);
+        commentService.update(comment);
+        return "redirect:/readMore/"+postId;
+    }
+
+
 }
