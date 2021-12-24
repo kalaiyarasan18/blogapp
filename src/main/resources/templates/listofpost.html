@@ -11,17 +11,18 @@
             <a href="/new" class="btn btn-dark">Write Post</a>
         </div>
         <div class="col">
-            <a href="/createtag" class="btn btn-info">Create Tag</a>
+            <a href="/next/start={id}&limit={id}" class="btn btn-dark">Next</a>
+            <a href="/prev/start={id}&limit={id}" class="btn btn-dark">Prev</a>
         </div>
     </div>
     <hr>
-    <div class="row" style="background:#eee">
+    <div class="row" style="background:#eee margin:5px;">
         <div class="col-md-4">
             <form action="sortPost" method="post">
                 Sort:
                 <select name="sortBy">
-                    <option value="Id">Id</option>
-                    <option value="PublishedTime">Published Time</option>
+                    <option value="PublishedTimeAsc">Published Time &#8593;</option>
+                    <option value="PublishedTimeDsc">Published Time &#8595;</option>
                 </select>
                 <input type="submit" class="btn btn-warning">
             </form>
@@ -39,7 +40,7 @@
             </form>
         </div>
         <div class="col-sm-4">
-        <form action="filerPost" method="post">
+        <form action="search" method="get">
             <input type="text" name="searchField" placeholder="Enter text to Search">
             <input type="submit" class="btn btn-warning">
         </form>

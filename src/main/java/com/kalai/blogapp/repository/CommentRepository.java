@@ -1,6 +1,6 @@
-package com.kalai.App.repository;
+package com.kalai.blogapp.repository;
 
-import com.kalai.App.entity.Comment;
+import com.kalai.blogapp.entity.Comment;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -33,4 +33,6 @@ public interface CommentRepository extends CrudRepository<Comment,Long> {
         @Query("update Comment c set c.commenterName = ?1, c.commenterEmail = ?2," +
                 " c.commentContent=?3,c.commentUpdatedAt=?4 where c.commentId = ?5")
         void updateComment(String name,String email,String content,Date updatedAt,Long postId);
+
+        Comment findById(long id);
 }

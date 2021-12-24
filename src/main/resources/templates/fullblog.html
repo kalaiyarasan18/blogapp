@@ -6,7 +6,10 @@
 <!--=====Begins the displaying Content of blog post===================================== -->
 <div align="center" style="background:#f7f1e3">
         <h3  class="field" th:text="${postOfGivenId.postTitle}"></h3>
+        <h6>Tags:</h6>
+        <h3 class="field" th:text="${tags}"></h3>
         <p  class="field" th:text="${postOfGivenId.postContent}"></p>
+
         <hr>
     <div style="background:#f7f1e3">
         <h2>Comment</h2>

@@ -7,6 +7,9 @@
     <form action="/updatepost" th:object="${posts}" method="post">
         <label>Title:</label><br>
         <input type="text" th:field="*{postTitle}" class="text" style="width: 551px; height: 50px; margin:10px;"/><br>
+        <label>Tags:</label><br>
+        <input type="text" th:value="${tags}"
+               class="text" style="width: 551px; height: 50px;margin:10px" /><br>
         <label>Author:</label><br>
         <input type="text" th:field="*{postAuthor}"
                class="text" style="width: 551px; height: 50px;margin:10px" /><br>

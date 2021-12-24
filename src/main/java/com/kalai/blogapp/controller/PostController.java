@@ -1,15 +1,15 @@
-package com.kalai.App.controller;
+package com.kalai.blogapp.controller;
 
-import com.kalai.App.service.CommentService;
-import com.kalai.App.service.TagService;
+import com.kalai.blogapp.service.CommentService;
+import com.kalai.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.kalai.App.entity.Post;
-import com.kalai.App.repository.PostRepository;
-import com.kalai.App.service.PostService;
+import com.kalai.blogapp.entity.Post;
+import com.kalai.blogapp.repository.PostRepository;
+import com.kalai.blogapp.service.PostService;
 
 import java.util.Date;
 import java.util.List;
@@ -45,16 +45,20 @@ public class PostController {
     }
 
     @PostMapping(value = "/createpost")
-    public String listPosts(@ModelAttribute("post") Post post,
-                            @RequestParam("title") String title,
+    public String listPosts(@RequestParam("title") String title,
                             @RequestParam("excerpt") String excerpt,
                             @RequestParam("content") String content,
                             @RequestParam("author") String author,
                             @RequestParam("tag")String tag,Model model){
-        if (!postService.savePost(title, excerpt, content, author) == true) {
-            return "Error in database";
-        }
-        System.out.print("Post id is:"+post.getPostId());
+        Post post=new Post();
+        post.setPostTitle(title);
+        post.setPostExcerpt(excerpt);
+        post.setPostContent(content);
+        post.setPostAuthor(author);
+        post.setPostCreatedAt(new Date());
+        post.setPostUpdatedAt(new Date());
+        post.setPostPublishedAt(new Date());
+        Post savedPost=postsrepository.save(post);
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts",posts);
         tagService.mapTagToPost(tag,post.getPostId());
@@ -72,6 +76,8 @@ public class PostController {
     @GetMapping(value = "updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") long id) {
         Post postForUpdate=postService.getPostById(id);
+        String tags=tagService.tagByPostId(id);
+        model.addAttribute("tags",tags);
         model.addAttribute("posts",postForUpdate);
         return "updatepost";
     }
@@ -91,6 +97,8 @@ public class PostController {
     @GetMapping(value = "readMore/{postId}")
     public String readMore(@PathVariable("postId") long id, Model model) {
         Post postOfGivenId = postService.getPostById(id);
+        String tags=tagService.tagByPostId(id);
+        model.addAttribute("tags",tags);
         model.addAttribute("postOfGivenId", postOfGivenId);
         model.addAttribute("comments",commentService.commentById(id));
         return "fullblog";

@@ -1,7 +1,7 @@
-package com.kalai.App.service;
+package com.kalai.blogapp.service;
 
-import com.kalai.App.entity.Comment;
-import com.kalai.App.repository.CommentRepository;
+import com.kalai.blogapp.entity.Comment;
+import com.kalai.blogapp.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +45,15 @@ public class CommentService {
     }
 
     public void update(Comment comment) {
-        System.out.println("Comment for Update is:"+comment);
+        System.out.println("inside service :"+comment);
+        Comment comment1=commentRepository.findById(comment.getCommentId());
+        comment1.setCommentContent(comment.getCommentContent());
+        comment1.setCommenterEmail(comment.getCommenterEmail());
+        comment1.setCommenterName(comment.getCommenterName());
+        comment1.setCommentUpdatedAt(comment.getCommentUpdatedAt());
+        commentRepository.save(comment1);
+        /*
         commentRepository.updateComment(comment.getCommenterName(),comment.getCommenterEmail(),
-                comment.getCommentContent(),comment.getCommentUpdatedAt(),comment.getCommentId());
+                comment.getCommentContent(),comment.getCommentUpdatedAt(),comment.getCommentId());*/
     }
 }

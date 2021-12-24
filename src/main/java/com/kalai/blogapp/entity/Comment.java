@@ -1,4 +1,4 @@
-package com.kalai.App.entity;
+package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -9,13 +9,13 @@
   <hr>
   <div style="background:#f7f1e3">
     <h2>Comment</h2>
-    <form action="/editComment"  th:object="${commentData}" method="post">
+    <form action="#" th:action="@{/edit}" th:object="${commentData}" method="post">
       <input type="text" th:value="${commentData.commenterName}" name="name" style="margin:5px;width:400px;"/><br>
       <input type="email" th:value="${commentData.commenterEmail}" name="email" style="margin:5px;width:400px;"/><br>
       <textarea style="margin:5px; width:400px; height:200px;" name="content" th:text="${commentData.commentContent}"></textarea><br>
       <input type="hidden" name="hiddenbtn" th:value="${postOfGivenId.postId}"/>
       <input type="hidden" name="hidden" th:value="${commentData.commentId}">
-      <input type="submit" value="Edit Comment">
+      <input type="submit">
     </form>
   </div>
 </div>

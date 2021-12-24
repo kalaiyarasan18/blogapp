@@ -1,34 +1,28 @@
-package com.kalai.App.entity;
+package com.kalai.blogapp.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 @Entity
 public class PostTag {
     @Id
+    @SequenceGenerator(
+            name="post_sequence",
+            sequenceName = "post_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_sequence")
+    private long id;
     private long postId;
     private long tagId;
     private Date createdAt;
     private Date updatedAt;
 
-    public PostTag(long postId, long tagId, Date createdAt, Date updatedAt) {
-        this.postId = postId;
-        this.tagId = tagId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-    public PostTag(){
-
+    public long getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
-        return "PostTag{" +
-                "postId=" + postId +
-                ", tagId=" + tagId +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getPostId() {
@@ -62,4 +56,6 @@ public class PostTag {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
 }
