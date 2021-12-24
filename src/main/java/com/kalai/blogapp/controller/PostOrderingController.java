@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.awt.print.Pageable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,6 +39,7 @@ public class PostOrderingController {
         if(filterBy.equals("Author")){
             filteredPost=postService.filterByAuthor("author",filterName);
         }else if(filterBy.equals("PublishedDate")){
+
             filteredPost=postService.filterByPublished("publishedDate",filterName);
         }else if(filterBy.equals("Tag")){
             filteredPost=postService.filterByTag("tag",filterName);

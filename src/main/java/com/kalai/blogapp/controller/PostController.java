@@ -1,5 +1,7 @@
 package com.kalai.blogapp.controller;
 
+import com.kalai.blogapp.paging.PostServiceImp;
+import com.kalai.blogapp.paging.PostServicePagable;
 import com.kalai.blogapp.service.CommentService;
 import com.kalai.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,19 @@ public class PostController {
     CommentService commentService;
     @Autowired
     TagService tagService;
+    @Autowired
+    PostServiceImp postServiceImp;
 
     @RequestMapping(value = "/")
     public String goHome() {
         return "redirect:/list";
+    }
+
+    @GetMapping(value = "/",params = {"start","limit"})
+    public String gotoPage(@RequestParam("start")int offset,@RequestParam("limit")int limit,Model model){
+        List<Post> posts=postServiceImp.findAll(offset,limit);
+        model.addAttribute("posts",posts);
+        return "listofpost";
     }
 
     @GetMapping(value = "new")
@@ -39,7 +50,8 @@ public class PostController {
 
     @GetMapping(value = "list")
     public String listPostDirectly(Model model) {
-        List<Post> posts = postService.getAllPosts();
+        /*List<Post> posts = postService.getAllPosts();*/
+        List<Post> posts=postServiceImp.findAll(0,5);
         model.addAttribute("posts", posts);
         return "listofpost";
     }
@@ -64,14 +76,6 @@ public class PostController {
         tagService.mapTagToPost(tag,post.getPostId());
         return "listofpost";
     }
-   /* @PostMapping(value="/createpost")
-    public String listPosts(@ModelAttribute("post")Post post,@RequestParam("tag")String tag,Model model){
-        post.setPostCreatedAt(new Date());
-        post.setPostUpdatedAt(new Date());
-        postService.save(post);
-        System.out.println("fetching postid:"+post.getPostId());
-        return "listofpost";
-    }*/
 
     @GetMapping(value = "updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") long id) {
