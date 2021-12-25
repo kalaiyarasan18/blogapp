@@ -1,18 +1,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <title>Create Post</title>
-<link rel="Stylesheet" href="style.css">
-<link rel="stylesheet" href="bootstrap.min.css">
+<link href="style.css" rel="Stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
 <body class="box">
 <div align="center">
     <h2>Create New Blog Post </h2>
     <hr>
-    <form action="createpost" th:action="@{createpost}" method="post" th:object="${posts}">
-        <input type="text" placeholder="Author name"  name="author" class="text"><br>
-        <input type="text" name="title" placeholder="Title"  class="text"><br>
-        <input type="text" name="tag" placeholder="Tag"  class="text"><br>
-        <textarea name="excerpt" placeholder="postExcerpt"  class="textarea"></textarea><br>
-        <textarea name="content" placeholder="postContent" id="content" ></textarea><br>
-        <input type="submit" value="Post" class="btn btn-secondary">
+    <form action="createpost" method="post" th:action="@{createpost}" th:object="${posts}">
+        <input class="text" name="author" placeholder="Author name" type="text"><br>
+        <input class="text" name="title" placeholder="Title" type="text"><br>
+        <input class="text" name="tag" placeholder="Tag" type="text"><br>
+        <textarea class="textarea" name="excerpt" placeholder="postExcerpt"></textarea><br>
+        <textarea id="content" name="content" placeholder="postContent"></textarea><br>
+        <input class="btn btn-secondary" type="submit" value="Post">
     </form>
 </div>
 </body>

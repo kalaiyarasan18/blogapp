@@ -1,17 +1,18 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <title>List of Posts</title>
-<link rel="Stylesheet" href="style.css">
-<link rel="stylesheet" href="bootstrap.min.css">
+<link href="style.css" rel="Stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
 <body class="">
-<div background="#322" align="center" class="box">
+<div align="center" background="#322" class="box">
     <h4>Blog Posts</h4>
     <hr>
     <div class="row">
         <div class="col">
-            <a href="/new" class="btn btn-dark">Write Post</a>
+            <a class="btn btn-dark" href="/new">Write Post</a>
         </div>
         <div class="col">
-            <a href="/">Next</a>
+            <a th:href="@{/?start=6&limit=10}">Next</a>
+            <a th:href="@{/?start=11&limit=15}">Next</a>
         </div>
     </div>
     <hr>
@@ -23,43 +24,31 @@
                     <option value="PublishedTimeAsc">Published Time &#8593;</option>
                     <option value="PublishedTimeDsc">Published Time &#8595;</option>
                 </select>
-                <input type="submit" class="btn btn-warning">
-            </form>
-        </div>
-        <div class="col-md-4">
-            <form action="filterPost" method="post">
-                Filter:
-                <input type="text" name="filterName" placeholder="Enter text to Search">
-                <select name="filterBy">
-                    <option value="Author">Author</option>
-                    <option value="PublishedDate">Published Date</option>
-                    <option value="Tag">Tag</option>
-                </select>
-                <input type="submit" class="btn btn-warning">
+                <input class="btn btn-warning" type="submit">
             </form>
         </div>
         <div class="col-sm-4">
-        <form action="search" method="get">
-            <input type="text" name="searchField" placeholder="Enter text to Search">
-            <input type="submit" class="btn btn-warning">
-        </form>
-    </div>
+            <form action="search" method="get">
+                <input name="searchField" placeholder="Enter text to Search" type="text">
+                <input class="btn btn-warning" type="submit">
+            </form>
+        </div>
     </div>
     <table border="2px solid #eee">
         <tbody>
         <tr th:each="post:${posts}">
             <div class="blogtable">
                 <div style="background:#84bfad">
-                   <p  th:text="${post.postAuthor}"></p>
-                   <p th:text="${post.postPublishedAt}"></p>
+                    <p th:text="${post.postAuthor}"></p>
+                    <p th:text="${post.postPublishedAt}"></p>
                 </div>
                 <hr>
                 <h4 class="field" th:text="${post.postTitle}"></h4>
                 <h5 class="field" th:text="${post.postExcerpt}"></h5>
                 <hr>
                 <a th:href="@{'/readMore/'+${post.postId}}"> Read More</a>
-                <a th:href="@{'/updatePost/'+${post.postId}}" class="btn btn-primary">Update Post</a>
-                <a th:href="@{'/deletePost/'+${post.postId}}" class="btn btn-danger"> Delete Post</a>
+                <a class="btn btn-primary" th:href="@{'/updatePost/'+${post.postId}}">Update Post</a>
+                <a class="btn btn-danger" th:href="@{'/deletePost/'+${post.postId}}"> Delete Post</a>
 
             </div>
         </tr>

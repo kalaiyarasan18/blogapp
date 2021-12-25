@@ -1,53 +1,55 @@
 package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
-
 import java.util.Date;
+
 @Entity
 public class Post {
     @Id
     @SequenceGenerator(
-    		name="post_sequence",
-    		sequenceName = "post_sequence",
-    		allocationSize = 1
-    		)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_sequence")
+            name = "post_sequence",
+            sequenceName = "post_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
     private long postId;
     private String postTitle;
     @Lob
     private String postExcerpt;
     @Lob
     private String postContent;
-    private  String postAuthor;
-    private  Date postPublishedAt;
-    private  boolean postIsPublished;
+    private String postAuthor;
+    private Date postPublishedAt;
+    private boolean postIsPublished;
     private Date postCreatedAt;
     private Date postUpdatedAt;
 
     public Post() {
     }
 
-    @Override
-	public String toString() {
-		return "Posts [postId=" + postId + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
-				+ ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
-				+ ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
-				+ postUpdatedAt + "]";
-	}
     public Post(String title, String excerpt, String content, String author) {
-    		postTitle=title;
-    		postExcerpt=excerpt;
-    		postContent=content;
-    		postAuthor=author;
-    		java.util.Date date=new java.util.Date();
-    		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
-    		java.sql.Timestamp sqlTime=new java.sql.Timestamp(date.getTime());
-    		postPublishedAt=sqlTime;
-    		postIsPublished=true;
-    		postCreatedAt=sqlTime;
-    		postUpdatedAt=sqlTime;
+        postTitle = title;
+        postExcerpt = excerpt;
+        postContent = content;
+        postAuthor = author;
+        java.util.Date date = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        java.sql.Timestamp sqlTime = new java.sql.Timestamp(date.getTime());
+        postPublishedAt = sqlTime;
+        postIsPublished = true;
+        postCreatedAt = sqlTime;
+        postUpdatedAt = sqlTime;
     }
-	public long getPostId() {
+
+    @Override
+    public String toString() {
+        return "Posts [postId=" + postId + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
+                + ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
+                + ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
+                + postUpdatedAt + "]";
+    }
+
+    public long getPostId() {
         return postId;
     }
 
@@ -119,5 +121,5 @@ public class Post {
         this.postUpdatedAt = postUpdatedAt;
     }
 
-    
+
 }

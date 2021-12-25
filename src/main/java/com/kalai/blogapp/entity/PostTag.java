@@ -2,15 +2,16 @@ package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 public class PostTag {
     @Id
     @SequenceGenerator(
-            name="post_sequence",
+            name = "post_sequence",
             sequenceName = "post_sequence",
             allocationSize = 1
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
     private long id;
     private long postId;
     private long tagId;

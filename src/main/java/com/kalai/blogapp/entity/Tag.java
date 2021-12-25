@@ -2,21 +2,30 @@ package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 public class Tag {
     @Id
     @SequenceGenerator(
-            name="tagSequence",
+            name = "tagSequence",
             sequenceName = "tagSequence",
             allocationSize = 1
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "tagSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tagSequence")
     private long tagId;
-    @Column(unique=true)
+    @Column(unique = true)
     private String tagName;
     private Date tagCreatedAt;
     private Date tagUpdatedAt;
+
     public Tag() {
+    }
+
+    public Tag(long tagId, String tagName, Date tagCreatedAt, Date tagUpdatedAt) {
+        this.tagId = tagId;
+        this.tagName = tagName;
+        this.tagCreatedAt = tagCreatedAt;
+        this.tagUpdatedAt = tagUpdatedAt;
     }
 
     @Override
@@ -27,13 +36,6 @@ public class Tag {
                 ", tagCreatedAt=" + tagCreatedAt +
                 ", tagUpdatedAt=" + tagUpdatedAt +
                 '}';
-    }
-
-    public Tag(long tagId, String tagName, Date tagCreatedAt, Date tagUpdatedAt) {
-        this.tagId = tagId;
-        this.tagName = tagName;
-        this.tagCreatedAt = tagCreatedAt;
-        this.tagUpdatedAt = tagUpdatedAt;
     }
 
     public long getTagId() {
@@ -67,7 +69,6 @@ public class Tag {
     public void setTagUpdatedAt(Date tagUpdatedAt) {
         this.tagUpdatedAt = tagUpdatedAt;
     }
-
 
 
 }

@@ -4,23 +4,24 @@
 <div align="center" style="background:#eee;">
     <h3>Update Post</h3>
     <hr/>
-    <form action="/updatepost" th:object="${posts}" method="post">
+    <form action="/updatepost" method="post" th:object="${posts}">
         <label>Title:</label><br>
-        <input type="text" th:field="*{postTitle}" class="text" style="width: 551px; height: 50px; margin:10px;"/><br>
+        <input class="text" style="width: 551px; height: 50px; margin:10px;" th:field="*{postTitle}" type="text"/><br>
         <label>Tags:</label><br>
-        <input type="text" th:value="${tags}"
-               class="text" style="width: 551px; height: 50px;margin:10px" /><br>
+        <input class="text" style="width: 551px; height: 50px;margin:10px"
+               th:value="${tags}" type="text"/><br>
         <label>Author:</label><br>
-        <input type="text" th:field="*{postAuthor}"
-               class="text" style="width: 551px; height: 50px;margin:10px" /><br>
+        <input class="text" style="width: 551px; height: 50px;margin:10px"
+               th:field="*{postAuthor}" type="text"/><br>
         <label>Excerpt:</label><br>
-        <textarea th:field="*{postExcerpt}"class="textarea"
-                  style="width: 551px; height: 173px;margin:10px"> </textarea><br>
+        <textarea class="textarea" style="width: 551px; height: 173px;margin:10px"
+                  th:field="*{postExcerpt}"> </textarea><br>
         <label>Content:</label><br>
-        <textarea th:field="*{postContent}" style="width: 551px; height: 273px;margin:10px" class="textarea"> </textarea><br>
+        <textarea class="textarea" style="width: 551px; height: 273px;margin:10px"
+                  th:field="*{postContent}"> </textarea><br>
 
-        <input type="hidden" th:field="*{postId}"/>
-        <button type="submit" style="width:100px;height:40px; background:#00b894">Update</button>
+        <input th:field="*{postId}" type="hidden"/>
+        <button style="width:100px;height:40px; background:#00b894" type="submit">Update</button>
     </form>
 </div>
 </body>

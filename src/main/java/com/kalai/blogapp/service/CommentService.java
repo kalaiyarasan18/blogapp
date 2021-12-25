@@ -14,39 +14,41 @@ public class CommentService {
     @Autowired
     public CommentRepository commentRepository;
 
-    public void saveComment(Comment comment){
+    public void saveComment(Comment comment) {
         commentRepository.save(comment);
         System.out.print(comment);
     }
 
-    public List<Comment> commentById(long id){
-        List<Comment> commentList=commentRepository.findByCommentedPostId(id);
+    public List<Comment> commentById(long id) {
+        List<Comment> commentList = commentRepository.findByCommentedPostId(id);
         /*System.out.print("List of comment by id:"+commentList);*/
         return commentList;
     }
-    public void handleSave(Comment comment){
-        Date currentTime=new Date();
+
+    public void handleSave(Comment comment) {
+        Date currentTime = new Date();
         comment.setCommentCreatedAt(currentTime);
         comment.setCommentUpdatedAt(currentTime);
         commentRepository.save(comment);
     }
 
-    public  void deleteComment(long id) {
+    public void deleteComment(long id) {
         commentRepository.deleteById(id);
     }
 
-    public Comment getPostById(long id){
-        Comment comment=commentRepository.findCommentedPostIdByCommentId(id);
+    public Comment getPostById(long id) {
+        Comment comment = commentRepository.findCommentedPostIdByCommentId(id);
         return comment;
     }
-    public long getIdForPost(long id){
-        Comment comment=commentRepository.findCommentedPostIdByCommentId(id);
+
+    public long getIdForPost(long id) {
+        Comment comment = commentRepository.findCommentedPostIdByCommentId(id);
         return comment.getCommentedPostId();
     }
 
     public void update(Comment comment) {
-        System.out.println("inside service :"+comment);
-        Comment comment1=commentRepository.findById(comment.getCommentId());
+        System.out.println("inside service :" + comment);
+        Comment comment1 = commentRepository.findById(comment.getCommentId());
         comment1.setCommentContent(comment.getCommentContent());
         comment1.setCommenterEmail(comment.getCommenterEmail());
         comment1.setCommenterName(comment.getCommenterName());

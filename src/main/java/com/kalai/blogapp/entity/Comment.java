@@ -2,16 +2,17 @@ package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 public class Comment {
 
     @Id
     @SequenceGenerator(
-            name="comment_sequence",
+            name = "comment_sequence",
             sequenceName = "comment_sequence",
             allocationSize = 1
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "comment_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_sequence")
     private long commentId;
     private String commenterName;
     private String commenterEmail;
@@ -21,6 +22,15 @@ public class Comment {
     private Date commentUpdatedAt;
 
     public Comment() {
+    }
+
+    public Comment(String name, String email, String comment, long postId, Date createdAt, Date updatedAt) {
+        this.commenterName = name;
+        this.commenterEmail = email;
+        this.commentContent = comment;
+        this.commentedPostId = postId;
+        this.commentCreatedAt = createdAt;
+        this.commentUpdatedAt = updatedAt;
     }
 
     public long getCommentId() {
@@ -69,15 +79,6 @@ public class Comment {
 
     public void setCommentCreatedAt(Date commentCreatedAt) {
         this.commentCreatedAt = commentCreatedAt;
-    }
-
-    public Comment(String name,String email,String comment, long postId, Date createdAt, Date updatedAt){
-        this.commenterName=name;
-        this.commenterEmail=email;
-        this.commentContent=comment;
-        this.commentedPostId=postId;
-        this.commentCreatedAt=createdAt;
-        this.commentUpdatedAt=updatedAt;
     }
 
     @Override

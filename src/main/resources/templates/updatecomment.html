@@ -1,23 +1,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <title th:text="${postOfGivenId.postTitle}"></title>
-<link rel="Stylesheet" href="style.css">
-<link rel="stylesheet" href="bootstrap.min.css">
+<link href="style.css" rel="Stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
 <body class="box" style="margin-left:15%;margin-right:15%;">
 <div align="center" style="background:#f7f1e3">
-  <h3  class="field" th:text="${postOfGivenId.postTitle}"></h3>
-  <p  class="field" th:text="${postOfGivenId.postContent}"></p>
-  <hr>
-  <div style="background:#f7f1e3">
-    <h2>Comment</h2>
-    <form action="#" th:action="@{/edit}" th:object="${commentData}" method="post">
-      <input type="text" th:value="${commentData.commenterName}" name="name" style="margin:5px;width:400px;"/><br>
-      <input type="email" th:value="${commentData.commenterEmail}" name="email" style="margin:5px;width:400px;"/><br>
-      <textarea style="margin:5px; width:400px; height:200px;" name="content" th:text="${commentData.commentContent}"></textarea><br>
-      <input type="hidden" name="hiddenbtn" th:value="${postOfGivenId.postId}"/>
-      <input type="hidden" name="hidden" th:value="${commentData.commentId}">
-      <input type="submit">
-    </form>
-  </div>
+    <h3 class="field" th:text="${postOfGivenId.postTitle}"></h3>
+    <p class="field" th:text="${postOfGivenId.postContent}"></p>
+    <hr>
+    <div style="background:#f7f1e3">
+        <h2>Comment</h2>
+        <form action="#" method="post" th:action="@{/edit}" th:object="${commentData}">
+            <input name="name" style="margin:5px;width:400px;" th:value="${commentData.commenterName}" type="text"/><br>
+            <input name="email" style="margin:5px;width:400px;" th:value="${commentData.commenterEmail}"
+                   type="email"/><br>
+            <textarea name="content" style="margin:5px; width:400px; height:200px;"
+                      th:text="${commentData.commentContent}"></textarea><br>
+            <input name="hiddenbtn" th:value="${postOfGivenId.postId}" type="hidden"/>
+            <input name="hidden" th:value="${commentData.commentId}" type="hidden">
+            <input type="submit">
+        </form>
+    </div>
 </div>
 </body>
 </html>

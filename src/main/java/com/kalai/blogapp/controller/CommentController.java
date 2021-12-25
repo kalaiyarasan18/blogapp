@@ -44,7 +44,7 @@ public class CommentController {
     @GetMapping(value = "updateComment/{commentId}")
     public String updateComment(Model model, @PathVariable("commentId") long id,
                                 @ModelAttribute("commentData") Comment comment) {
-        Comment beforeUpdateComment=commentRepository.findById(id);
+        Comment beforeUpdateComment = commentRepository.findById(id);
         long postId = beforeUpdateComment.getCommentedPostId();
         Post postToShow = postService.getPostById(postId);
         model.addAttribute("commentData", beforeUpdateComment);
@@ -57,12 +57,12 @@ public class CommentController {
             @RequestParam("name") String commenterName, @RequestParam("email") String commenterEmail,
             @RequestParam("content") String commentContent, @RequestParam("hidden") long commentId, Model model) {
 
-       Comment commentToUpdate=commentRepository.findById(commentId);
-        System.out.print("Inside that postmethod:"+commentToUpdate);
-       commentToUpdate.setCommenterName(commenterName);
-       commentToUpdate.setCommenterEmail(commenterEmail);
-       commentToUpdate.setCommentContent(commentContent);
-       commentRepository.save(commentToUpdate);
+        Comment commentToUpdate = commentRepository.findById(commentId);
+        System.out.print("Inside that postmethod:" + commentToUpdate);
+        commentToUpdate.setCommenterName(commenterName);
+        commentToUpdate.setCommenterEmail(commenterEmail);
+        commentToUpdate.setCommentContent(commentContent);
+        commentRepository.save(commentToUpdate);
         return "redirect:/readMore/" + commentToUpdate.getCommentedPostId();
     }
 
