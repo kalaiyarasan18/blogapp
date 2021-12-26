@@ -1,11 +1,13 @@
 package com.kalai.blogapp.paging;
 
+import com.kalai.blogapp.controller.PostController;
 import com.kalai.blogapp.entity.Post;
 import com.kalai.blogapp.entity.PostTag;
 import com.kalai.blogapp.entity.Tag;
 import com.kalai.blogapp.repository.PostRepository;
 import com.kalai.blogapp.repository.PostTagRepository;
 import com.kalai.blogapp.repository.TagRepository;
+import com.kalai.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,13 +18,12 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.awt.print.Pageable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static com.kalai.blogapp.controller.PostController.globalPost;
 
 @Service
 public class PostServiceImp implements PostServicePagable {
-    public static List<Post> globalPost;
     @Resource
     PostRepositoryPagable postRepositoryPagable;
     @Autowired
@@ -34,6 +35,8 @@ public class PostServiceImp implements PostServicePagable {
     @Autowired
     private EntityManager entityManager;
 
+    List<Long> postIdsForTagName=new ArrayList<>();
+
     @Transactional
     public List<Post> findAll(int offset, int limit) {
         TypedQuery<Post> query = entityManager.createQuery(
@@ -43,18 +46,15 @@ public class PostServiceImp implements PostServicePagable {
         return query.getResultList();
     }
 
-    public Pageable getPageableAsc(Integer offset, Integer limit, String sortBy) {
-        Pageable pageable = (Pageable) PageRequest.of(offset, limit, Sort.by(sortBy).ascending());
-        return pageable;
-    }
-
-    public Pageable getPageableDsc(Integer offset, Integer limit, String sortBy) {
-        Pageable pageable = (Pageable) PageRequest.of(offset, limit, Sort.by(sortBy).descending());
-        return pageable;
-    }
-
     @Transactional
     public List<Long> searchByTag(String keyword) {
+        TypedQuery<Long> query = entityManager.createQuery(
+                "select post_id from " +
+                        "(select * from tag,post_tag where post_tag.tag_id=tag.tag_id) R " +
+                        "where R.tag_name like '%Ios%'", Long.class);
+        return query.getResultList();
+    }
+    public List<Long> searchByTag(String keyword,List<Post> list) {
         TypedQuery<Long> query = entityManager.createQuery(
                 "select post_id from " +
                         "(select * from tag,post_tag where post_tag.tag_id=tag.tag_id) R " +
@@ -67,9 +67,9 @@ public class PostServiceImp implements PostServicePagable {
         List<PostTag> list = postTagRepository.findByPostId(postId);
         for (PostTag postTag : list) {
             long tagId = postTag.getTagId();
+            System.out.println("tag id to delete:"+tagId);
             tagRepository.deleteById(tagId);
         }
-        postTagRepository.deleteByPostId(postId);
     }
 
     public List<String> getAllTags() {
@@ -87,12 +87,11 @@ public class PostServiceImp implements PostServicePagable {
         for (Post post : allPosts) {
             authors.add(post.getPostAuthor());
         }
+        Set<String> authorSet=new TreeSet<>();
+        authorSet.addAll(authors);
+        authors.clear();
+        authors.addAll(authorSet);
         return authors;
-    }
-
-    public List<Post> getAllPostByAuthor(String authors) {
-        List<Post> postByAuthor = postRepository.findByPostAuthor(authors);
-        return postByAuthor;
     }
 
     public List<Post> getAllPostByTag(String tag) {
@@ -104,15 +103,18 @@ public class PostServiceImp implements PostServicePagable {
                 posts.add(post);
             }
         }
+        postIdsForTagName = postIdForTag;
         return posts;
     }
 
-    public List<Post> handleFilter(String author, String tag, String date) {
+    /*public List<Post> handleFilter(String author, String tag) {
         List<Post> filteredResult = new ArrayList<>();
         if (author != null) {
             String[] selectedAuthors = author.split(",");
             for (String eachAuthor : selectedAuthors) {
-                filteredResult.addAll(postRepository.findByPostAuthor(eachAuthor));
+                Post post= (Post) postRepository.findByPostAuthor(eachAuthor);
+                System.out.println("post in each post of filter:"+post);
+                filteredResult.add(post);
             }
         }
         if (tag != null) {
@@ -121,10 +123,40 @@ public class PostServiceImp implements PostServicePagable {
                 filteredResult.addAll(getAllPostByTag(eachTag));
             }
         }
-        if (date != null) {
-            System.out.println("Selected date is:" + date + date.getClass());
-            System.out.println("printing date using new date:" + new Date());
-        }
         return filteredResult;
+    }*/
+    public List<Post> handleFilter(String author){
+        List<Post> tempList=new ArrayList<>();
+        System.out.println("inside the filterhandling():\n");
+        String[] authors=author.split(",");
+        for(String authorName:authors){
+        for(Post post: globalPost) {
+            if (post.getPostAuthor().equals(author)) {
+                tempList.add(post);
+            }
+        }
+        }
+        return tempList;
+    }
+
+    public List<Post> postListForTagName(String tag){
+        List<Post> tempListForPosts=new ArrayList<>();
+        for(long id:postIdsForTagName){
+            tempListForPosts.add(postRepository.findById(id));
+        }
+        return tempListForPosts;
+    }
+
+    public List<Post> handleFilterForTag(String tag) {
+        Set<Long> postIdsForTags=new HashSet<>();
+        List<Post> postsForGivenTag=new ArrayList<>();
+        String[] tags=tag.split(",");
+        for(String tagName:tags){
+            postIdsForTags.addAll(postRepository.searchWithTag(tag));
+        }
+        for(long postId:postIdsForTags){
+            postsForGivenTag.add(postRepository.findById(postId));
+        }
+        return postsForGivenTag;
     }
 }

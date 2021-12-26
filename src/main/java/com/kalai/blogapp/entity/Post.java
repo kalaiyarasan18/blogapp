@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Post {
+public class Post implements Comparable<Post>{
     @Id
     @SequenceGenerator(
             name = "post_sequence",
@@ -125,4 +125,8 @@ public class Post {
     }
 
 
+    @Override
+    public int compareTo(Post o) {
+        return this.getPostPublishedAt().compareTo(o.getPostCreatedAt());
+    }
 }

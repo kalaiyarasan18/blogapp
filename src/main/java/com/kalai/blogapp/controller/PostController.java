@@ -12,12 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 public class PostController {
-    public List<Post> globalPost;
+    public static List<Post> globalPost=new ArrayList<>();
     @Autowired
     PostRepository postsrepository;
     @Autowired
@@ -36,13 +38,29 @@ public class PostController {
                          @RequestParam(value = "start", defaultValue = "0", required = true) int start,
                          @RequestParam(value = "limit", defaultValue = "5", required = true) int limit
     ) {
-        if (author == null || tag == null) {
+
+         if (author == null && tag == null) {
+             System.out.println("Both are null,So size is 5\n");
             List<Post> allPost = postServiceImp.findAll(start, limit);
-            globalPost = allPost;
-        } else {
-            List<Post> filterdPost = postServiceImp.handleFilter(author, tag, date);
-            globalPost = filterdPost;
+             globalPost.clear();
+             globalPost.addAll(allPost);
+        }else if(author==null&&tag!=null){
+             List<Post> postsForTags=postServiceImp.handleFilter(author);
+             globalPost.clear();
+             globalPost.addAll(postsForTags);
+         } else if(tag==null&&author!=null){
+             List<Post> postsForTags=postServiceImp.handleFilterForTag(tag);
+             globalPost.clear();
+             globalPost.addAll(postsForTags);
+         }else {
+             System.out.println("printing globalPost before handlefilter:"+globalPost.size());
+            List<Post> filterdPost = postServiceImp.handleFilter(author);
+            filterdPost.addAll(postServiceImp.handleFilterForTag(tag));
+            globalPost.clear();
+            globalPost.addAll(filterdPost);
+             System.out.println("printing globalPost inside Not auth null:"+globalPost.size());
         }
+        System.out.println("printing globalPost:"+globalPost.size());
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("posts", globalPost);
@@ -54,7 +72,9 @@ public class PostController {
     @GetMapping(value = "/", params = {"start", "limit"})
     public String gotoPage(@RequestParam("start") int offset, @RequestParam("limit") int limit, Model model) {
         List<Post> posts = postServiceImp.findAll(offset, limit);
-        model.addAttribute("posts", posts);
+        globalPost.clear();
+        globalPost.addAll(posts);
+        model.addAttribute("posts", globalPost);
         return "listofpost";
     }
 
@@ -65,9 +85,11 @@ public class PostController {
 
     @GetMapping(value = "list")
     public String listPostDirectly(Model model) {
-        /*List<Post> posts = postService.getAllPosts();*/
-        List<Post> posts = postServiceImp.findAll(0, 5);
-        model.addAttribute("posts", posts);
+        List<Post> posts = postsrepository.findAll();
+        globalPost.clear();
+        globalPost.addAll(posts);
+        System.out.println("printing globalPost inside list:"+globalPost.size());
+        model.addAttribute("posts", globalPost);
         return "listofpost";
     }
 
@@ -90,7 +112,11 @@ public class PostController {
         post.setPostIsPublished(true);
         Post savedPost = postsrepository.save(post);
         List<Post> posts = postService.getAllPosts();
-        model.addAttribute("posts", posts);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("posts", globalPost);
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
         tagService.mapTagToPost(tag, post.getPostId());
         return "listofpost";
     }
@@ -105,15 +131,16 @@ public class PostController {
     }
 
     @PostMapping(value = "updatepost")
-    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model) {
+    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model,@RequestParam("tag")String tag) {
         postService.postToUpdate(posts);
+        tagService.mapTagToPost(tag,posts.getPostId());
         model.addAttribute("posts", posts);
         return "redirect:/list";
     }
 
     @GetMapping(value = "deletePost/{postId}")
     public String deletePost(Model model, @PathVariable("postId") long id) {
-        postService.deletePostById(id);
+        postServiceImp.deleteTagByPostId(id);
         return "redirect:/list";
     }
 

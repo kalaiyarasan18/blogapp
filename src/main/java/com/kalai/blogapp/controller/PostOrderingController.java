@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static com.kalai.blogapp.paging.PostServiceImp.globalPost;
+import static com.kalai.blogapp.controller.PostController.globalPost;
 
 @Controller
 public class PostOrderingController {
@@ -30,15 +32,32 @@ public class PostOrderingController {
 
     @PostMapping(value = "sortPost")
     public String sortPost(Model model, @RequestParam("sortBy") String sortBy) {
-        List<Post> sortedPost = postService.sortPostBy(sortBy);
-        model.addAttribute("posts", sortedPost);
+        System.out.println("Inside the searpost by: "+sortBy);
+        System.out.println("Global list is :"+globalPost.size()+"\n");
+        List<Post> sortedPost=new ArrayList<>();
+        if(sortBy.equals("PublishedTimeAsc")){
+            Collections.sort(globalPost);
+        }else{
+            Collections.sort(globalPost,Collections.reverseOrder());
+        }
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        model.addAttribute("posts", globalPost);
         return "listofpost";
     }
 
     @GetMapping(value = "search")
     public String searchPost(Model model, @RequestParam("search") String keyword) {
-        List<Post> searchResult = postService.search(keyword, globalPost);
-        model.addAttribute("posts", searchResult);
+        List<Post> searchResult = postService.search(keyword);
+        globalPost.clear();
+        globalPost.addAll(searchResult);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        model.addAttribute("posts", globalPost);
         return "listofpost";
     }
 

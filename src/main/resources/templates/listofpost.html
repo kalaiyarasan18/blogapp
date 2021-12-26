@@ -12,7 +12,7 @@
         </div>
         <div class="col">
             <a class="btn btn-light" th:href="@{/?start=0&limit=5}">1</a>
-            <a class="btn btn-light" th:href="@{/?start=6&limit=10}">2</a>
+            <a class="btn btn-light" th:href="@{/?start=5&limit=10}">2</a>
             <a class="btn btn-light" th:href="@{/?start=11&limit=15}">3</a>
         </div>
     </div>
@@ -45,8 +45,8 @@
                                th:value="${tag}"
                                type="checkbox"
                         />
-                    </label><br>
-                    <input name="date" type="date"><br>
+                    </label>
+                    <!--<input name="date" type="date"><br>-->
                     <input class="btn btn-success m-5" type="submit">
                 </form>
             </div>

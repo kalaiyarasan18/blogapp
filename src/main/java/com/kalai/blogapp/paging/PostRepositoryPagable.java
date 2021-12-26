@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostRepositoryPagable extends JpaRepository<Post, Long> {
     public Page<Post> findAll(Pageable pageable);
+
 }
