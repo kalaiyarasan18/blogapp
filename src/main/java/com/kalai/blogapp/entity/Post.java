@@ -27,6 +27,9 @@ public class Post {
     public Post() {
     }
 
+    public Post(String title, String excerpt, String content, String author, Date date) {
+    }
+
     public Post(String title, String excerpt, String content, String author) {
         postTitle = title;
         postExcerpt = excerpt;

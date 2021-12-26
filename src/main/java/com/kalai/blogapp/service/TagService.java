@@ -66,4 +66,8 @@ public class TagService {
         }
         return stringBuilder.toString();
     }
+
+    public Tag getTagById(long id) {
+        return tagRepository.findById(id);
+    }
 }

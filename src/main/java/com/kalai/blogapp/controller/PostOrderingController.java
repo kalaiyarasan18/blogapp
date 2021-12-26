@@ -1,8 +1,10 @@
 package com.kalai.blogapp.controller;
 
 import com.kalai.blogapp.entity.Post;
+import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.repository.PostRepository;
 import com.kalai.blogapp.service.PostService;
+import com.kalai.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static com.kalai.blogapp.paging.PostServiceImp.globalPost;
+
 @Controller
 public class PostOrderingController {
 
@@ -19,6 +23,10 @@ public class PostOrderingController {
     PostService postService;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    PostServiceImp postServiceImp;
+    @Autowired
+    TagService tagService;
 
     @PostMapping(value = "sortPost")
     public String sortPost(Model model, @RequestParam("sortBy") String sortBy) {
@@ -28,8 +36,8 @@ public class PostOrderingController {
     }
 
     @GetMapping(value = "search")
-    public String searchPost(Model model, @RequestParam("searchField") String keyword) {
-        List<Post> searchResult = postService.search(keyword);
+    public String searchPost(Model model, @RequestParam("search") String keyword) {
+        List<Post> searchResult = postService.search(keyword, globalPost);
         model.addAttribute("posts", searchResult);
         return "listofpost";
     }

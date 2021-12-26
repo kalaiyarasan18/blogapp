@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 public class PostController {
+    public List<Post> globalPost;
     @Autowired
     PostRepository postsrepository;
     @Autowired
@@ -28,8 +30,25 @@ public class PostController {
     PostServiceImp postServiceImp;
 
     @RequestMapping(value = "/")
-    public String goHome() {
-        return "redirect:/list";
+    public String goHome(Model model, @RequestParam(value = "author", required = false) String author,
+                         @RequestParam(value = "tag", required = false) String tag,
+                         @RequestParam(value = "date", required = false) String date,
+                         @RequestParam(value = "start", defaultValue = "0", required = true) int start,
+                         @RequestParam(value = "limit", defaultValue = "5", required = true) int limit
+    ) {
+        if (author == null || tag == null) {
+            List<Post> allPost = postServiceImp.findAll(start, limit);
+            globalPost = allPost;
+        } else {
+            List<Post> filterdPost = postServiceImp.handleFilter(author, tag, date);
+            globalPost = filterdPost;
+        }
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("posts", globalPost);
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        return "listofpost";
     }
 
     @GetMapping(value = "/", params = {"start", "limit"})
@@ -41,8 +60,6 @@ public class PostController {
 
     @GetMapping(value = "new")
     public String createPost(Model model) {
-        Post post = new Post();
-        model.addAttribute("post", post);
         return "creater";
     }
 
@@ -60,14 +77,17 @@ public class PostController {
                             @RequestParam("content") String content,
                             @RequestParam("author") String author,
                             @RequestParam("tag") String tag, Model model) {
-        Post post = new Post();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Post post = new Post(title, excerpt, content, author, date);
         post.setPostTitle(title);
         post.setPostExcerpt(excerpt);
         post.setPostContent(content);
         post.setPostAuthor(author);
-        post.setPostCreatedAt(new Date());
-        post.setPostUpdatedAt(new Date());
-        post.setPostPublishedAt(new Date());
+        post.setPostCreatedAt(date);
+        post.setPostUpdatedAt(date);
+        post.setPostPublishedAt(date);
+        post.setPostIsPublished(true);
         Post savedPost = postsrepository.save(post);
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
