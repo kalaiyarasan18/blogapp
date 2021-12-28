@@ -2,9 +2,11 @@ package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Post implements Comparable<Post>{
+public class Post implements Comparable<Post> {
     @Id
     @SequenceGenerator(
             name = "post_sequence",
@@ -12,17 +14,35 @@ public class Post implements Comparable<Post>{
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
-    private long postId;
+    private long id;
     private String postTitle;
     @Lob
     private String postExcerpt;
     @Lob
     private String postContent;
     private String postAuthor;
+    @Temporal(TemporalType.DATE)
     private Date postPublishedAt;
     private boolean postIsPublished;
+    @Temporal(TemporalType.DATE)
     private Date postCreatedAt;
+    @Temporal(TemporalType.DATE)
     private Date postUpdatedAt;
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name="post_tags",joinColumns = {@JoinColumn(name="postId")},
+    inverseJoinColumns = {@JoinColumn(name="tagId")}
+    )
+    private Set<Tag> tags=new HashSet<>();
+
 
     public Post() {
     }
@@ -46,18 +66,18 @@ public class Post implements Comparable<Post>{
 
     @Override
     public String toString() {
-        return "Posts [postId=" + postId + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
+        return "Posts [postId=" + id + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
                 + ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
                 + ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
                 + postUpdatedAt + "]";
     }
 
-    public long getPostId() {
-        return postId;
+    public long getId() {
+        return id;
     }
 
-    public void setPostId(long postId) {
-        this.postId = postId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getPostTitle() {

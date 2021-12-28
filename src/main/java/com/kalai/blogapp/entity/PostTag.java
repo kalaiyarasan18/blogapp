@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "post_tags")
 public class PostTag {
     @Id
     @SequenceGenerator(
@@ -12,19 +13,12 @@ public class PostTag {
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
-    private long id;
     private long postId;
     private long tagId;
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
+    @Temporal(TemporalType.DATE)
     private Date updatedAt;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public long getPostId() {
         return postId;

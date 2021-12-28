@@ -21,14 +21,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     public Comment getPostIdByCommentId(int id);
 
     List<Comment> findByCommentedPostId(long id);
-
-    /*@Modifying
-    @Transactional
-    @Query("update Comment c set c.commenterName = ?1, c.commenterEmail = ?2, c.postContent=?3, " +
-            "c.commentUpdatedAt=?4 where c.commentId = ?5")
-    void updateComment(String commenterName, String commenterEmail, String commentContent,
-                       Date currentTime, Date currentTime1, long commentId);*/
-
     @Modifying
     @Transactional
     @Query("update Comment c set c.commenterName = ?1, c.commenterEmail = ?2," +

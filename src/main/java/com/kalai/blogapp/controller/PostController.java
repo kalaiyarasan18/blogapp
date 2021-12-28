@@ -11,15 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 public class PostController {
-    public static List<Post> globalPost=new ArrayList<>();
+    public static List<Post> globalPost = new ArrayList<>();
+    public static List<Post> globalFilter=new ArrayList<>();
     @Autowired
     PostRepository postsrepository;
     @Autowired
@@ -30,40 +34,22 @@ public class PostController {
     TagService tagService;
     @Autowired
     PostServiceImp postServiceImp;
-
     @RequestMapping(value = "/")
     public String goHome(Model model, @RequestParam(value = "author", required = false) String author,
-                         @RequestParam(value = "tag", required = false) String tag,
-                         @RequestParam(value = "date", required = false) String date,
                          @RequestParam(value = "start", defaultValue = "0", required = true) int start,
-                         @RequestParam(value = "limit", defaultValue = "5", required = true) int limit
+                         @RequestParam(value = "limit", defaultValue = "10", required = true) int limit
     ) {
-
-         if (author == null && tag == null) {
-             System.out.println("Both are null,So size is 5\n");
+        List<Post> posts=new ArrayList<>();
+        if (author == null) {
             List<Post> allPost = postServiceImp.findAll(start, limit);
-             globalPost.clear();
-             globalPost.addAll(allPost);
-        }else if(author==null&&tag!=null){
-             List<Post> postsForTags=postServiceImp.handleFilter(author);
-             globalPost.clear();
-             globalPost.addAll(postsForTags);
-         } else if(tag==null&&author!=null){
-             List<Post> postsForTags=postServiceImp.handleFilterForTag(tag);
-             globalPost.clear();
-             globalPost.addAll(postsForTags);
-         }else {
-             System.out.println("printing globalPost before handlefilter:"+globalPost.size());
-            List<Post> filterdPost = postServiceImp.handleFilter(author);
-            filterdPost.addAll(postServiceImp.handleFilterForTag(tag));
-            globalPost.clear();
-            globalPost.addAll(filterdPost);
-             System.out.println("printing globalPost inside Not auth null:"+globalPost.size());
+            posts.addAll(allPost);
+        } else {
+          posts.addAll(postServiceImp.searchAllBySearch(author));
         }
-        System.out.println("printing globalPost:"+globalPost.size());
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
-        model.addAttribute("posts", globalPost);
+        model.addAttribute("posts",posts);
+        model.addAttribute("noOfResult",posts.size());
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "listofpost";
@@ -74,6 +60,10 @@ public class PostController {
         List<Post> posts = postServiceImp.findAll(offset, limit);
         globalPost.clear();
         globalPost.addAll(posts);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
         model.addAttribute("posts", globalPost);
         return "listofpost";
     }
@@ -88,7 +78,10 @@ public class PostController {
         List<Post> posts = postsrepository.findAll();
         globalPost.clear();
         globalPost.addAll(posts);
-        System.out.println("printing globalPost inside list:"+globalPost.size());
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
         model.addAttribute("posts", globalPost);
         return "listofpost";
     }
@@ -99,9 +92,8 @@ public class PostController {
                             @RequestParam("content") String content,
                             @RequestParam("author") String author,
                             @RequestParam("tag") String tag, Model model) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        Post post = new Post(title, excerpt, content, author, date);
+        Post post = new Post();
         post.setPostTitle(title);
         post.setPostExcerpt(excerpt);
         post.setPostContent(content);
@@ -110,36 +102,43 @@ public class PostController {
         post.setPostUpdatedAt(date);
         post.setPostPublishedAt(date);
         post.setPostIsPublished(true);
-        Post savedPost = postsrepository.save(post);
+        postService.savePost(post,tag);
         List<Post> posts = postService.getAllPosts();
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("posts", globalPost);
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
-        tagService.mapTagToPost(tag, post.getPostId());
-        return "listofpost";
+        return "redirect:/listofpost";
     }
 
     @GetMapping(value = "updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") long id) {
         Post postForUpdate = postService.getPostById(id);
         String tags = tagService.tagByPostId(id);
-        model.addAttribute("tags", tags);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tag = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tag);
         model.addAttribute("posts", postForUpdate);
         return "updatepost";
     }
 
     @PostMapping(value = "updatepost")
-    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model,@RequestParam("tag")String tag) {
+    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model) {
         postService.postToUpdate(posts);
-        tagService.mapTagToPost(tag,posts.getPostId());
         model.addAttribute("posts", posts);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("posts", globalPost);
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
         return "redirect:/list";
     }
 
     @GetMapping(value = "deletePost/{postId}")
     public String deletePost(Model model, @PathVariable("postId") long id) {
+        postService.deletePostById(id);
         postServiceImp.deleteTagByPostId(id);
         return "redirect:/list";
     }
@@ -152,5 +151,19 @@ public class PostController {
         model.addAttribute("postOfGivenId", postOfGivenId);
         model.addAttribute("comments", commentService.commentById(id));
         return "fullblog";
+    }
+
+    @RequestMapping(value = "/filterBy")
+    public String filterBy(@RequestParam(value = "startdate", required = false) String startdate,
+                           @RequestParam(value = "enddate", required = false) String enddate,
+                           Model model) throws ParseException {
+        List<Post> postBetweenDate=new ArrayList<>();
+        postBetweenDate=postService.getPostByDate(startdate,enddate);
+        List<String> authors = postServiceImp.getAllAuthors();
+        List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        model.addAttribute("posts", postBetweenDate);
+        return "listofpost";
     }
 }

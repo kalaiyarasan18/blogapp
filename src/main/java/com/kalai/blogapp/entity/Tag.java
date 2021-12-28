@@ -2,6 +2,8 @@ package com.kalai.blogapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Tag {
@@ -12,17 +14,23 @@ public class Tag {
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tagSequence")
-    private long tagId;
+    private long id;
     @Column(unique = true)
     private String tagName;
+    @Temporal(TemporalType.DATE)
     private Date tagCreatedAt;
+    @Temporal(TemporalType.DATE)
     private Date tagUpdatedAt;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "tags")
+    private Set<Post> posts=new HashSet<>();
+    public void setPosts(Set<Post> posts){this.posts=posts;}
+    public  Set<Post> getPosts(){return posts;}
 
     public Tag() {
     }
 
-    public Tag(long tagId, String tagName, Date tagCreatedAt, Date tagUpdatedAt) {
-        this.tagId = tagId;
+    public Tag(long id, String tagName, Date tagCreatedAt, Date tagUpdatedAt) {
+        this.id = id;
         this.tagName = tagName;
         this.tagCreatedAt = tagCreatedAt;
         this.tagUpdatedAt = tagUpdatedAt;
@@ -31,19 +39,19 @@ public class Tag {
     @Override
     public String toString() {
         return "Tag{" +
-                "tagId=" + tagId +
+                "tagId=" + id +
                 ", tagName='" + tagName + '\'' +
                 ", tagCreatedAt=" + tagCreatedAt +
                 ", tagUpdatedAt=" + tagUpdatedAt +
                 '}';
     }
 
-    public long getTagId() {
-        return tagId;
+    public long getId() {
+        return id;
     }
 
-    public void setTagId(long tagId) {
-        this.tagId = tagId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTagName() {

@@ -15,7 +15,7 @@
                    type="email"/><br>
             <textarea name="content" style="margin:5px; width:400px; height:200px;"
                       th:text="${commentData.commentContent}"></textarea><br>
-            <input name="hiddenbtn" th:value="${postOfGivenId.postId}" type="hidden"/>
+            <input name="hiddenbtn" th:value="${postOfGivenId.id}" type="hidden"/>
             <input name="hidden" th:value="${commentData.commentId}" type="hidden">
             <input type="submit">
         </form>

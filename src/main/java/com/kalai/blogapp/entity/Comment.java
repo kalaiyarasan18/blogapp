@@ -18,7 +18,9 @@ public class Comment {
     private String commenterEmail;
     private String commentContent;
     private long commentedPostId;
+    @Temporal(TemporalType.DATE)
     private Date commentCreatedAt;
+    @Temporal(TemporalType.DATE)
     private Date commentUpdatedAt;
 
     public Comment() {

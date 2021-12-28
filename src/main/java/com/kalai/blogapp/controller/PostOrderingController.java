@@ -32,13 +32,13 @@ public class PostOrderingController {
 
     @PostMapping(value = "sortPost")
     public String sortPost(Model model, @RequestParam("sortBy") String sortBy) {
-        System.out.println("Inside the searpost by: "+sortBy);
-        System.out.println("Global list is :"+globalPost.size()+"\n");
-        List<Post> sortedPost=new ArrayList<>();
-        if(sortBy.equals("PublishedTimeAsc")){
+        System.out.println("Inside the searpost by: " + sortBy);
+        System.out.println("Global list is :" + globalPost.size() + "\n");
+        List<Post> sortedPost = new ArrayList<>();
+        if (sortBy.equals("PublishedTimeAsc")) {
             Collections.sort(globalPost);
-        }else{
-            Collections.sort(globalPost,Collections.reverseOrder());
+        } else {
+            Collections.sort(globalPost, Collections.reverseOrder());
         }
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
@@ -50,14 +50,13 @@ public class PostOrderingController {
 
     @GetMapping(value = "search")
     public String searchPost(Model model, @RequestParam("search") String keyword) {
-        List<Post> searchResult = postService.search(keyword);
-        globalPost.clear();
-        globalPost.addAll(searchResult);
+        List<Post> searchResult = postServiceImp.searchAllBySearch(keyword);
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
-        model.addAttribute("posts", globalPost);
+        model.addAttribute("posts", searchResult);
+        model.addAttribute("noOfResult",searchResult.size());
         return "listofpost";
     }
 
