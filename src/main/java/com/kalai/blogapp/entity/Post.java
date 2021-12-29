@@ -28,27 +28,18 @@ public class Post implements Comparable<Post> {
     private Date postCreatedAt;
     @Temporal(TemporalType.DATE)
     private Date postUpdatedAt;
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(name="post_tags",joinColumns = {@JoinColumn(name="postId")},
-    inverseJoinColumns = {@JoinColumn(name="tagId")}
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
+            inverseJoinColumns = {@JoinColumn(name = "tagId")}
     )
-    private Set<Tag> tags=new HashSet<>();
-
+    private Set<Tag> tags = new HashSet<>();
 
     public Post() {
     }
 
     public Post(String title, String excerpt, String content, String author, Date date) {
     }
+
 
     public Post(String title, String excerpt, String content, String author) {
         postTitle = title;
@@ -64,12 +55,12 @@ public class Post implements Comparable<Post> {
         postUpdatedAt = sqlTime;
     }
 
-    @Override
-    public String toString() {
-        return "Posts [postId=" + id + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
-                + ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
-                + ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
-                + postUpdatedAt + "]";
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public long getId() {
@@ -144,9 +135,17 @@ public class Post implements Comparable<Post> {
         this.postUpdatedAt = postUpdatedAt;
     }
 
-
     @Override
     public int compareTo(Post o) {
         return this.getPostPublishedAt().compareTo(o.getPostCreatedAt());
     }
+
+    @Override
+    public String toString() {
+        return "Posts [postId=" + id + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
+                + ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
+                + ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
+                + postUpdatedAt + "]";
+    }
+
 }

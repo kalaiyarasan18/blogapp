@@ -58,7 +58,6 @@ public class CommentController {
             @RequestParam("content") String commentContent, @RequestParam("hidden") long commentId, Model model) {
 
         Comment commentToUpdate = commentRepository.findById(commentId);
-        System.out.print("Inside that postmethod:" + commentToUpdate);
         commentToUpdate.setCommenterName(commenterName);
         commentToUpdate.setCommenterEmail(commenterEmail);
         commentToUpdate.setCommentContent(commentContent);

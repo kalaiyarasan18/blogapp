@@ -83,19 +83,6 @@ public class Comment {
         this.commentCreatedAt = commentCreatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "Comments{" +
-                "commentId=" + commentId +
-                ", commenterName='" + commenterName + '\'' +
-                ", commenterEmail='" + commenterEmail + '\'' +
-                ", commentContent='" + commentContent + '\'' +
-                ", commentedPostId=" + commentedPostId +
-                ", commentCreatedAt=" + commentCreatedAt +
-                ", commentUpdatedAt=" + commentUpdatedAt +
-                '}';
-    }
-
     public Date getCommentUpdatedAt() {
         return commentUpdatedAt;
     }

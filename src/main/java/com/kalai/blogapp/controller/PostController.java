@@ -12,10 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +19,7 @@ import java.util.List;
 @Controller
 public class PostController {
     public static List<Post> globalPost = new ArrayList<>();
-    public static List<Post> globalFilter=new ArrayList<>();
+    public static List<Post> globalFilter = new ArrayList<>();
     @Autowired
     PostRepository postsrepository;
     @Autowired
@@ -34,22 +30,22 @@ public class PostController {
     TagService tagService;
     @Autowired
     PostServiceImp postServiceImp;
+
     @RequestMapping(value = "/")
     public String goHome(Model model, @RequestParam(value = "author", required = false) String author,
                          @RequestParam(value = "start", defaultValue = "0", required = true) int start,
                          @RequestParam(value = "limit", defaultValue = "10", required = true) int limit
     ) {
-        List<Post> posts=new ArrayList<>();
         if (author == null) {
-            List<Post> allPost = postServiceImp.findAll(start, limit);
-            posts.addAll(allPost);
+           globalPost = postServiceImp.findAll(start, limit);
         } else {
-          posts.addAll(postServiceImp.searchAllBySearch(author));
+            List<Post> searchResult=postServiceImp.searchAllBySearch(author);
+            globalPost.addAll(postServiceImp.compareGlobal(searchResult));
         }
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
-        model.addAttribute("posts",posts);
-        model.addAttribute("noOfResult",posts.size());
+        model.addAttribute("posts", globalPost);
+        model.addAttribute("noOfResult", globalPost.size());
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "listofpost";
@@ -58,8 +54,6 @@ public class PostController {
     @GetMapping(value = "/", params = {"start", "limit"})
     public String gotoPage(@RequestParam("start") int offset, @RequestParam("limit") int limit, Model model) {
         List<Post> posts = postServiceImp.findAll(offset, limit);
-        globalPost.clear();
-        globalPost.addAll(posts);
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);
@@ -102,7 +96,7 @@ public class PostController {
         post.setPostUpdatedAt(date);
         post.setPostPublishedAt(date);
         post.setPostIsPublished(true);
-        postService.savePost(post,tag);
+        postService.savePost(post, tag);
         List<Post> posts = postService.getAllPosts();
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
@@ -157,8 +151,8 @@ public class PostController {
     public String filterBy(@RequestParam(value = "startdate", required = false) String startdate,
                            @RequestParam(value = "enddate", required = false) String enddate,
                            Model model) throws ParseException {
-        List<Post> postBetweenDate=new ArrayList<>();
-        postBetweenDate=postService.getPostByDate(startdate,enddate);
+        List<Post> postBetweenDate = new ArrayList<>();
+        postBetweenDate = postService.getPostByDate(startdate, enddate);
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);

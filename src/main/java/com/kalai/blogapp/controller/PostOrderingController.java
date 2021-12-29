@@ -56,7 +56,7 @@ public class PostOrderingController {
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         model.addAttribute("posts", searchResult);
-        model.addAttribute("noOfResult",searchResult.size());
+        model.addAttribute("noOfResult", searchResult.size());
         return "listofpost";
     }
 

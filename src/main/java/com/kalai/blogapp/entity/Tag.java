@@ -21,10 +21,8 @@ public class Tag {
     private Date tagCreatedAt;
     @Temporal(TemporalType.DATE)
     private Date tagUpdatedAt;
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "tags")
-    private Set<Post> posts=new HashSet<>();
-    public void setPosts(Set<Post> posts){this.posts=posts;}
-    public  Set<Post> getPosts(){return posts;}
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tags")
+    private Set<Post> posts = new HashSet<>();
 
     public Tag() {
     }
@@ -34,6 +32,14 @@ public class Tag {
         this.tagName = tagName;
         this.tagCreatedAt = tagCreatedAt;
         this.tagUpdatedAt = tagUpdatedAt;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

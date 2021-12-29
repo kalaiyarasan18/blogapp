@@ -21,6 +21,7 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     public Comment getPostIdByCommentId(int id);
 
     List<Comment> findByCommentedPostId(long id);
+
     @Modifying
     @Transactional
     @Query("update Comment c set c.commenterName = ?1, c.commenterEmail = ?2," +

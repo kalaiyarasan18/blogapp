@@ -14,15 +14,12 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.kalai.blogapp.controller.PostController.globalPost;
 
 @Service
 public class PostServiceImp implements PostServicePagable {
     @Resource
-    PostRepositoryPagable postRepositoryPagable;
-    @Autowired
     PostRepository postRepository;
     @Autowired
     TagRepository tagRepository;
@@ -72,32 +69,33 @@ public class PostServiceImp implements PostServicePagable {
         return authors;
     }
 
-    public List<Post> searchAllBySearch(String search){
-        Set<Post> postSet=new TreeSet<>();
-        List<Post> postWithoutDuplicate=new ArrayList<>();
-        String[] searchQuery=search.split(",");
-        for(String query:searchQuery){
+    public List<Post> searchAllBySearch(String search) {
+        Set<Post> postSet = new TreeSet<>();
+        List<Post> postWithoutDuplicate = new ArrayList<>();
+        String[] searchQuery = search.split(",");
+        for (String query : searchQuery) {
             postSet.addAll(postRepository.findAllBySearch(query));
         }
         postWithoutDuplicate.addAll(postSet);
-        List<Post> filteredPost=new ArrayList<>();
-        for(Post eachPost:postWithoutDuplicate){
-            if(globalPost.contains(eachPost)){
+        List<Post> filteredPost = new ArrayList<>();
+        for (Post eachPost : postWithoutDuplicate) {
+            if (globalPost.contains(eachPost)) {
                 filteredPost.add(eachPost);
             }
         }
         return postWithoutDuplicate;
     }
 
-
-    public boolean checkIfPresent(Post post,List<Post> list){
-        boolean res=false;
-        for(Post p:list){
-            if(p.equals(post)){
-                res=true;
+   public List<Post> compareGlobal(List<Post> listOfPost){
+        List<Post> comparedPosts=new ArrayList<>();
+        Set<Post> postSet=new HashSet<>();
+        for(Post eachPost:listOfPost){
+            if(globalPost.contains(eachPost)){
+                postSet.add(eachPost);
             }
         }
-        return res;
-    }
+        comparedPosts.addAll(postSet);
+        return  comparedPosts;
+   }
 }
 

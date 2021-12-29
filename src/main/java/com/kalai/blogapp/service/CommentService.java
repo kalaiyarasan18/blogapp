@@ -14,14 +14,8 @@ public class CommentService {
     @Autowired
     public CommentRepository commentRepository;
 
-    public void saveComment(Comment comment) {
-        commentRepository.save(comment);
-        System.out.print(comment);
-    }
-
     public List<Comment> commentById(long id) {
         List<Comment> commentList = commentRepository.findByCommentedPostId(id);
-        /*System.out.print("List of comment by id:"+commentList);*/
         return commentList;
     }
 
@@ -54,8 +48,5 @@ public class CommentService {
         comment1.setCommenterName(comment.getCommenterName());
         comment1.setCommentUpdatedAt(comment.getCommentUpdatedAt());
         commentRepository.save(comment1);
-        /*
-        commentRepository.updateComment(comment.getCommenterName(),comment.getCommenterEmail(),
-                comment.getCommentContent(),comment.getCommentUpdatedAt(),comment.getCommentId());*/
     }
 }

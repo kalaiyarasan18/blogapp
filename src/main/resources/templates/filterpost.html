@@ -26,19 +26,21 @@
                                    type="checkbox"
                             />
 
-                        </label><br><hr>
+                        </label><br>
+                        <hr>
                         <label><strong>Tags:</strong><br>
                             <input name="tag" th:each="tag : ${tags}"
                                    th:text="${tag}"
                                    th:value="${tag}"
                                    type="checkbox"
                             />
-                        </label><br><hr>
-                        <input class="btn btn-sm btn-info" type="submit" >
+                        </label><br>
+                        <hr>
+                        <input class="btn btn-sm btn-info" type="submit">
                     </form>
                     <form action="/filterBy" method="get">
                         Start:<input name="startdate" type="date"><br>
-                        End:<input name="enddate" type="date" ><br>
+                        End:<input name="enddate" type="date"><br>
                         <input type="submit">
                     </form>
                 </div>
@@ -84,7 +86,8 @@
                 </tr>
                 </tbody>
             </table>
-        </div></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
