@@ -27,9 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        @Override
         protected void configure(HttpSecurity http) throws Exception {
            http.authorizeRequests()
-                   .antMatchers("/listofpost","/filterpost").hasAnyAuthority("author","admin")
+                   .antMatchers("/filterpost","/new").hasAnyAuthority("author","admin")
                    .and().formLogin().loginPage("/login").loginProcessingUrl("/checkLogin")
-                   .permitAll().and().logout().permitAll().and().csrf().disable();
+                   .permitAll()
+                   .and()
+                   .logout().invalidateHttpSession(true)
+                   .clearAuthentication(true)
+                   .permitAll().and().csrf().disable();
 
     }
 }

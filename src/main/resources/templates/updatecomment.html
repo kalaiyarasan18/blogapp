@@ -1,11 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<title th:text="${postOfGivenId.postTitle}"></title>
+<title th:text="${post.title}"></title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
 <body class="box" style="margin-left:15%;margin-right:15%;">
 <div align="center" style="background:#f7f1e3">
-    <h3 class="field" th:text="${postOfGivenId.title}"></h3>
-    <p class="field" th:text="${postOfGivenId.content}"></p>
+    <h3 class="field" th:text="${post.title}"></h3>
+    <p class="field" th:text="${post.content}"></p>
     <hr>
     <div style="background:#f7f1e3">
         <h2>Comment</h2>
@@ -15,8 +15,8 @@
                    type="email"/><br>
             <textarea name="content" style="margin:5px; width:400px; height:200px;"
                       th:text="${commentData.content}"></textarea><br>
-            <input name="hiddenbtn" th:value="${postOfGivenId.id}" type="hidden"/>
-            <input name="hidden" th:value="${commentData.id}" type="hidden">
+            <input name="hiddenbtn" th:value="${post.id}" type="hidden"/>
+            <input name="hidden" th:value="${commentData.id}" type="hidden"/>
             <input type="submit">
         </form>
     </div>

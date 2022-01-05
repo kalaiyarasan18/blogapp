@@ -23,7 +23,7 @@ public class CommentController {
     CommentRepository commentRepository;
 
     @PostMapping(value = "comment")
-    public String commentHandler(
+    public String saveComment(
             @RequestParam("name") String name, @RequestParam("email") String email,
             @RequestParam("content") String content, @RequestParam("hiddenbtn") long id
     ) {
@@ -32,7 +32,7 @@ public class CommentController {
         comment.setEmail(email);
         comment.setContent(content);
         comment.setPostId(id);
-        commentService.handleSave(comment);
+        commentService.save(comment);
         return "redirect:/readMore/" + id;
     }
 
@@ -46,12 +46,11 @@ public class CommentController {
     @GetMapping(value = "updateComment/{commentId}")
     public String updateComment(Model model, @PathVariable("commentId") long id,
                                 @ModelAttribute("commentData") Comment comment) {
-        System.out.println("comment update reached " +id);
-        Comment beforeUpdateComment = commentRepository.findById(id);
-        long postId = beforeUpdateComment.getPostId();
+        Comment prevComment = commentRepository.findById(id);
+        long postId = prevComment.getPostId();
         Post postToShow = postService.getPostById(postId);
-        model.addAttribute("commentData", beforeUpdateComment);
-        model.addAttribute("postOfGivenId", postToShow);
+        model.addAttribute("commentData", prevComment);
+        model.addAttribute("post", postToShow);
         return "updatecomment";
     }
 

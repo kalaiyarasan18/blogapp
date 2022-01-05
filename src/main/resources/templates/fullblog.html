@@ -1,11 +1,12 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <title th:text="${postOfGivenId.title}"></title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
 <body class="box" style="margin-left:15%;margin-right:15%;">
 <!--=====Begins the displaying Content of blog post===================================== -->
 <div align="center" style="background:#f7f1e3">
-    <h3 class="field" th:text="${postOfGivenId.title}"></h3><hr>
+    <h3 class="field" th:text="${postOfGivenId.title}"></h3>
+    <hr>
     <h3 class="field" th:text="${tags}"></h3>
     <p class="field" th:text="${postOfGivenId.content}"></p>
 
@@ -22,7 +23,6 @@
         </form>
     </div>
     <!--=============================Begins the displaying comments ================================-->
-    <!-- th:value="${posts.postsid}" th:attr="name='commentedPostId'== th:field="*{commenterEmail}" th:field="*{commentContent}" -->
     <div style="background:#f7f1e3">
         <table border="2px solid #eee">
             <tbody>
@@ -30,9 +30,12 @@
                 <div style="margin:5px;background:#b2bec3;border-radius:8px;width:500px;">
                     <p align="right" style="background:#b7c9a5" th:text="${comments.name}"></p>
                     <p class="field" style="font-size:20px" th:text="${comments.content}"></p>
-                    <div sec:authorize="hasRole('admin')">
-                    <a class="btn btn-primary" th:href="@{'/updateComment/'+${comments.id}}">Edit</a>
-                    <a class="btn btn-danger" th:href="@{'/deleteComment/'+${comments.id}}"> Delete</a></div>
+                    <div th:if="${#request.userPrincipal}">
+                        <div th:if="${#authentication.getPrincipal().getUsername()} eq${postOfGivenId.author}">
+                            <a class="btn btn-primary" th:href="@{'/updateComment/'+${comments.id}}">Edit</a>
+                            <a class="btn btn-danger" th:href="@{'/deleteComment/'+${comments.id}}"> Delete</a>
+                        </div>
+                    </div>
                 </div>
             </tr>
             </tbody>

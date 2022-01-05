@@ -14,7 +14,7 @@ public class UserDetailsImpl implements UserDetails {
     private Users user;
 
     public UserDetailsImpl(Users user) {
-        super();
+        /*super();*/
         this.user = user;
     }
 
@@ -46,6 +46,13 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetailsImpl{" +
+                "user=" + user +
+                '}';
     }
 
     @Override

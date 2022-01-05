@@ -14,16 +14,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.metamodel.Metamodel;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.*;
-
-import static com.kalai.blogapp.controller.PostController.globalPost;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class PostServiceImp implements PostServicePagable {
@@ -68,6 +65,7 @@ public class PostServiceImp implements PostServicePagable {
         authors.addAll(authorSet);
         return authors;
     }
+/*
 
     public List<Post> searchAllBySearch(String search) {
         Set<Post> postSet = new TreeSet<>();
@@ -75,14 +73,10 @@ public class PostServiceImp implements PostServicePagable {
         for (String query : searchQuery) {
             postSet.addAll(postRepository.findAllBySearch(query));
         }
-        System.out.println("search query: " + search);
-        System.out.println("global list: " + globalPost.size());
-        System.out.println("searchresult list: " + postSet.size());
         List<Long> globalPostId = new ArrayList<>();
         for (Post post : globalPost) {
             globalPostId.add(post.getId());
         }
-        System.out.println("global post ids: " + globalPostId.size());
         Set<Post> set = new HashSet<>();
         for (Post eachPost : postSet) {
             System.out.println(eachPost.getId() + "==" + globalPostId.contains(eachPost.getId()));
@@ -90,18 +84,15 @@ public class PostServiceImp implements PostServicePagable {
                 set.add(eachPost);
             }
         }
-        System.out.println("final filtered: " + set);
-        System.out.println("before global size: " + globalPost.size());
         globalPost.clear();
         globalPost.addAll(set);
-        System.out.println("after global size: " + globalPost.size());
         return globalPost;
     }
+*/
 
     @Override
     public Page<Post> findAllPages(int offset, int limit) {
         Pageable pageable= PageRequest.of(offset, limit);
-        System.out.println(postRepository.findAll(pageable).getContent().size());
         return postRepository.findAll(pageable);
     }
 
@@ -111,9 +102,9 @@ public class PostServiceImp implements PostServicePagable {
     }
 
     @Transactional
-    public List<Post> processQuery(String toString) {
-        TypedQuery<Post> query=entityManager.createQuery(toString,Post.class);
-        //System.out.println("processed Query; \n\n"+toString);
+    public List<Post> processQuery(String stringQuery) {
+        TypedQuery<Post> query=entityManager.createQuery(stringQuery,Post.class);
+        System.out.println("Typed Query: "+stringQuery);
         return query.getResultList();
     }
 }

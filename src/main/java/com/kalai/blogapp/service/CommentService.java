@@ -18,7 +18,7 @@ public class CommentService {
         return commentRepository.findByPostId(id);
     }
 
-    public void handleSave(Comment comment) {
+    public void save(Comment comment) {
         Date currentTime = new Date();
         comment.setCreatedAt(currentTime);
         comment.setUpdatedAt(currentTime);

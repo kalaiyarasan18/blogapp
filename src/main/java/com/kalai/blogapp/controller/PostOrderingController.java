@@ -40,51 +40,38 @@ public class PostOrderingController {
     ) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
-        if (sortby != null) {
-            if (sortby.equals("desc")) {
-                stringBuilder.append("order by p.publishedAt desc ");
-            } else
-                stringBuilder.append("order by publishedAt asc ");
-            model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
-        } else if (query != null) {
-            List<Post> posts=new ArrayList();
-            String queries[]=query.split(",");
-            for(String keyword:queries){
-                posts.addAll(postRepository.findAllBySearch(keyword));
-            }
-            model.addAttribute("posts", posts);
-        } else if (search != null) {
+        if (search != null) {
             String sb = "select p from Post p where p.title like '%" + search + "%' or p.content like '%" + search + "%' or p.author like '%" + search + "%'" +
                     " or id in (select distinct pt.postId from PostTag pt,Tag t where pt.tagId=t.id and t.name like '%" + search + "%')";
-            System.out.println("reached filersearch");
             List<String> authors = postServiceImp.getAllAuthors();
             List<String> tags = postServiceImp.getAllTags();
             model.addAttribute("authors", authors);
             model.addAttribute("tags", tags);
             model.addAttribute("prev",search);
             model.addAttribute("posts", postServiceImp.processQuery(sb));
-            return "filterpost";
-        } else if (startdate != null && enddate != null) {
+            return "listofpost";
+        }else if (query != null) {
+            List<Post> posts=new ArrayList();
+            String queries[]=query.split(",");
+            for(String keyword:queries){
+                posts.addAll(postRepository.findAllBySearch(keyword));
+            }
+            model.addAttribute("posts", posts);
+        }
+        else if (startdate != null && enddate != null) {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
-            model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
+        }else if (sortby != null) {
+            if (sortby.equals("desc")) {
+                stringBuilder.append("order by p.publishedAt desc ");
+            } else
+                stringBuilder.append("order by publishedAt asc ");
         }
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
+        model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
         return "listofpost";
     }
-
-    @GetMapping(value = "filterOnSearch")
-    public String filterOnSearch(Model model, @RequestParam("prev") String prevQuery,
-                                 @RequestParam("author")String author) {
-        System.out.println("prevQuery = " + prevQuery);
-        String query="select p from Post p where p.id in ".concat(prevQuery);
-        System.out.println("new query = " + query);
-        model.addAttribute("posts",postServiceImp.processQuery(prevQuery));
-        return "filterpost";
-    }
-
-
 
 }

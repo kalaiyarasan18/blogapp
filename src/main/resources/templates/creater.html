@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <title>Create Post</title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
@@ -7,7 +7,8 @@
     <h2>Create New Blog Post </h2>
     <hr>
     <form action="createpost" method="post" th:action="@{createpost}" th:object="${posts}">
-        <input class="text" name="author" placeholder="Author name" type="text"><br>
+        <input class="text" name="author" placeholder="Author name" type="text"
+               th:value="${#authentication.getPrincipal().getUsername()}" readonly><br>
         <input class="text" name="title" placeholder="Title" type="text"><br>
         <input class="text" name="tag" placeholder="Tag" type="text"><br>
         <textarea class="textarea" name="excerpt" placeholder="postExcerpt"></textarea><br>
