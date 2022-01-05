@@ -1,35 +1,35 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-<title>Results:</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Blog Posts</title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
+<link rel="script" href="jquery.min.js">
 <body class="container-fluid">
 <div align="center" background="#322">
     <div class="row">
-        <div class="col col-md-2 aside" style="background:#eee margin:5px;">
+        <div class="col col-md-2 aside" style="background:#eee;">
             <div class="col" style="background:#CAD5E2;">
-                <form action="sortPost" method="post">
+                <form action="sortOnFilter" method="post">
                     Sort:
-                    <select name="sortBy">
+                    <select name="sortOnFilter">
                         <option value="PublishedTimeAsc">Published Time &#8593;</option>
                         <option value="PublishedTimeDsc">Published Time &#8595;</option>
                     </select>
-                    <input class="btn btn-sm btn-info" type="submit">
+                    <input class="btn btn-sm btn-warning" type="submit">
                 </form>
             </div>
             <div class="col">
                 <div class="row" style="background:#CAD5E2;">
-                    <form action="/" method="get">
+                    <form action="filterOnSearch" method="get">
                         <label><strong>Authors:</strong><br>
                             <input name="author" th:each="author : ${authors}"
                                    th:text="${author}"
                                    th:value="${author}"
                                    type="checkbox"
                             />
-
                         </label><br>
                         <hr>
                         <label><strong>Tags:</strong><br>
-                            <input name="tag" th:each="tag : ${tags}"
+                            <input name="author" th:each="tag : ${tags}"
                                    th:text="${tag}"
                                    th:value="${tag}"
                                    type="checkbox"
@@ -38,17 +38,13 @@
                         <hr>
                         <input class="btn btn-sm btn-info" type="submit">
                     </form>
-                    <form action="/filterBy" method="get">
-                        Start:<input name="startdate" type="date"><br>
-                        End:<input name="enddate" type="date"><br>
-                        <input type="submit">
-                    </form>
                 </div>
             </div>
-            <form action="search" method="get">
+            <form action="filterpost" method="post">
                 <input name="search" placeholder="Search" type="text">
-                <input class="btn btn-sm btn-info" type="submit">
+                <input class="btn btn-sm btn-success" id="search" type="submit">
             </form>
+            <a href="/reset">Reset</a>
         </div>
         <div class="col col-md-10box">
             <h4>Blog Posts</h4>
@@ -59,11 +55,6 @@
                     <a class="btn btn-dark" href="/new">Write Post</a>
                     <a class="btn btn-danger" href="/">Home</a>
                 </div>
-                <div class="col">
-                    <a class="btn btn-light" th:href="@{/?start=0&limit=10}">1</a>
-                    <a class="btn btn-light" th:href="@{/?start=11&limit=20}">2</a>
-                    <a class="btn btn-light" th:href="@{/?start=21&limit=30}">3</a>
-                </div>
             </div>
             <hr>
 
@@ -71,13 +62,13 @@
                 <tbody>
                 <tr th:each="post:${posts}">
                     <div class="blogtable">
+                        <h4 class="field" th:text="${post.title}"></h4>
+                        <h5 class="field" th:text="${post.author}"></h5><hr>
                         <div style="background:#84bfad">
-                            <p th:text="${post.postAuthor}"></p>
-                            <p th:text="${post.postPublishedAt}"></p>
+                            By: <p th:text="${post.author}"></p>
+                            On: <p th:text="${post.publishedAt}"></p>
                         </div>
                         <hr>
-                        <h4 class="field" th:text="${post.postTitle}"></h4>
-                        <h5 class="field" th:text="${post.postExcerpt}"></h5>
                         <hr>
                         <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
                         <a class="btn btn-primary btn-sm" th:href="@{'/updatePost/'+${post.id}}">Update Post</a>
@@ -88,6 +79,25 @@
             </table>
         </div>
     </div>
+    <div class="row">
+        <a class="btn btn-light" th:if="${pageno > 1}" th:href="@{'/?start='+${pageno - 1}}">Prev</a>
+        <span th:unless="${pageno > 1}">Prev</span>
+        <a class="btn btn-light" th:if="${pageno < totalpages}"
+           th:href="@{'/?start='+${pageno + 1}}">Next</a>
+        <span th:unless="${pageno < totalpages}">Next</span>
+    </div>
 </div>
+<script>
+   <!-- $(document).ready(function(){
+        alert("jquery and Ajax working...");
+       function getFilterData(){
+           alert("function called onlick");
+       }
+        $('.boxselector').click(function(){
+            $.get("filterData");
+       });
+    });-->
+</script>
 </body>
+
 </html>

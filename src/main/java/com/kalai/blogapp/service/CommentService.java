@@ -15,14 +15,13 @@ public class CommentService {
     public CommentRepository commentRepository;
 
     public List<Comment> commentById(long id) {
-        List<Comment> commentList = commentRepository.findByCommentedPostId(id);
-        return commentList;
+        return commentRepository.findByPostId(id);
     }
 
     public void handleSave(Comment comment) {
         Date currentTime = new Date();
-        comment.setCommentCreatedAt(currentTime);
-        comment.setCommentUpdatedAt(currentTime);
+        comment.setCreatedAt(currentTime);
+        comment.setUpdatedAt(currentTime);
         commentRepository.save(comment);
     }
 
@@ -31,22 +30,21 @@ public class CommentService {
     }
 
     public Comment getPostById(long id) {
-        Comment comment = commentRepository.findCommentedPostIdByCommentId(id);
+        Comment comment = commentRepository.findPostIdById(id);
         return comment;
     }
 
     public long getIdForPost(long id) {
-        Comment comment = commentRepository.findCommentedPostIdByCommentId(id);
-        return comment.getCommentedPostId();
+        Comment comment = commentRepository.findPostIdById(id);
+        return comment.getPostId();
     }
 
     public void update(Comment comment) {
-        System.out.println("inside service :" + comment);
-        Comment comment1 = commentRepository.findById(comment.getCommentId());
-        comment1.setCommentContent(comment.getCommentContent());
-        comment1.setCommenterEmail(comment.getCommenterEmail());
-        comment1.setCommenterName(comment.getCommenterName());
-        comment1.setCommentUpdatedAt(comment.getCommentUpdatedAt());
-        commentRepository.save(comment1);
+        Comment commentToUpdate = commentRepository.findById(comment.getId());
+        commentToUpdate.setContent(comment.getContent());
+        commentToUpdate.setEmail(comment.getEmail());
+        commentToUpdate.setName(comment.getName());
+        commentToUpdate.setUpdatedAt(comment.getUpdatedAt());
+        commentRepository.save(commentToUpdate);
     }
 }

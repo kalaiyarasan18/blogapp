@@ -5,90 +5,84 @@ import java.util.Date;
 
 @Entity
 public class Comment {
-
     @Id
-    @SequenceGenerator(
-            name = "comment_sequence",
-            sequenceName = "comment_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_sequence")
-    private long commentId;
-    private String commenterName;
-    private String commenterEmail;
-    private String commentContent;
-    private long commentedPostId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+    private String name;
+    private String email;
+    private String content;
+    private long postId;
     @Temporal(TemporalType.DATE)
-    private Date commentCreatedAt;
+    private Date createdAt;
     @Temporal(TemporalType.DATE)
-    private Date commentUpdatedAt;
+    private Date updatedAt;
 
     public Comment() {
     }
 
-    public Comment(String name, String email, String comment, long postId, Date createdAt, Date updatedAt) {
-        this.commenterName = name;
-        this.commenterEmail = email;
-        this.commentContent = comment;
-        this.commentedPostId = postId;
-        this.commentCreatedAt = createdAt;
-        this.commentUpdatedAt = updatedAt;
+    public Comment(String name, String email, String content, long postId, Date createdAt, Date updatedAt) {
+        this.name = name;
+        this.email = email;
+        this.content = content;
+        this.postId = postId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public long getCommentId() {
-        return commentId;
+    public long getId() {
+        return id;
     }
 
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getCommenterName() {
-        return commenterName;
+    public String getName() {
+        return name;
     }
 
-    public void setCommenterName(String commenterName) {
-        this.commenterName = commenterName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCommenterEmail() {
-        return commenterEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCommenterEmail(String commenterEmail) {
-        this.commenterEmail = commenterEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getCommentContent() {
-        return commentContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public long getCommentedPostId() {
-        return commentedPostId;
+    public long getPostId() {
+        return postId;
     }
 
-    public void setCommentedPostId(long commentedPostId) {
-        this.commentedPostId = commentedPostId;
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
-    public Date getCommentCreatedAt() {
-        return commentCreatedAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCommentCreatedAt(Date commentCreatedAt) {
-        this.commentCreatedAt = commentCreatedAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getCommentUpdatedAt() {
-        return commentUpdatedAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setCommentUpdatedAt(Date commentUpdatedAt) {
-        this.commentUpdatedAt = commentUpdatedAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 

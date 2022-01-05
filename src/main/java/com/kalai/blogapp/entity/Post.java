@@ -8,51 +8,43 @@ import java.util.Set;
 @Entity
 public class Post implements Comparable<Post> {
     @Id
-    @SequenceGenerator(
-            name = "post_sequence",
-            sequenceName = "post_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-    private String postTitle;
+    private String title;
     @Lob
-    private String postExcerpt;
+    private String excerpt;
     @Lob
-    private String postContent;
-    private String postAuthor;
+    private String content;
+    private String author;
     @Temporal(TemporalType.DATE)
-    private Date postPublishedAt;
-    private boolean postIsPublished;
+    private Date publishedAt;
+    private boolean isPublished;
     @Temporal(TemporalType.DATE)
-    private Date postCreatedAt;
+    private Date createdAt;
     @Temporal(TemporalType.DATE)
-    private Date postUpdatedAt;
+    private Date updatedAt;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
     )
     private Set<Tag> tags = new HashSet<>();
-
+    /*@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})*/
     public Post() {
     }
 
     public Post(String title, String excerpt, String content, String author, Date date) {
     }
 
-
     public Post(String title, String excerpt, String content, String author) {
-        postTitle = title;
-        postExcerpt = excerpt;
-        postContent = content;
-        postAuthor = author;
-        java.util.Date date = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        java.sql.Timestamp sqlTime = new java.sql.Timestamp(date.getTime());
-        postPublishedAt = sqlTime;
-        postIsPublished = true;
-        postCreatedAt = sqlTime;
-        postUpdatedAt = sqlTime;
+        this.title = title;
+        this.excerpt = excerpt;
+        this.content = content;
+        this.author = author;
+        publishedAt = new Date();
+        isPublished = true;
+        createdAt = new Date();
+        updatedAt = new Date();
     }
 
     public Set<Tag> getTags() {
@@ -71,81 +63,85 @@ public class Post implements Comparable<Post> {
         this.id = id;
     }
 
-    public String getPostTitle() {
-        return postTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPostExcerpt() {
-        return postExcerpt;
+    public String getExcerpt() {
+        return excerpt;
     }
 
-    public void setPostExcerpt(String postExcerpt) {
-        this.postExcerpt = postExcerpt;
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
     }
 
-    public String getPostContent() {
-        return postContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getPostAuthor() {
-        return postAuthor;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setPostAuthor(String postAuthor) {
-        this.postAuthor = postAuthor;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public Date getPostPublishedAt() {
-        return postPublishedAt;
+    public Date getPublishedAt() {
+        return publishedAt;
     }
 
-    public void setPostPublishedAt(Date postPublishedAt) {
-        this.postPublishedAt = postPublishedAt;
+    public void setPublishedAt(Date publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
-    public boolean isPostIsPublished() {
-        return postIsPublished;
+    public boolean isPublished() {
+        return isPublished;
     }
 
-    public void setPostIsPublished(boolean postIsPublished) {
-        this.postIsPublished = postIsPublished;
+    public void setPublished(boolean published) {
+        this.isPublished = published;
     }
 
-    public Date getPostCreatedAt() {
-        return postCreatedAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPostCreatedAt(Date postCreatedAt) {
-        this.postCreatedAt = postCreatedAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getPostUpdatedAt() {
-        return postUpdatedAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setPostUpdatedAt(Date postUpdatedAt) {
-        this.postUpdatedAt = postUpdatedAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
     public int compareTo(Post o) {
-        return this.getPostPublishedAt().compareTo(o.getPostCreatedAt());
+        return this.getPublishedAt().compareTo(o.getCreatedAt());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
     public String toString() {
-        return "Posts [postId=" + id + ", postTitle=" + postTitle + ", postExcerpt=" + postExcerpt
-                + ", postContent=" + postContent + ", postAuthor=" + postAuthor + ", postPublishedAt=" + postPublishedAt
-                + ", postIsPublished=" + postIsPublished + ", postCreatedAt=" + postCreatedAt + ", postUpdatedAt="
-                + postUpdatedAt + "]";
+        return "Posts [postId=" + id + " , postTitle=" + title + ", postExcerpt=" + excerpt
+                + ", postContent=" + content + ", postAuthor=" + author + ", postPublishedAt=" + publishedAt
+                + ", postIsPublished=" + isPublished + ", postCreatedAt=" + createdAt + ", postUpdatedAt="
+                + updatedAt + "]" + "\n";
     }
-
 }

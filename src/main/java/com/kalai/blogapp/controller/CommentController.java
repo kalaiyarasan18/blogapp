@@ -15,8 +15,10 @@ public class CommentController {
 
     @Autowired
     CommentService commentService;
+
     @Autowired
     PostService postService;
+
     @Autowired
     CommentRepository commentRepository;
 
@@ -26,26 +28,27 @@ public class CommentController {
             @RequestParam("content") String content, @RequestParam("hiddenbtn") long id
     ) {
         Comment comment = new Comment();
-        comment.setCommenterName(name);
-        comment.setCommenterEmail(email);
-        comment.setCommentContent(content);
-        comment.setCommentedPostId(id);
+        comment.setName(name);
+        comment.setEmail(email);
+        comment.setContent(content);
+        comment.setPostId(id);
         commentService.handleSave(comment);
         return "redirect:/readMore/" + id;
     }
 
     @GetMapping(value = "deleteComment/{commentId}")
     public String deleteComment(Model model, @PathVariable("commentId") Long id) {
-        Comment c = commentService.getPostById(id);
+        Comment comment = commentService.getPostById(id);
         commentService.deleteComment(id);
-        return "redirect:/readMore/" + c.getCommentedPostId();
+        return "redirect:/readMore/" + comment.getPostId();
     }
 
     @GetMapping(value = "updateComment/{commentId}")
     public String updateComment(Model model, @PathVariable("commentId") long id,
                                 @ModelAttribute("commentData") Comment comment) {
+        System.out.println("comment update reached " +id);
         Comment beforeUpdateComment = commentRepository.findById(id);
-        long postId = beforeUpdateComment.getCommentedPostId();
+        long postId = beforeUpdateComment.getPostId();
         Post postToShow = postService.getPostById(postId);
         model.addAttribute("commentData", beforeUpdateComment);
         model.addAttribute("postOfGivenId", postToShow);
@@ -58,11 +61,11 @@ public class CommentController {
             @RequestParam("content") String commentContent, @RequestParam("hidden") long commentId, Model model) {
 
         Comment commentToUpdate = commentRepository.findById(commentId);
-        commentToUpdate.setCommenterName(commenterName);
-        commentToUpdate.setCommenterEmail(commenterEmail);
-        commentToUpdate.setCommentContent(commentContent);
+        commentToUpdate.setName(commenterName);
+        commentToUpdate.setEmail(commenterEmail);
+        commentToUpdate.setContent(commentContent);
         commentRepository.save(commentToUpdate);
-        return "redirect:/readMore/" + commentToUpdate.getCommentedPostId();
+        return "redirect:/readMore/" + commentToUpdate.getPostId();
     }
 
 }

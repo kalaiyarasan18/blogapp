@@ -1,5 +1,4 @@
 package com.kalai.blogapp.entity;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,12 +6,7 @@ import java.util.Date;
 @Table(name = "post_tags")
 public class PostTag {
     @Id
-    @SequenceGenerator(
-            name = "post_sequence",
-            sequenceName = "post_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long postId;
     private long tagId;
     @Temporal(TemporalType.DATE)
@@ -51,6 +45,5 @@ public class PostTag {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 
 }

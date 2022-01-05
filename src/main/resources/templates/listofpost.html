@@ -1,31 +1,33 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <title>List of Posts</title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
+<link rel="script" href="jquery.min.js">
+<script src="jquery.min.js"></script>
 <body class="container-fluid">
 <div align="center" background="#322">
     <div class="row">
-        <div class="col col-md-2 aside" style="background:#eee margin:5px;">
+        <div class="col col-md-2 aside" style="background:#eee;">
             <div class="col" style="background:#CAD5E2;">
-                <form action="sortPost" method="post">
+                <form action="filterpost" method="post">
                     Sort:
-                    <select name="sortBy">
+                    <select name="sortBy" >
                         <option value="PublishedTimeAsc">Published Time &#8593;</option>
                         <option value="PublishedTimeDsc">Published Time &#8595;</option>
                     </select>
-                    <input class="btn btn-sm btn-info" type="submit">
+                    <input class="btn btn-sm btn-warning" type="submit">
                 </form>
             </div>
             <div class="col">
                 <div class="row" style="background:#CAD5E2;">
-                    <form action="/" method="get">
+                    <form action="/filterpost" method="post">
                         <label><strong>Authors:</strong><br>
-                            <input name="author" th:each="author : ${authors}"
+                            <input name="author"  th:each="author : ${authors}"
                                    th:text="${author}"
                                    th:value="${author}"
                                    type="checkbox"
+                                   onclick="show()"
                             />
-
                         </label><br>
                         <hr>
                         <label><strong>Tags:</strong><br>
@@ -33,22 +35,24 @@
                                    th:text="${tag}"
                                    th:value="${tag}"
                                    type="checkbox"
+                                   onclick="show()"
                             />
                         </label><br>
                         <hr>
                         <input class="btn btn-sm btn-info" type="submit">
                     </form>
-                    <form action="/filterBy" method="get">
+                    <form action="filterpost" method="post">
                         Start:<input name="startdate" type="date"><br>
                         End:<input name="enddate" type="date"><br>
-                        <input type="submit">
+                        <input  class="btn btn-sm btn-primary" type="submit">
                     </form>
                 </div>
             </div>
-            <form action="search" method="get">
+            <form action="filterpost" method="post">
                 <input name="search" placeholder="Search" type="text">
-                <input class="btn btn-sm btn-info" type="submit">
+                <input class="btn btn-sm btn-success" id="search" type="submit">
             </form>
+            <a href="/reset">Reset</a>
         </div>
         <div class="col col-md-10box">
             <h4>Blog Posts</h4>
@@ -59,11 +63,8 @@
                     <a class="btn btn-dark" href="/new">Write Post</a>
                     <a class="btn btn-danger" href="/">Home</a>
                 </div>
-                <div class="col">
-                    <a class="btn btn-light" th:href="@{/?start=0&limit=10}">1</a>
-                    <a class="btn btn-light" th:href="@{/?start=11&limit=20}">2</a>
-                    <a class="btn btn-light" th:href="@{/?start=21&limit=30}">3</a>
-                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <Strong>Welcome</Strong> <span sec:authentication="name"></span></div>
             </div>
             <hr>
 
@@ -71,23 +72,55 @@
                 <tbody>
                 <tr th:each="post:${posts}">
                     <div class="blogtable">
-                        <div style="background:#84bfad">
-                            <p th:text="${post.postAuthor}"></p>
-                            <p th:text="${post.postPublishedAt}"></p>
-                        </div>
-                        <hr>
-                        <h4 class="field" th:text="${post.postTitle}"></h4>
-                        <h5 class="field" th:text="${post.postExcerpt}"></h5>
-                        <hr>
+                        <h3 class="field" th:text="${post.title}"></h3>
+                        <strong>By: </strong><label th:text="${post.author}"></label>
+                        <strong>On: </strong><label th:text="${post.publishedAt}"></label><hr>
+                        <h5 class="field" th:text="${post.excerpt}"></h5><hr>
                         <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
+                        <div sec:authorize="hasRole('admin')" >
                         <a class="btn btn-primary btn-sm" th:href="@{'/updatePost/'+${post.id}}">Update Post</a>
                         <a class="btn btn-danger btn-sm" th:href="@{'/deletePost/'+${post.id}}"> Delete Post</a>
+                        </div>
                     </div>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row">
+        <a class="btn btn-light" th:if="${pageno > 1}" th:href="@{'/?start='+${pageno - 1}}">Prev</a>
+        <span th:unless="${pageno > 1}">Prev</span>
+        <a class="btn btn-light" th:if="${pageno < totalpages}"
+           th:href="@{'/?start='+${pageno + 1}}">Next</a>
+        <span th:unless="${pageno < totalpages}">Next</span>
+    </div>
 </div>
+<script>
+$(document).ready(function(){
+
+});
+ function filterpost(){
+    var action='filterpost';
+    var data=show();
+    $.ajax({
+       url:'filterpost',
+       method:"POST",
+       data:{action:action,data:data},
+       success:function(data){
+       $('.filterdata').html(data);
+       }
+    });
+    function show(){
+        alert(checked);
+        var filter=[];
+        $("input:checkbox:checked").each(function(){
+             filter.push($(this).val);
+        });
+        return filter;
+
+     };
+
+</script>
 </body>
+
 </html>

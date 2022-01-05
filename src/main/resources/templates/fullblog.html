@@ -1,14 +1,13 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<title th:text="${postOfGivenId.postTitle}"></title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<title th:text="${postOfGivenId.title}"></title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
 <body class="box" style="margin-left:15%;margin-right:15%;">
 <!--=====Begins the displaying Content of blog post===================================== -->
 <div align="center" style="background:#f7f1e3">
-    <h3 class="field" th:text="${postOfGivenId.postTitle}"></h3>
-    <h4>Tags:</h4>
+    <h3 class="field" th:text="${postOfGivenId.title}"></h3><hr>
     <h3 class="field" th:text="${tags}"></h3>
-    <p class="field" th:text="${postOfGivenId.postContent}"></p>
+    <p class="field" th:text="${postOfGivenId.content}"></p>
 
     <hr>
     <div style="background:#f7f1e3">
@@ -29,10 +28,11 @@
             <tbody>
             <tr th:each="comments:${comments}">
                 <div style="margin:5px;background:#b2bec3;border-radius:8px;width:500px;">
-                    <p align="right" style="background:#b7c9a5" th:text="${comments.commenterName}"></p>
-                    <p class="field" style="font-size:20px" th:text="${comments.commentContent}"></p>
-                    <a class="btn btn-primary" th:href="@{'/updateComment/'+${comments.commentId}}">Edit</a>
-                    <a class="btn btn-danger" th:href="@{'/deleteComment/'+${comments.commentId}}"> Delete</a>
+                    <p align="right" style="background:#b7c9a5" th:text="${comments.name}"></p>
+                    <p class="field" style="font-size:20px" th:text="${comments.content}"></p>
+                    <div sec:authorize="hasRole('admin')">
+                    <a class="btn btn-primary" th:href="@{'/updateComment/'+${comments.id}}">Edit</a>
+                    <a class="btn btn-danger" th:href="@{'/deleteComment/'+${comments.id}}"> Delete</a></div>
                 </div>
             </tr>
             </tbody>

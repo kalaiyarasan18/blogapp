@@ -8,30 +8,25 @@ import java.util.Set;
 @Entity
 public class Tag {
     @Id
-    @SequenceGenerator(
-            name = "tagSequence",
-            sequenceName = "tagSequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tagSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     @Column(unique = true)
-    private String tagName;
+    private String name;
     @Temporal(TemporalType.DATE)
-    private Date tagCreatedAt;
+    private Date createdAt;
     @Temporal(TemporalType.DATE)
-    private Date tagUpdatedAt;
+    private Date updatedAt;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tags")
     private Set<Post> posts = new HashSet<>();
 
     public Tag() {
     }
 
-    public Tag(long id, String tagName, Date tagCreatedAt, Date tagUpdatedAt) {
+    public Tag(long id, String name, Date createdAt, Date updatedAt) {
         this.id = id;
-        this.tagName = tagName;
-        this.tagCreatedAt = tagCreatedAt;
-        this.tagUpdatedAt = tagUpdatedAt;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Set<Post> getPosts() {
@@ -46,9 +41,9 @@ public class Tag {
     public String toString() {
         return "Tag{" +
                 "tagId=" + id +
-                ", tagName='" + tagName + '\'' +
-                ", tagCreatedAt=" + tagCreatedAt +
-                ", tagUpdatedAt=" + tagUpdatedAt +
+                ", tagName='" + name + '\'' +
+                ", tagCreatedAt=" + createdAt +
+                ", tagUpdatedAt=" + updatedAt +
                 '}';
     }
 
@@ -60,28 +55,28 @@ public class Tag {
         this.id = id;
     }
 
-    public String getTagName() {
-        return tagName;
+    public String getName() {
+        return name;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getTagCreatedAt() {
-        return tagCreatedAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTagCreatedAt(Date tagCreatedAt) {
-        this.tagCreatedAt = tagCreatedAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getTagUpdatedAt() {
-        return tagUpdatedAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setTagUpdatedAt(Date tagUpdatedAt) {
-        this.tagUpdatedAt = tagUpdatedAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 

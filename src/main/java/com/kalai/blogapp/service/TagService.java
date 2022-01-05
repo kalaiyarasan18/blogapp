@@ -1,6 +1,5 @@
 package com.kalai.blogapp.service;
 
-import com.kalai.blogapp.entity.Tag;
 import com.kalai.blogapp.repository.PostTagRepository;
 import com.kalai.blogapp.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import java.util.List;
 
 @Service
 public class TagService {
-
     @Autowired
     TagRepository tagRepository;
     @Autowired
@@ -18,15 +16,11 @@ public class TagService {
 
     public String tagByPostId(long postId) {
         List<String> tags = tagRepository.findByPostId(postId);
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (String eachTag : tags) {
-            sb.append(" # " + eachTag);
+            stringBuilder.append(" # " + eachTag);
         }
-        return sb.toString();
-    }
-
-    public Tag getTagById(long id) {
-        return tagRepository.findById(id);
+        return stringBuilder.toString();
     }
 
 }

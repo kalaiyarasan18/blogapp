@@ -9,12 +9,11 @@ import java.util.List;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
+    Tag findByName(String tag);
 
-    public Tag findByTagName(String tag);
+    Tag findById(long tagId);
 
-    public Tag findById(long tagId);
-
-    @Query(value = "select tag_name from tag t inner join post_tags pt on t.id=pt.tag_id where pt.post_id=?1", nativeQuery = true)
-    public List<String> findByPostId(long postId);
+    @Query(value = "select name from tag t inner join post_tags pt on t.id=pt.tag_id where pt.post_id=?1", nativeQuery = true)
+    List<String> findByPostId(long postId);
 
 }
