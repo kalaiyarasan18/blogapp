@@ -14,7 +14,7 @@ public class RestApiController {
     PostService postService;
 
     @GetMapping("/all")
-    public @ResponseBody List<Post> testApi(){
+    public  List<Post> testApi(){
         return postService.getAllPosts();
     }
 
