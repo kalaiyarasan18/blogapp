@@ -1,0 +1,140 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Search Results</title>
+<link href="style.css" rel="Stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
+<link rel="script" href="jquery.min.js">
+<script src="jquery.min.js"></script>
+<body class="container-fluid">
+<div align="center" background="#322">
+    <div class="row">
+        <div class="col col-md-2 aside" style="background:#eee;">
+            <div class="col" style="background:#CAD5E2;">
+                <div class="col">
+                    <form action="/insearch" method="post">
+                        <input type="hidden" name="keyword" th:value="${prev}">
+                        <div class="row" style="background:#CAD5E2;">
+                            <label><strong>Authors:</strong><br>
+                                <input name="author" th:each="author : ${authors}"
+                                       th:text="${author}"
+                                       th:value="${author}"
+                                       type="checkbox"
+                                />
+                            </label><br>
+                            <hr>
+                            <label><strong>Tags:</strong><br>
+                                <input name="author" th:each="tag : ${tags}"
+                                       th:text="${tag}"
+                                       th:value="${tag}"
+                                       type="checkbox"
+                                />
+                            </label><br>
+                            <hr>
+                            <div>
+                                <span>
+                                Start:<input name="startdate" type="date"><br>
+                                End:<input name="enddate" type="date"><br></span>
+                                Sort:
+                                <select name="sortBy">
+                                    <option value="asc">Published Time &#8593;</option>
+                                    <option value="desc">Published Time &#8595;</option>
+                                </select>
+                                <input class="btn btn-sm btn-success" type="submit">
+                            </div>
+                        </div>
+                    </form>
+                    <div><span>
+                        <form action="search" method="get">
+                            <input type="text" name="search" placeholder="Search">
+                            <input class="btn btn-sm btn-danger" type="submit">
+                        </form></span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/reset">Reset</a>
+        </div>
+        <div class="col col-md-10box">
+            <h4>Blog Posts</h4>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <strong>Available Result:<p th:text="${noOfResult}"></p></strong>
+                    <a class="btn btn-dark" href="/new">Write Post</a>
+                    <a class="btn btn-danger" href="/">Home</a>
+                    <a class="btn btn-primary" href="/login">Login</a>
+                </div>
+                <div>
+                    <div sec:authorize="isAuthenticated()">
+                        <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
+                        <a th:href="@{/logout}"><input type="button" class="btn btn-sm btn-info" value="Logout"></a>
+                    </div></div>
+
+            </div>
+            <hr>
+
+            <table border="2px solid #eee">
+                <tbody>
+                <tr th:each="post:${posts}">
+                    <div class="blogtable">
+                        <h3 class="field" th:text="${post.title}"></h3>
+                        <strong>By: </strong><label th:text="${post.author}"></label>
+                        <strong>On: </strong><label th:text="${post.publishedAt}"></label>
+                        <hr>
+                        <h5 class="field" th:text="${post.excerpt}"></h5>
+                        <hr>
+                        <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
+                        <div th:if="${#request.userPrincipal}">
+                            <div th:if="${#authentication.getPrincipal().getUsername()} eq${post.author}">
+                                <a class="btn btn-primary btn-sm" th:href="@{'/updatePost/'+${post.id}}">Update
+                                    Post</a>
+                                <a class="btn btn-danger btn-sm" th:href="@{'/deletePost/'+${post.id}}"> Delete
+                                    Post</a>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-light" th:if="${pageno > 1}" th:href="@{'/?start='+${pageno - 1}}">Prev</a>
+        <span th:unless="${pageno > 1}">Prev</span>
+        <a class="btn btn-light" th:if="${pageno < totalpages}"
+           th:href="@{'/?start='+${pageno + 1}}">Next</a>
+        <span th:unless="${pageno < totalpages}">Next</span>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+
+});
+ function filterpost(){
+    var action='filterpost';
+    var data=show();
+    $.ajax({
+       url:'filterpost',
+       method:"POST",
+       data:{action:action,data:data},
+       success:function(data){
+       $('.filterdata').html(data);
+       }
+    });
+    function show(){
+        alert(checked);
+        var filter=[];
+        $("input:checkbox:checked").each(function(){
+             filter.push($(this).val);
+        });
+        return filter;
+
+     };
+
+
+
+
+
+</script>
+</body>
+
+</html>

@@ -42,6 +42,7 @@ public class PostController {
         model.addAttribute("totalpages", postServiceImp.findAllPages(start, limit).getTotalPages());
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
+        model.addAttribute("authors",authors);
         model.addAttribute("tags", tags);
         return "listofpost";
     }
