@@ -38,29 +38,29 @@ public class PostOrderingController {
                              @RequestParam(value = "enddate", required = false) String enddate,
                              @RequestParam(value = "search", required = false) String search, Model model
     ) {
-        System.out.println("sortby,query,dates" + sortby+" "+query+" "+startdate+" "+enddate);
+        System.out.println("sortby,query,dates" + sortby+" "+query+" "+startdate+" "+enddate+"\n");
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
         if (query != null) {
-            System.out.println("Reached query filter ");
             stringBuilder.delete(0,stringBuilder.length());
             stringBuilder.append(postService.buildQueryForFilter(query));
         }
         if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
         }
-        if (sortby != "") {
+        if (sortby != null) {
+            System.out.println("sortby value is :"+sortby);
             if (sortby.equals("desc")) {
                 stringBuilder.append("order by p.publishedAt desc ");
             } else {
-                stringBuilder.append("order by publishedAt asc ");
+                stringBuilder.append("order by p.publishedAt asc ");
             }
         }
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
-        System.out.println("final query before exec "+stringBuilder.toString());
+        System.out.println("final query before exec "+stringBuilder.toString()+"\n");
         model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
         return "listofpost";
     }
