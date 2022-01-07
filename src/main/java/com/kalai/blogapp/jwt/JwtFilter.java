@@ -1,3 +1,4 @@
+/*
 package com.kalai.blogapp.jwt;
 
 import com.kalai.blogapp.security.UserServiceImpl;
@@ -53,3 +54,4 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }
+*/

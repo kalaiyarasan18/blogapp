@@ -90,7 +90,7 @@ public class PostService {
         for(String query:keywords){
             sb.append("q.author like '%"+query+"%' or ");
         }
-        sb.append("qp.id=pt.postId and pt.tagId=t.id and ");
+        sb.append("q.id=pt.postId and pt.tagId=t.id and ");
         for(String query:keywords){
             sb.append("t.name like '%"+query+"%' or ");
         }
