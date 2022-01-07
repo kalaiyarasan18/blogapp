@@ -17,8 +17,7 @@ import java.util.*;
 
 @Controller
 public class PostController {
-    public static List<Post> globalPost = new ArrayList<>();
-    public static int limit = 10;
+    public static final int limit = 10;
     @Autowired
     PostRepository postsrepository;
 
@@ -88,7 +87,7 @@ public class PostController {
         List<Post> posts = postService.getAllPosts();
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
-        model.addAttribute("posts", globalPost);
+        model.addAttribute("posts", posts);
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "redirect:/listofpost";
@@ -107,8 +106,9 @@ public class PostController {
     }
 
     @PostMapping(value = "updatepost")
-    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model) {
-        postService.postToUpdate(posts);
+    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model,@RequestParam("tag")String tag) {
+        postService.savePost(posts,tag);
+        //postService.postToUpdate(posts);
         model.addAttribute("posts", posts);
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();

@@ -41,15 +41,6 @@ public class PostOrderingController {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
         if (query != null) {
-            /*List<Post> posts = new ArrayList<Post>();
-            posts.addAll(postServiceImp.processQuery(postService.buildQueryForFilter(query)));
-            System.out.println("author posts = " + posts.size());
-            List<String> authors = postServiceImp.getAllAuthors();
-            List<String> tags = postServiceImp.getAllTags();
-            model.addAttribute("authors", authors);
-            model.addAttribute("tags", tags);
-            model.addAttribute("posts", posts);
-            return "listofpost";*/
             stringBuilder.delete(0,stringBuilder.length());
             stringBuilder.append(postService.buildQueryForFilter(query));
         }
