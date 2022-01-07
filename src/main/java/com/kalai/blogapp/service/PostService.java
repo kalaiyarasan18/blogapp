@@ -64,18 +64,6 @@ public class PostService {
                 posts.getAuthor(), date);
     }
 
-    public List<Post> getPostByDate(String startDate, String endDate) throws ParseException {
-        List<Post> postBetweenDate = new ArrayList<>();
-        List<Post> allPostFromDb = new ArrayList<>();
-        allPostFromDb.addAll(postsrepository.findAll());
-        for (Post eachPost : allPostFromDb) {
-            String date = eachPost.getPublishedAt().toString();
-            if (startDate.compareTo(date) <= 0 && endDate.compareTo(date) >= 0) {
-                postBetweenDate.add(eachPost);
-            }
-        }
-        return postBetweenDate;
-    }
 
     public String buildQueryforSearch(String keyword){
         String sb = "select p from Post p where p.title like '%" + keyword + "%' or p.content like '%" + keyword + "%' or p.author like '%" + keyword + "%'" +
@@ -86,11 +74,11 @@ public class PostService {
     public String buildQueryForFilter(String keyword){
         String keywords[]=keyword.split(",");
         StringBuilder sb=new StringBuilder();
-        sb.append("select distinct q from Post q,PostTag pt,Tag t where ");
+        sb.append("select distinct p from Post p,PostTag pt,Tag t where ");
         for(String query:keywords){
-            sb.append("q.author like '%"+query+"%' or ");
+            sb.append("p.author like '%"+query+"%' or ");
         }
-        sb.append("q.id=pt.postId and pt.tagId=t.id and ");
+        sb.append("p.id=pt.postId and pt.tagId=t.id and ");
         for(String query:keywords){
             sb.append("t.name like '%"+query+"%' or ");
         }

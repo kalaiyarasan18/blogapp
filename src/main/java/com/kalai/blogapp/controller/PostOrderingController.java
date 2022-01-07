@@ -38,6 +38,7 @@ public class PostOrderingController {
                              @RequestParam(value = "enddate", required = false) String enddate,
                              @RequestParam(value = "search", required = false) String search, Model model
     ) {
+        System.out.println("sortby , author , keyword , startdate==>" + sortby+" "+query+" "+startdate+" "+enddate);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
         if (query != null) {
@@ -93,9 +94,9 @@ public class PostOrderingController {
            stringBuilder.append("and p in (").append(postService.buildQueryForFilter(query)).append(")");
            System.out.println("after adding author qury: "+stringBuilder.toString()+"\n");
         }
-       /* if (startdate != "" && enddate != "") {
+        if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
-        }*/
+        }
         if (sortby != null) {
             if (sortby.equals("desc")) {
                 stringBuilder.append("order by p.publishedAt desc ");
