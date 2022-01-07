@@ -44,7 +44,7 @@ public class PostOrderingController {
             stringBuilder.delete(0,stringBuilder.length());
             stringBuilder.append(postService.buildQueryForFilter(query));
         }
-        if (startdate != "" && enddate != "") {
+        if (startdate != null && enddate != null) {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
         }
         if (sortby != null) {
@@ -90,10 +90,10 @@ public class PostOrderingController {
         stringBuilder.append(postService.buildQueryforSearch(search)).append(") ");
         if (query != null) {
             System.out.println("Reached insearch query: "+query+"\n");
-          /* stringBuilder.append("and (").append(postService.buildQueryForFilter(query)).append(")");*/
+           stringBuilder.append("and (").append(postService.buildQueryForFilter(query)).append(")");
            System.out.println("after adding author qury: "+stringBuilder.toString()+"\n");
         }
-        if (startdate != "" && enddate != "") {
+        if (startdate != null && enddate != null) {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
         }
         if (sortby != null) {

@@ -26,10 +26,10 @@ public class Post implements Comparable<Post> {
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
-    )
+   )
     private Set<Tag> tags = new HashSet<>();
-    /*@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})*/
+//    @OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+//    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})
     public Post() {
     }
 
