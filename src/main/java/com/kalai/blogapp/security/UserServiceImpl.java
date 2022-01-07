@@ -3,7 +3,6 @@ package com.kalai.blogapp.security;
 import com.kalai.blogapp.entity.Users;
 import com.kalai.blogapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,5 +1,7 @@
 package com.kalai.blogapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,6 +18,7 @@ public class Tag {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private Set<Post> posts = new HashSet<>();
 

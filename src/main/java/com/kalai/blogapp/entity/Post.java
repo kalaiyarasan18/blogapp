@@ -1,5 +1,7 @@
 package com.kalai.blogapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,13 +25,14 @@ public class Post implements Comparable<Post> {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
+    @JsonManagedReference
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
    )
-    private Set<Tag> tags = new HashSet<>();
-//    @OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-//    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})
+    private Set<Tag> tags = new HashSet<>();/*
+    @OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})*/
     public Post() {
     }
 
