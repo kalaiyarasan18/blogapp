@@ -16,7 +16,7 @@ public class Tag {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tags")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private Set<Post> posts = new HashSet<>();
 
     public Tag() {

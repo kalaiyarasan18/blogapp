@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>List of Posts</title>
+<title>Articles</title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
 <link rel="script" href="jquery.min.js">
@@ -18,7 +18,7 @@
                                        th:value="${author}"
                                        type="checkbox"
                                 />
-                            </label><br>
+                            </label>
                             <hr>
                             <label><strong>Tags:</strong><br>
                                 <input name="author" th:each="tag : ${tags}"
@@ -26,7 +26,7 @@
                                        th:value="${tag}"
                                        type="checkbox"
                                 />
-                            </label><br>
+                            </label>
                             <hr>
                             <div>
                                 <span>
@@ -37,20 +37,13 @@
                                     <option value="asc">Published Time &#8593;</option>
                                     <option value="desc">Published Time &#8595;</option>
                                 </select>
-                                <input class="btn btn-sm btn-success" type="submit">
+                                <input class="btn btn-sm btn-success" type="submit"><hr>
+                                <a href="/reset"><input type="button" class="btn-sm btn-dark" value="Reset"></input></a>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
-            <span style="background:#03203C;">
-                <form action="search" method="get">
-                    <input type="text" name="search">
-                    <input class="btn-sm btn-secondary" type="submit">
-                </form>
-            </span>
-            <a href="/reset">Reset</a>
-        </div>
+            </div></div>
         <div class="col col-md-10box">
             <h4>Blog Posts</h4>
             <hr>
@@ -61,6 +54,12 @@
                     <a class="btn btn-danger" href="/">Home</a>
                     <a class="btn btn-primary" href="/login">Login</a>
                 </div>
+                <div>
+                <form action="search" method="get">
+                    <input type="text" name="search" placeholder="search"><br>
+                    <input type="submit" class="btn-sm btn-secondary">
+                </form>
+            </div>
                 <div>
                     <div sec:authorize="isAuthenticated()">
                         <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
@@ -97,7 +96,7 @@
             </table>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="background:#03203C;">
         <a class="btn btn-light" th:if="${pageno > 1}" th:href="@{'/?start='+${pageno - 1}}">Prev</a>
         <span th:unless="${pageno > 1}">Prev</span>
         <a class="btn btn-light" th:if="${pageno < totalpages}"

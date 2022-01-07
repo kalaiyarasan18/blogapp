@@ -19,7 +19,7 @@
                                        th:value="${author}"
                                        type="checkbox"
                                 />
-                            </label><br>
+                            </label>
                             <hr>
                             <label><strong>Tags:</strong><br>
                                 <input name="author" th:each="tag : ${tags}"
@@ -27,7 +27,7 @@
                                        th:value="${tag}"
                                        type="checkbox"
                                 />
-                            </label><br>
+                            </label>
                             <hr>
                             <div>
                                 <span>
@@ -38,30 +38,24 @@
                                     <option value="asc">Published Time &#8593;</option>
                                     <option value="desc">Published Time &#8595;</option>
                                 </select>
-                                <input class="btn btn-sm btn-success" type="submit">
+                                <input class="btn btn-sm btn-success" type="submit"><hr>
                             </div>
                         </div>
                     </form>
-                    <div><span>
-                        <form action="search" method="get">
-                            <input type="text" name="search" placeholder="Search">
-                            <input class="btn btn-sm btn-danger" type="submit">
-                        </form></span>
-                    </div>
                 </div>
             </div>
 
             <a href="/reset">Reset</a>
         </div>
         <div class="col col-md-10box">
-            <h4>Blog Posts</h4>
-            <hr>
             <div class="row">
                 <div class="col">
                     <strong>Available Result:<p th:text="${noOfResult}"></p></strong>
-                    <a class="btn btn-dark" href="/new">Write Post</a>
-                    <a class="btn btn-danger" href="/">Home</a>
-                    <a class="btn btn-primary" href="/login">Login</a>
+                    <a class="btn-md btn-dark" href="/">Home</a><br>
+                    <form action="search" method="get">
+                        <input type="text" name="search" placeholder="Search">
+                        <input class="btn btn-sm btn-danger" type="submit">
+                    </form>
                 </div>
                 <div>
                     <div sec:authorize="isAuthenticated()">

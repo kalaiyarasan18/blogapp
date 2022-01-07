@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
            http.authorizeRequests()
                    .antMatchers("/updatePost/**","deletePost/**","/readMore/*",
-                           "/new","/search/**")
+                           "/new")
                    .hasAnyAuthority("author","admin")
                    .and().formLogin().loginPage("/login").loginProcessingUrl("/checkLogin")
                    .permitAll()
