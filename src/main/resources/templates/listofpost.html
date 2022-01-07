@@ -10,7 +10,7 @@
         <div class="col col-md-2 aside" style="background:#eee;">
             <div class="col" style="background:#CAD5E2;">
                 <div class="col">
-                    <form action="/filterpost" method="post">
+                    <form action="/filterpost" method="get">
                         <div class="row" style="background:#CAD5E2;">
                             <label><strong>Authors:</strong><br>
                                 <input name="author" th:each="author : ${authors}"
@@ -41,15 +41,14 @@
                             </div>
                         </div>
                     </form>
-                    <div><span>
-                        <form action="search" method="get">
-                            <input type="text" name="search" placeholder="Search">
-                            <input class="btn btn-sm btn-danger" type="submit">
-                        </form></span>
-                    </div>
                 </div>
             </div>
-
+            <span style="background:#03203C;">
+                <form action="search" method="get">
+                    <input type="text" name="search">
+                    <input class="btn-sm btn-secondary" type="submit">
+                </form>
+            </span>
             <a href="/reset">Reset</a>
         </div>
         <div class="col col-md-10box">
@@ -63,10 +62,11 @@
                     <a class="btn btn-primary" href="/login">Login</a>
                 </div>
                 <div>
-                <div sec:authorize="isAuthenticated()">
-                    <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
-                    <a th:href="@{/logout}"><input type="button" class="btn btn-sm btn-info" value="Logout"></a>
-                </div></div>
+                    <div sec:authorize="isAuthenticated()">
+                        <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
+                        <a th:href="@{/logout}"><input type="button" class="btn btn-sm btn-info" value="Logout"></a>
+                    </div>
+                </div>
 
             </div>
             <hr>
@@ -129,6 +129,7 @@ $(document).ready(function(){
         return filter;
 
      };
+
 
 
 

@@ -90,7 +90,7 @@ public class PostController {
         model.addAttribute("posts", posts);
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
-        return "redirect:/listofpost";
+        return "redirect:/";
     }
 
     @GetMapping(value = "updatePost/{postId}")

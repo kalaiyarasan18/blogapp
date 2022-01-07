@@ -86,16 +86,15 @@ public class PostService {
     public String buildQueryForFilter(String keyword){
         String keywords[]=keyword.split(",");
         StringBuilder sb=new StringBuilder();
-        sb.append("select distinct p from Post p,PostTag pt,Tag t where ");
+        sb.append("select distinct q from Post q,PostTag pt,Tag t where ");
         for(String query:keywords){
-            sb.append("p.author like '%"+query+"%' or ");
+            sb.append("q.author like '%"+query+"%' or ");
         }
-        sb.append("p.id=pt.postId and pt.tagId=t.id and ");
+        sb.append("qp.id=pt.postId and pt.tagId=t.id and ");
         for(String query:keywords){
             sb.append("t.name like '%"+query+"%' or ");
         }
         sb.delete(sb.length()-3,sb.length());
-        System.out.println("query for author "+sb.toString());
         return sb.toString();
     }
 }

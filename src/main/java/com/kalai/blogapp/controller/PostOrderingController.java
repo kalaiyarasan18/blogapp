@@ -31,7 +31,7 @@ public class PostOrderingController {
     private TagService tagService;
 
 
-    @PostMapping(value = "filterpost")
+    @GetMapping(value = "filterpost")
     public String filterData(@RequestParam(value = "sortBy", required = false) String sortby,
                              @RequestParam(value = "author", required = false) String query,
                              @RequestParam(value = "startdate", required = false) String startdate,
@@ -59,7 +59,6 @@ public class PostOrderingController {
         List<String> tags = postServiceImp.getAllTags();
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
-        System.out.println("final query before exec "+stringBuilder.toString()+"\n");
         model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
         return "listofpost";
     }
@@ -90,8 +89,9 @@ public class PostOrderingController {
         stringBuilder.append("select p from Post p where p in (");
         stringBuilder.append(postService.buildQueryforSearch(search)).append(") ");
         if (query != null) {
-          /* stringBuilder.append(" and (").append(postService.buildQueryForFilter(query));
-           stringBuilder.append(" )");*/
+            System.out.println("Reached insearch query: "+query+"\n");
+          /* stringBuilder.append("and (").append(postService.buildQueryForFilter(query)).append(")");*/
+           System.out.println("after adding author qury: "+stringBuilder.toString()+"\n");
         }
         if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
@@ -108,7 +108,7 @@ public class PostOrderingController {
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         model.addAttribute("posts", postServiceImp.processQuery(stringBuilder.toString()));
-        return "listofpost";
+        return "filterPost";
     }
 }
 

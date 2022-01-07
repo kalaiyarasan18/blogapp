@@ -23,7 +23,7 @@ public class Post implements Comparable<Post> {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
     )
