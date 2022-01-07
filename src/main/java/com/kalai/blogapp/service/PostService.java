@@ -95,6 +95,7 @@ public class PostService {
             sb.append("t.name like '%"+query+"%' or ");
         }
         sb.delete(sb.length()-3,sb.length());
+        System.out.println("query for author "+sb.toString());
         return sb.toString();
     }
 }
