@@ -12,38 +12,43 @@
                 <div class="col">
                     <form action="/filterpost" method="get">
                         <div class="row" style="background:#CAD5E2;">
-                            <label><strong>Authors:</strong><br>
-                                <input name="author" th:each="author : ${authors}"
-                                       th:text="${author}"
-                                       th:value="${author}"
-                                       type="checkbox"
-                                />
-                            </label>
-                            <hr>
-                            <label><strong>Tags:</strong><br>
-                                <input name="author" th:each="tag : ${tags}"
-                                       th:text="${tag}"
-                                       th:value="${tag}"
-                                       type="checkbox"
-                                />
-                            </label>
-                            <hr>
+                            <div class="row" style="background:#a0849d;">
+                                <div><strong>Authors:</strong></div><br>
+                                <li style="list-style:none;" th:each="author : ${authors}">
+                                    <input name="author"
+                                           th:value="${author}"
+                                           type="checkbox"
+                                    /><label th:text="${author}"></label></li>
+                            </div>
+                            <div class="row" style="background:#c6eae3;">
+                                <div><strong>Tags:</strong></div><br>
+                                <li style="list-style:none;" th:each="tag : ${tags}">
+                                    <input name="author"
+                                           th:value="${tag}"
+                                           type="checkbox"
+                                    />
+                                    <label th:text="${tag}"></label>
+                                    <br/>
+                                </li>
+                            </div>
                             <div>
                                 <span>
-                                Start:<input name="startdate" type="date"><br>
-                                End:<input name="enddate" type="date"><br></span>
-                                Sort:
+                                <strong>Start:</strong><input name="startdate" type="date"><br>
+                                <strong>End:</strong><input name="enddate" type="date"><br></span>
+                                <hr>
+                                <strong>Sort:</strong>
                                 <select name="sortBy">
                                     <option value="asc">Published Time &#8593;</option>
                                     <option value="desc">Published Time &#8595;</option>
                                 </select>
-                                <input class="btn btn-sm btn-success" type="submit"><hr>
-                                <a href="/reset"><input type="button" class="btn-sm btn-dark" value="Reset"></input></a>
+                                <input class="btn btn-sm btn-success m-2" type="submit" value="Filter">
+                                <hr>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div></div>
+            </div>
+        </div>
         <div class="col col-md-10box">
             <h4>Blog Posts</h4>
             <hr>
@@ -55,11 +60,11 @@
                     <a class="btn btn-primary" href="/login">Login</a>
                 </div>
                 <div>
-                <form action="search" method="get">
-                    <input type="text" name="search" placeholder="search"><br>
-                    <input type="submit" class="btn-sm btn-secondary">
-                </form>
-            </div>
+                    <form action="search" method="get">
+                        <input type="text" name="search" placeholder="search"><br>
+                        <input type="submit" class="btn-sm btn-secondary m-2" value="search">
+                    </form>
+                </div>
                 <div>
                     <div sec:authorize="isAuthenticated()">
                         <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
@@ -128,6 +133,7 @@ $(document).ready(function(){
         return filter;
 
      };
+
 
 
 

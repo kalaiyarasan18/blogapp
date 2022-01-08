@@ -54,7 +54,7 @@ public class RestApiController {
     }
 
     @GetMapping(value = "/search")
-    public List<Post> searchPost(Model model, @RequestParam("search") String search) {
+    public List<Post> searchPost(@RequestParam("search") String search) {
         String sb = "";
         if (search != null) {
             sb = "select p from Post p where p.title like '%" + search + "%' or p.content like '%" + search + "%' or p.author like '%" + search + "%'" +

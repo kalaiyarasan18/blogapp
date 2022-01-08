@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Post implements Comparable<Post> {
+public class Post  {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
@@ -30,9 +30,11 @@ public class Post implements Comparable<Post> {
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
    )
-    private Set<Tag> tags = new HashSet<>();/*
-    @OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-    @JoinColumn(joinColumns={@JoinColumn(name ="postId")}, inverseJoinColumns={@JoinColumn(name = "commentId")})*/
+    private Set<Tag> tags = new HashSet<>();
+
+    // @JoinColumn(joinColumns={@JoinColumn(name ="postId")},
+    // inverseJoinColumns={@JoinColumn(name = "commentId")})
+    // private List<Comment> comments;
     public Post() {
     }
 
@@ -128,11 +130,6 @@ public class Post implements Comparable<Post> {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public int compareTo(Post o) {
-        return this.getPublishedAt().compareTo(o.getCreatedAt());
     }
 
     @Override
