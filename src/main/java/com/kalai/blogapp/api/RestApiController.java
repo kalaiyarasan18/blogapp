@@ -1,13 +1,16 @@
 package com.kalai.blogapp.api;
 
+import com.kalai.blogapp.entity.AuthenticationRequest;
+import com.kalai.blogapp.entity.AuthenticationResponse;
 import com.kalai.blogapp.entity.Post;
-import com.kalai.blogapp.entity.Users;
+import com.kalai.blogapp.jwt.JwtTokenUtil;
 import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,21 +22,27 @@ public class RestApiController {
     PostService postService;
     @Autowired
     PostServiceImp postServiceImp;
-   /* @Autowired
-    AuthenticationManager authenticationManager;*/
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JwtTokenUtil jwUtil;
 
     @GetMapping("/post")
     public List<Post> getPosts() {
         return postService.getAllPosts();
     }
 
-   /* @PostMapping("/authenticate")
-    public  String authenticate(@RequestParam Users users) throws  Exception{
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(users.getUsername(),
-                users.getPassword()));
-        return jwtUtil.generateToken(users.getUsername());
-
-    }*/
+    @PostMapping(value = "/authenticate")
+    public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
+        try{
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
+                authRequest.getPassword()));
+        }catch (BadCredentialsException e){
+            throw new Exception("Incorrect username and password");
+        }
+        String jwt=jwUtil.generateToken(authRequest.getUsername());
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
 
     @PutMapping("/post")
     public boolean updatePost(@RequestBody Post post) {

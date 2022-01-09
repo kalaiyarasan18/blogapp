@@ -1,4 +1,3 @@
-/*
 package com.kalai.blogapp.jwt;
 
 import io.jsonwebtoken.Claims;
@@ -13,9 +12,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtUtil {
+public class JwtTokenUtil {
 
-    private String secret = "javatechie";
+    private static String secret = "kingart";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -42,8 +41,7 @@ public class JwtUtil {
         return createToken(claims, username);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
-
+    private static String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
@@ -55,4 +53,3 @@ public class JwtUtil {
     }
 }
 
-*/

@@ -11,7 +11,6 @@ public class Users {
     @Id
     private String username;
     private String password;
-
     public String getAuthorities() {
         return authorities;
     }
