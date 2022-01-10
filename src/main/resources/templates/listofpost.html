@@ -104,7 +104,7 @@
     <div class="row" style="background:#03203C;">
         <a class="btn btn-light" th:if="${pageno > 0}" th:href="@{'/?start='+${pageno - 1}}">Prev</a>
        <!-- <span th:unless="${pageno > 1}">Prev</span>-->
-        <a class="btn btn-light" th:if="${pageno < totalpages-1}"
+        <a class="btn btn-light" th:if="${pageno < totalpages }"
            th:href="@{'/?start='+${pageno + 1}}">Next</a>
         <!--<span th:unless="${pageno < totalpages}">Next</span>-->
     </div>

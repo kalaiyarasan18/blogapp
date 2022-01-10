@@ -44,9 +44,9 @@ public class RestApiController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PutMapping("/post")
+    @PostMapping("/post")
     public boolean updatePost(@RequestBody Post post) {
-        String tag = post.getTags().toString();
+        String tag = "testTag";
         postService.savePost(post, tag);
         return true;
     }
