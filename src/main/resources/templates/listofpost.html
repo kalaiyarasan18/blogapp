@@ -85,7 +85,6 @@
                         <hr>
                         <h5 class="field" th:text="${post.excerpt}"></h5>
                         <hr>
-                       <!-- <h5 th:text="${#authentication.getPrincipal()}"></h5>-->
                         <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
                         <div th:if="${#request.userPrincipal}">
                             <div th:if="${#authentication.getPrincipal().getUsername()} eq${post.author}">
@@ -109,38 +108,5 @@
         <!--<span th:unless="${pageno < totalpages}">Next</span>-->
     </div>
 </div>
-<script>
-$(document).ready(function(){
-
-});
- function filterpost(){
-    var action='filterpost';
-    var data=show();
-    $.ajax({
-       url:'filterpost',
-       method:"POST",
-       data:{action:action,data:data},
-       success:function(data){
-       $('.filterdata').html(data);
-       }
-    });
-    function show(){
-        alert(checked);
-        var filter=[];
-        $("input:checkbox:checked").each(function(){
-             filter.push($(this).val);
-        });
-        return filter;
-
-     };
-
-
-
-
-
-
-
-</script>
 </body>
-
 </html>
