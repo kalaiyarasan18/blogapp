@@ -85,7 +85,7 @@
                         <hr>
                         <h5 class="field" th:text="${post.excerpt}"></h5>
                         <hr>
-                        <!--<h5 th:text="${#authentication.getPrincipal()}"></h5>-->
+                       <!-- <h5 th:text="${#authentication.getPrincipal()}"></h5>-->
                         <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
                         <div th:if="${#request.userPrincipal}">
                             <div th:if="${#authentication.getPrincipal().getUsername()} eq${post.author}">

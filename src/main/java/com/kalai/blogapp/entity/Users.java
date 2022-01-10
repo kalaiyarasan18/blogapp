@@ -11,6 +11,9 @@ public class Users {
     @Id
     private String username;
     private String password;
+    private String authorities;
+    private String email;
+
     public String getAuthorities() {
         return authorities;
     }
@@ -18,9 +21,6 @@ public class Users {
     public void setAuthorities(String authorities) {
         this.authorities = authorities;
     }
-
-    private String authorities;
-    private String email;
 
     public String getUsername() {
         return username;

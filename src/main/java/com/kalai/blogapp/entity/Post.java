@@ -1,5 +1,6 @@
 package com.kalai.blogapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Post  {
     private Date updatedAt;
     @JsonManagedReference
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
    )

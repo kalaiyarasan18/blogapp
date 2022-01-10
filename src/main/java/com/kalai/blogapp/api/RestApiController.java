@@ -3,10 +3,12 @@ package com.kalai.blogapp.api;
 import com.kalai.blogapp.entity.AuthenticationRequest;
 import com.kalai.blogapp.entity.AuthenticationResponse;
 import com.kalai.blogapp.entity.Post;
+import com.kalai.blogapp.entity.PostDto;
 import com.kalai.blogapp.jwt.JwtTokenUtil;
 import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -44,10 +46,11 @@ public class RestApiController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PostMapping("/post")
-    public boolean updatePost(@RequestBody Post post) {
-        String tag = "testTag";
-        postService.savePost(post, tag);
+    @RequestMapping(value = "/post/new",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean updatePost(@RequestBody PostDto post) {
+        System.out.println(post);
+        /*postService.savePost();*/
         return true;
     }
 
