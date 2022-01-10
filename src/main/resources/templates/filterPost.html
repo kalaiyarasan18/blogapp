@@ -29,7 +29,6 @@
                                 />
                             </label>
                             <hr>
-                            <div>
                                 <span>
                                 Start:<input name="startdate" type="date"><br>
                                 End:<input name="enddate" type="date"><br></span>
@@ -39,15 +38,13 @@
                                     <option value="desc">Published Time &#8595;</option>
                                 </select>
                                 <input class="btn btn-sm btn-success" type="submit"><hr>
-                            </div>
                         </div>
                     </form>
                 </div>
             </div>
-
             <a href="/reset">Reset</a>
         </div>
-        <div class="col col-md-10box">
+        <div class="col col-md-10 box">
             <div class="row">
                 <div class="col">
                     <a class="btn btn-sm btn-dark" href="/">Home</a><br>
@@ -98,36 +95,5 @@
         <span th:unless="${pageno < totalpages}">Next</span>
     </div>
 </div>
-<script>
-$(document).ready(function(){
-
-});
- function filterpost(){
-    var action='filterpost';
-    var data=show();
-    $.ajax({
-       url:'filterpost',
-       method:"POST",
-       data:{action:action,data:data},
-       success:function(data){
-       $('.filterdata').html(data);
-       }
-    });
-    function show(){
-        alert(checked);
-        var filter=[];
-        $("input:checkbox:checked").each(function(){
-             filter.push($(this).val);
-        });
-        return filter;
-
-     };
-
-
-
-
-
-</script>
 </body>
-
 </html>
