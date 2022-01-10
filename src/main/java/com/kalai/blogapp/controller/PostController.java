@@ -34,8 +34,6 @@ public class PostController {
     public String goHome(Model model,
                          @RequestParam(value = "start", defaultValue = "0", required = true) int start
     ) {
-        System.out.println("Page count "+postServiceImp.findAllPages(start, limit).getTotalPages());
-        System.out.println("start "+start);
         model.addAttribute("pageno", start);
         List<Post> posts=new ArrayList<>();
         posts.addAll(postServiceImp.findAllPages(start, limit).getContent());

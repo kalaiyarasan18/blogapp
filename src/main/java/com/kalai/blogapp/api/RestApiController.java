@@ -9,7 +9,6 @@ import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +34,7 @@ public class RestApiController {
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
+    public String authenticateUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
         try{
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
                 authRequest.getPassword()));
@@ -43,14 +42,15 @@ public class RestApiController {
             throw new Exception("Incorrect username and password");
         }
         String jwt=jwUtil.generateToken(authRequest.getUsername());
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        AuthenticationResponse response=new AuthenticationResponse(jwt);
+        String token=response.getJwt();
+        return  token;
     }
 
     @RequestMapping(value = "/post/new",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public boolean updatePost(@RequestBody PostDto post) {
         System.out.println(post);
-        /*postService.savePost();*/
         return true;
     }
 

@@ -45,10 +45,10 @@ public class PostOrderingController {
             stringBuilder.delete(0,stringBuilder.length());
             stringBuilder.append(postService.buildQueryForFilter(query));
         }
-        if (startdate != "" && enddate != "") {
+        if (startdate !="" && enddate !="") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
         }
-        if (sortby != null) {
+        if (sortby != "") {
             if (sortby.equals("desc")) {
                 stringBuilder.append("order by p.publishedAt desc ");
             }
