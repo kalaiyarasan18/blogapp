@@ -31,7 +31,6 @@ public class PostServiceImp implements PostServicePagable {
     TagRepository tagRepository;
     @Autowired
     PostTagRepository postTagRepository;
-    List<Long> postIdsForTagName = new ArrayList<>();
     @Autowired
     private EntityManager entityManager;
 
@@ -65,30 +64,6 @@ public class PostServiceImp implements PostServicePagable {
         authors.addAll(authorSet);
         return authors;
     }
-/*
-
-    public List<Post> searchAllBySearch(String search) {
-        Set<Post> postSet = new TreeSet<>();
-        String[] searchQuery = search.split(",");
-        for (String query : searchQuery) {
-            postSet.addAll(postRepository.findAllBySearch(query));
-        }
-        List<Long> globalPostId = new ArrayList<>();
-        for (Post post : globalPost) {
-            globalPostId.add(post.getId());
-        }
-        Set<Post> set = new HashSet<>();
-        for (Post eachPost : postSet) {
-            System.out.println(eachPost.getId() + "==" + globalPostId.contains(eachPost.getId()));
-            if (globalPostId.contains(eachPost.getId())) {
-                set.add(eachPost);
-            }
-        }
-        globalPost.clear();
-        globalPost.addAll(set);
-        return globalPost;
-    }
-*/
 
     @Override
     public Page<Post> findAllPages(int offset, int limit) {
@@ -104,7 +79,6 @@ public class PostServiceImp implements PostServicePagable {
     @Transactional
     public List<Post> processQuery(String stringQuery) {
         TypedQuery<Post> query=entityManager.createQuery(stringQuery,Post.class);
-        System.out.println("Typed Query: "+stringQuery);
         return query.getResultList();
     }
 }

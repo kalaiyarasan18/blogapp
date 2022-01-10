@@ -22,32 +22,33 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
-    @PostMapping(value = "comment")
+    @GetMapping(value = "/comment")
     public String saveComment(
             @RequestParam("name") String name, @RequestParam("email") String email,
             @RequestParam("content") String content, @RequestParam("hiddenbtn") long id
     ) {
+        System.out.println("reached comment ");
         Comment comment = new Comment();
         comment.setName(name);
         comment.setEmail(email);
         comment.setContent(content);
-        comment.setPostId(id);
-        commentService.save(comment);
+        commentService.save(comment,id);
         return "redirect:/readMore/" + id;
     }
 
     @GetMapping(value = "deleteComment/{commentId}")
     public String deleteComment(Model model, @PathVariable("commentId") Long id) {
         Comment comment = commentService.getPostById(id);
+        long postId=comment.getPost().getId();
         commentService.deleteComment(id);
-        return "redirect:/readMore/" + comment.getPostId();
+        return "redirect:/readMore/" + postId;
     }
 
     @GetMapping(value = "updateComment/{commentId}")
     public String updateComment(Model model, @PathVariable("commentId") long id,
                                 @ModelAttribute("commentData") Comment comment) {
         Comment prevComment = commentRepository.findById(id);
-        long postId = prevComment.getPostId();
+        long postId=comment.getPost().getId();
         Post postToShow = postService.getPostById(postId);
         model.addAttribute("commentData", prevComment);
         model.addAttribute("post", postToShow);
@@ -64,7 +65,8 @@ public class CommentController {
         commentToUpdate.setEmail(commenterEmail);
         commentToUpdate.setContent(commentContent);
         commentRepository.save(commentToUpdate);
-        return "redirect:/readMore/" + commentToUpdate.getPostId();
+        long postId=commentToUpdate.getPost().getId();
+        return "redirect:/readMore/" + postId;
     }
 
 }

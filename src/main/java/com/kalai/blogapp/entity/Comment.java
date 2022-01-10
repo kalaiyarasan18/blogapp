@@ -11,34 +11,30 @@ public class Comment {
     private String name;
     private String email;
     private String content;
-    private long postId;
     @Temporal(TemporalType.DATE)
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
-  /*  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     public Comment() {
-    }*/
-/*
+
+    }
+
     public Post getPost() {
         return post;
     }
 
     public void setPost(Post post) {
         this.post = post;
-    }*/
-
-    public Comment() {
     }
 
     public Comment(String name, String email, String content, long postId, Date createdAt, Date updatedAt) {
         this.name = name;
         this.email = email;
         this.content = content;
-        this.postId = postId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -73,14 +69,6 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(long postId) {
-        this.postId = postId;
     }
 
     public Date getCreatedAt() {

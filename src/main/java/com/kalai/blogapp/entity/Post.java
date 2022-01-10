@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Post  {
@@ -34,9 +32,17 @@ public class Post  {
    )
     private Set<Tag> tags = new HashSet<>();
 
-    // @JoinColumn(joinColumns={@JoinColumn(name ="postId")},
-    // inverseJoinColumns={@JoinColumn(name = "commentId")})
-    // private List<Comment> comments;
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "post")
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public Post() {
     }
 
@@ -145,5 +151,13 @@ public class Post  {
                 + ", postContent=" + content + ", postAuthor=" + author + ", postPublishedAt=" + publishedAt
                 + ", postIsPublished=" + isPublished + ", postCreatedAt=" + createdAt + ", postUpdatedAt="
                 + updatedAt + "]" + "\n";
+    }
+
+    public void addComment(Comment comment){
+        if(comments==null){
+            comments=new ArrayList<>();
+        }
+        comments.add(comment);
+        comment.setPost(this);
     }
 }

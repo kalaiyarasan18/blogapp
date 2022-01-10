@@ -20,7 +20,6 @@ public class PostController {
     public static final int limit = 10;
     @Autowired
     PostRepository postsrepository;
-
     @Autowired
     PostService postService;
     @Autowired
@@ -32,7 +31,7 @@ public class PostController {
 
     @RequestMapping(value = "/")
     public String goHome(Model model,
-                         @RequestParam(value = "start", defaultValue = "0", required = true) int start
+                         @RequestParam(value = "start", defaultValue = "0") int start
     ) {
         model.addAttribute("pageno", start);
         List<Post> posts=new ArrayList<>();

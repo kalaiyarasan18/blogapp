@@ -20,6 +20,7 @@ public class PostService {
     @Autowired
     TagRepository tagRepository;
 
+
     public void savePost(Post post, String tag) {
         Date date = new Date();
         String[] tags = tag.split(",");

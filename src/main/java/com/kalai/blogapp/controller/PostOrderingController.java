@@ -38,7 +38,6 @@ public class PostOrderingController {
                              @RequestParam(value = "enddate", required = false) String enddate,
                              @RequestParam(value = "search", required = false) String search, Model model
     ) {
-        System.out.println("sortby , author , keyword , startdate==>" + sortby+" "+query+" "+startdate+" "+enddate);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
         if (query != null) {
@@ -80,7 +79,7 @@ public class PostOrderingController {
         return "filterPost";
     }
 
-    @PostMapping("insearch")
+    @GetMapping("insearch")
     public String filterInSearch(@RequestParam(value = "sortBy", required = false) String sortby,
                                  @RequestParam(value = "author", required = false) String query,
                                  @RequestParam(value = "startdate", required = false) String startdate,
@@ -90,9 +89,7 @@ public class PostOrderingController {
         stringBuilder.append("select p from Post p where p in (");
         stringBuilder.append(postService.buildQueryforSearch(search)).append(") ");
         if (query != null) {
-            System.out.println("Reached insearch query: "+query+"\n");
            stringBuilder.append("and p in (").append(postService.buildQueryForFilter(query)).append(")");
-           System.out.println("after adding author qury: "+stringBuilder.toString()+"\n");
         }
         if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");

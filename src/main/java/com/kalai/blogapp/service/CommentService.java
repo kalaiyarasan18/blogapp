@@ -1,7 +1,9 @@
 package com.kalai.blogapp.service;
 
 import com.kalai.blogapp.entity.Comment;
+import com.kalai.blogapp.entity.Post;
 import com.kalai.blogapp.repository.CommentRepository;
+import com.kalai.blogapp.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +14,20 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
+    PostRepository postRepository;
+    @Autowired
     public CommentRepository commentRepository;
 
     public List<Comment> commentById(long id) {
         return commentRepository.findByPostId(id);
     }
 
-    public void save(Comment comment) {
+    public void save(Comment comment,long postId) {
         Date currentTime = new Date();
         comment.setCreatedAt(currentTime);
         comment.setUpdatedAt(currentTime);
+        Post post=postRepository.findById(postId);
+        post.addComment(comment);
         commentRepository.save(comment);
     }
 
@@ -36,7 +42,8 @@ public class CommentService {
 
     public long getIdForPost(long id) {
         Comment comment = commentRepository.findPostIdById(id);
-        return comment.getPostId();
+        long postId=comment.getPost().getId();
+        return postId;
     }
 
     public void update(Comment comment) {

@@ -49,7 +49,7 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                    .antMatchers("/updatePost/**", "deletePost/**", "/new")
+                    .antMatchers("/updatePost/**", "deletePost/**", "/new","/comment/**")
                     .hasAnyAuthority("author", "admin")
                     .and().formLogin().loginPage("/login").loginProcessingUrl("/checkLogin")
                     .permitAll().and()
