@@ -1,5 +1,7 @@
 package com.kalai.blogapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,7 +17,7 @@ public class Comment {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
-
+    @JsonBackReference
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
