@@ -1,14 +1,14 @@
 package com.kalai.blogapp.api;
 
-import com.kalai.blogapp.entity.AuthenticationRequest;
-import com.kalai.blogapp.entity.AuthenticationResponse;
-import com.kalai.blogapp.entity.Post;
-import com.kalai.blogapp.entity.PostDto;
+import com.kalai.blogapp.entity.*;
+import com.kalai.blogapp.exception.PostException;
 import com.kalai.blogapp.jwt.JwtTokenUtil;
 import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +27,15 @@ public class RestApiController {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtTokenUtil jwUtil;
+
+    @ExceptionHandler
+    public ResponseEntity<PostErrorResponse> handleException(PostException e){
+            PostErrorResponse error=new PostErrorResponse();
+            error.setStatus(HttpStatus.BAD_REQUEST.value());
+            error.setMessage(e.getMessage());
+            error.setTimestamp(System.currentTimeMillis());
+            return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
 
     @GetMapping("/post")
     public List<Post> getPosts() {
@@ -61,7 +70,10 @@ public class RestApiController {
 
     @GetMapping("/post/{id}")
     public Post postById(@PathVariable("id") long id) {
-        return postService.getPostById(id);
+        if(id>100)
+            throw  new PostException("post not found..");
+        else
+            return postService.getPostById(id);
     }
 
     @GetMapping(value = "/search")
