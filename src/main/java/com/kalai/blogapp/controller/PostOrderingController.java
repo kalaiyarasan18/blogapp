@@ -1,6 +1,5 @@
 package com.kalai.blogapp.controller;
 
-import com.kalai.blogapp.entity.Post;
 import com.kalai.blogapp.paging.PostServiceImp;
 import com.kalai.blogapp.repository.PostRepository;
 import com.kalai.blogapp.service.PostService;
@@ -9,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,17 +38,16 @@ public class PostOrderingController {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select p from Post p where p.isPublished=true ");
         if (query != null) {
-            stringBuilder.delete(0,stringBuilder.length());
+            stringBuilder.delete(0, stringBuilder.length());
             stringBuilder.append(postService.buildQueryForFilter(query));
         }
-        if (startdate !="" && enddate !="") {
+        if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");
         }
         if (sortby != "") {
             if (sortby.equals("desc")) {
                 stringBuilder.append("order by p.publishedAt desc ");
-            }
-            else {
+            } else {
                 stringBuilder.append("order by p.publishedAt asc ");
             }
         }
@@ -89,7 +85,7 @@ public class PostOrderingController {
         stringBuilder.append("select p from Post p where p in (");
         stringBuilder.append(postService.buildQueryforSearch(search)).append(") ");
         if (query != null) {
-           stringBuilder.append("and p in (").append(postService.buildQueryForFilter(query)).append(")");
+            stringBuilder.append("and p in (").append(postService.buildQueryForFilter(query)).append(")");
         }
         if (startdate != "" && enddate != "") {
             stringBuilder.append("AND publishedAt between '" + startdate + "' AND '" + enddate + "' ");

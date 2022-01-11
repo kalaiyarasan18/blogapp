@@ -11,19 +11,19 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-    Comment findPostIdById(long postId);
-
+    Comment findPostIdById(long cId);
+/*
     @Modifying
     @Transactional
     @Query(value = "select post_id from comment where id=?1", nativeQuery = true)
-    Comment getPostIdById(int id);
+    Comment getPostIdById(int id);*/
 
     List<Comment> findByPostId(long id);
 
     @Modifying
-    @Transactional
     @Query("update Comment c set c.name = ?1, c.email = ?2," +
             " c.content=?3,c.updatedAt=?4 where c.id = ?5")
     void updateComment(String name, String email, String content, Date updatedAt, Long postId);

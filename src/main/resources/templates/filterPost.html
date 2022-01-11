@@ -2,8 +2,6 @@
 <title>Search Results</title>
 <link href="style.css" rel="Stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
-<link rel="script" href="jquery.min.js">
-<script src="jquery.min.js"></script>
 <body class="container-fluid">
 <div align="center" background="#322">
     <div class="row">
@@ -38,7 +36,8 @@
                                     <option value="asc">Published Time &#8593;</option>
                                     <option value="desc">Published Time &#8595;</option>
                                 </select>
-                                <input class="btn btn-sm btn-success" type="submit"><hr>
+                                <input class="btn btn-sm btn-success" type="submit">
+                                <hr>
                             </div>
                         </div>
                     </form>
@@ -59,7 +58,8 @@
                     <div sec:authorize="isAuthenticated()">
                         <Strong>Welcome</Strong> <span sec:authentication="name"></span><br>
                         <a th:href="@{/logout}"><input type="button" class="btn btn-sm btn-info" value="Logout"></a>
-                    </div></div>
+                    </div>
+                </div>
 
             </div>
             <hr>

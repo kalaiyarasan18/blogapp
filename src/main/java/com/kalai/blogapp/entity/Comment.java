@@ -15,12 +15,12 @@ public class Comment {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     public Comment() {
-
     }
 
     public Post getPost() {

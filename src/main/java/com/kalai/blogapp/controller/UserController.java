@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
+
     private final UserRepository userRepository;
+
     @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -31,14 +34,10 @@ public class UserController {
 
     @PostMapping(value="register")
     public String register(@ModelAttribute("users")Users user){
-        System.out.println("user = " + user);
         String plainpassword=user.getPassword();
         user.setPassword(encoder().encode(plainpassword));
         user.setAuthorities("author");
         userRepository.save(user);
         return "login";
     }
-
-
-
 }

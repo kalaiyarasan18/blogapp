@@ -67,18 +67,18 @@ public class PostServiceImp implements PostServicePagable {
 
     @Override
     public Page<Post> findAllPages(int offset, int limit) {
-        Pageable pageable= PageRequest.of(offset, limit);
+        Pageable pageable = PageRequest.of(offset, limit);
         return postRepository.findAll(pageable);
     }
 
-    public PagedListHolder<Post> findPage(List<Post> posts){
-        PagedListHolder<Post> pageList=new PagedListHolder<>(posts);
+    public PagedListHolder<Post> findPage(List<Post> posts) {
+        PagedListHolder<Post> pageList = new PagedListHolder<>(posts);
         return pageList;
     }
 
     @Transactional
     public List<Post> processQuery(String stringQuery) {
-        TypedQuery<Post> query=entityManager.createQuery(stringQuery,Post.class);
+        TypedQuery<Post> query = entityManager.createQuery(stringQuery, Post.class);
         return query.getResultList();
     }
 }

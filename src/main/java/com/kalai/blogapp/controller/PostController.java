@@ -7,13 +7,13 @@ import com.kalai.blogapp.service.CommentService;
 import com.kalai.blogapp.service.PostService;
 import com.kalai.blogapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -34,14 +34,14 @@ public class PostController {
                          @RequestParam(value = "start", defaultValue = "0") int start
     ) {
         model.addAttribute("pageno", start);
-        List<Post> posts=new ArrayList<>();
+        List<Post> posts = new ArrayList<>();
         posts.addAll(postServiceImp.findAllPages(start, limit).getContent());
         model.addAttribute("posts", posts);
         model.addAttribute("noOfResult", posts.size());
         model.addAttribute("totalpages", postServiceImp.findAllPages(start, limit).getTotalPages());
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
-        model.addAttribute("authors",authors);
+        model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "listofpost";
     }
@@ -106,9 +106,8 @@ public class PostController {
     }
 
     @PostMapping(value = "updatepost")
-    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model,@RequestParam("tag")String tag) {
-        postService.savePost(posts,tag);
-        //postService.postToUpdate(posts);
+    public String updatePostContent(@ModelAttribute("posts") Post posts, Model model, @RequestParam("tag") String tag) {
+        postService.savePost(posts, tag);
         model.addAttribute("posts", posts);
         List<String> authors = postServiceImp.getAllAuthors();
         List<String> tags = postServiceImp.getAllTags();
@@ -135,9 +134,8 @@ public class PostController {
     }
 
     @GetMapping(value = "login")
-    public String login(){
+    public String login() {
         return "login";
     }
-
 
 }
