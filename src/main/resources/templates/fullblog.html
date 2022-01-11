@@ -31,7 +31,8 @@
                     <p align="right" style="background:#b7c9a5" th:text="${comments.name}"></p>
                     <p class="field" style="font-size:20px" th:text="${comments.content}"></p>
                     <div th:if="${#request.userPrincipal}">
-                        <div th:if="${#authentication.getPrincipal().getUsername()} eq${postOfGivenId.author}">
+                        <div th:if="${#authentication.getPrincipal().getUsername()} eq${postOfGivenId.author} or
+                                    ${#strings.contains(#authentication.principal.authorities,'admin')}">
                             <a class="btn btn-primary" th:href="@{'/updateComment/'+${comments.id}}">Edit</a>
                             <a class="btn btn-danger" th:href="@{'/deleteComment/'+${comments.id}}"> Delete</a>
                         </div>

@@ -85,15 +85,20 @@
                         <hr>
                         <a th:href="@{'/readMore/'+${post.id}}"> Read More>></a>
                         <div th:if="${#request.userPrincipal}">
-                            <div th:if="${#authentication.getPrincipal().getUsername()} eq${post.author}">
+                           <!-- <h4 th:text=${#authentication.getPrincipal()"></h4>-->
+                            <div th:if="${#authentication.getPrincipal().getUsername()} eq${post.author} or
+                                    ${#strings.contains(#authentication.principal.authorities,'admin')}">
                                 <a class="btn btn-primary btn-sm" th:href="@{'/updatePost/'+${post.id}}">Update
                                     Post</a>
                                 <a class="btn btn-danger btn-sm" th:href="@{'/deletePost/'+${post.id}}"> Delete
                                     Post</a>
                             </div>
-                            <div>
-
-                            </div>
+                          <!--  <div th:if="${#authentication.getPrincipal().getAuthorities()} eq{'admin'}">
+                                <a class="btn btn-primary btn-sm" th:href="@{'/updatePost/'+${post.id}}">Update
+                                    Post</a>
+                                <a class="btn btn-danger btn-sm" th:href="@{'/deletePost/'+${post.id}}"> Delete
+                                    Post</a>
+                            </div>-->
                         </div>
                     </div>
                 </tr>

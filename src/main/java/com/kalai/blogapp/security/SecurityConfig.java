@@ -18,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -53,7 +55,8 @@ public class SecurityConfig {
                     .hasAnyAuthority("author", "admin")
                     .and().formLogin().loginPage("/login").loginProcessingUrl("/checkLogin")
                     .permitAll().and()
-                    .logout().invalidateHttpSession(true)
+                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .permitAll();
         }
