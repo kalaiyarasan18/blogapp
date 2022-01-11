@@ -28,15 +28,6 @@ public class RestApiController {
     @Autowired
     JwtTokenUtil jwUtil;
 
-    @ExceptionHandler
-    public ResponseEntity<PostErrorResponse> handleException(PostException e){
-            PostErrorResponse error=new PostErrorResponse();
-            error.setStatus(HttpStatus.BAD_REQUEST.value());
-            error.setMessage(e.getMessage());
-            error.setTimestamp(System.currentTimeMillis());
-            return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
-    }
-
     @GetMapping("/post")
     public List<Post> getPosts() {
         return postService.getAllPosts();
