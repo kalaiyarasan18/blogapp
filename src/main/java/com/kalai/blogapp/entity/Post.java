@@ -24,8 +24,6 @@ public class Post  {
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
-
-    @JsonManagedReference
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinTable(name = "post_tags", joinColumns = {@JoinColumn(name = "postId")},

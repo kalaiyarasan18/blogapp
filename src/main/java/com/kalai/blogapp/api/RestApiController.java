@@ -44,10 +44,16 @@ public class RestApiController {
         return token;
     }
 
-    @RequestMapping(value = "/post/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/post/new",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public boolean updatePost(@RequestBody PostDto post) {
-        System.out.println(post);
+    public boolean createpost(@RequestBody Post post) {
+        postService.savePost(post);
+        return true;
+    }
+    @RequestMapping(value = "/post/new",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean updatePost(@RequestBody Post post) {
+        postService.savePost(post);
         return true;
     }
 

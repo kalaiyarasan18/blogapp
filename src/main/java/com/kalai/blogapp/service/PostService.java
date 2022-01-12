@@ -7,9 +7,7 @@ import com.kalai.blogapp.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +83,10 @@ public class PostService {
         }
         sb.delete(sb.length()-3,sb.length());
         return sb.toString();
+    }
+
+    public void savePost(Post post) {
+        postsrepository.save(post);
     }
 }
 
